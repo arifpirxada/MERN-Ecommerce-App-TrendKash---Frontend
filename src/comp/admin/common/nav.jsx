@@ -84,10 +84,10 @@ function Nav(props) {
         <>
             {/* <!-- Side Navigation Bar --> */}
             <div className="sidenav" id="mySidenav">
-                <Link to="/nav"><img src="img\adminImg\home-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Dashboard</p></Link><hr className="sidenav-hr" />
-                <Link to="/cats"><img src="img\adminImg\cat-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Categories</p></Link><hr className="sidenav-hr" />
-                <Link to="/header-cats"><img src="img\adminImg\headcat-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Head Categories</p></Link><hr className="sidenav-hr" />
-                <Link to="/admin-product"><img src="img\adminImg\product-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Products</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-dashboard"><img src="img\adminImg\home-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Dashboard</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-cats"><img src="img\adminImg\cat-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Categories</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-header-cats"><img src="img\adminImg\headcat-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Head Categories</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-products"><img src="img\adminImg\product-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Products</p></Link><hr className="sidenav-hr" />
                 <Link to="#"><img src="img\adminImg\hotdeal-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Hot Deals</p></Link><hr className="sidenav-hr" />
                 <Link to="#"><img src="img\adminImg\order-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Orders</p></Link><hr className="sidenav-hr" />
                 <Link to="#"><img src="img\adminImg\contact-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Contacts</p></Link><hr className="sidenav-hr" />
