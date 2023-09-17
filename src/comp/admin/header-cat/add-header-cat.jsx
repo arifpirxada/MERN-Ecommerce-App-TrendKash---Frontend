@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 
 function AddHeaderCat({fetchReadCats}) {
 
-    useEffect(() => {
-        document.querySelector(".firstNav").addEventListener("click", () => {
-            document.querySelector(".addHeaderCatModal").style.display = "block"
-        })
-    }, [])
+    // useEffect(() => {
+    //     if (document.querySelector(".addHeaderCatModal") !== null) {
+    //         document.querySelector(".firstNav").addEventListener("click", () => {
+    //             document.querySelector(".addHeaderCatModal").style.display = "block"
+    //         })
+    //     }
+    // }, [])
 
     const closeModal = () => {
         document.querySelector(".addHeaderCatModal").style.display = "none"

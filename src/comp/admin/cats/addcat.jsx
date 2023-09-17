@@ -35,11 +35,13 @@ function AddCat({ fetchCats }) {
         }
     }
 
-    useEffect(() => {
-        document.querySelector(".firstNav").addEventListener("click", () => {
-            document.querySelector(".addCatModal").style.display = "block"
-        })
-    }, [])
+    // useEffect(() => {
+    //     if (document.querySelector(".addCatModal") !== null) {
+    //         document.querySelector(".firstNav").addEventListener("click", () => {
+    //             document.querySelector(".addCatModal").style.display = "block"
+    //         })
+    //     }
+    // }, [])
 
     const closeModal = () => {
         document.querySelector(".addCatModal").style.display = "none"

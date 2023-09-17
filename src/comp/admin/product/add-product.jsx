@@ -2,11 +2,13 @@ import { useEffect } from "react"
 
 function AddProduct() {
 
-    useEffect(() => {
-        document.querySelector(".firstNav").addEventListener("click", () => {
-            document.querySelector(".addProductModal").style.display = "block"
-        })
-    }, [])
+    // useEffect(() => {
+    //     if (document.querySelector(".addProductModal") !== null) {
+    //         document.querySelector(".firstNav").addEventListener("click", () => {
+    //             document.querySelector(".addProductModal").style.display = "block"
+    //         })
+    //     }
+    // }, [])
 
     const closeModal = () => {
         document.querySelector(".addProductModal").style.display = "none"

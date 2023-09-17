@@ -80,6 +80,12 @@ function Nav(props) {
         checknav()
     }, [location])
 
+    // Function to open Modal
+
+    const openModal = () => {
+        document.querySelector(props.modalClass).style.display = "block"
+    }
+
     return (
         <>
             {/* <!-- Side Navigation Bar --> */}
@@ -109,7 +115,7 @@ function Nav(props) {
                         <li><button className={`${props.fourthNavClass} riNav right-none fourthNav`} >{props.fourthNav}</button></li>
                         <li><button className={`${props.thirdNavClass} riNav right-none thirdNav`} >{props.thirdNav}</button></li>
                         <li><button className={`${props.secondNavClass} riNav right-none secondNav`} >{props.secondNav}</button></li>
-                        <li><button className={`${props.firstNavClass} riNav right-none firstNav`} >{props.firstNav}</button></li>
+                        <li><button onClick={openModal} className={`${props.firstNavClass} riNav right-none firstNav`} >{props.firstNav}</button></li>
                     </ul>
                     <div className="ham-container right-ham" onClick={toggleRightNav}>
                         <div className="ham-line"></div>
