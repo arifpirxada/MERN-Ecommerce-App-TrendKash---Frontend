@@ -1,7 +1,39 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
+function AddCat({ fetchCats }) {
 
-function AddCat() {
+    const addCategory = async () => {
+        const messageBox = document.getElementById("catMesBox")
+        const name = document.getElementById("catname").value
+        var navigation = 0
+        var slide = 0
+        if (document.getElementById("navigation").checked) {
+            navigation = 1
+        }
+        if (document.getElementById("slide").checked) {
+            slide = 1
+        }
+
+        const categoryData = {
+            name: name,
+            navi: navigation,
+            slide: slide
+        }
+
+        const req = await fetch(`${import.meta.env.VITE_SERVER_URL}create-cat`, {
+            method: "POST",
+            body: JSON.stringify(categoryData),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const res = await req.json()
+
+        messageBox.innerHTML = res.message
+        if (res.message === "Insertion successful") {
+            fetchCats()
+        }
+    }
 
     useEffect(() => {
         document.querySelector(".firstNav").addEventListener("click", () => {
@@ -23,20 +55,25 @@ function AddCat() {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <form>
+                            <div>
                                 <div className="mb-3">
                                     <label htmlFor="catname" className="form-label">Category Name</label>
                                     <input type="text" className="form-control" id="catname" />
                                 </div>
                                 <div className="m-2 form-check">
-                                    <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                    <label className="form-check-label m-2" htmlFor="exampleCheck1">Keep on navigation</label>
+                                    <input type="checkbox" className="form-check-input" id="navigation" />
+                                    <label className="form-check-label m-2" htmlFor="navigation">Keep on navigation</label>
                                 </div>
-                            </form>
+                                <div className="m-2 form-check">
+                                    <input type="checkbox" className="form-check-input" id="slide" />
+                                    <label className="form-check-label m-2" htmlFor="slide">Keep on slide</label>
+                                </div>
+                            </div>
+                            <p id="catMesBox"></p>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
-                            <button type="button" className="btn btn-primary">Add</button>
+                            <button onClick={addCategory} type="button" className="btn btn-primary">Add</button>
                         </div>
                     </div>
                 </div>

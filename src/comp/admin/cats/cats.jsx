@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import AddCat from "./addcat";
 
 function Cats() {
 
@@ -7,7 +7,7 @@ function Cats() {
 
     // Fetching Header Cats
     const fetchCats = async () => {
-        const res = await fetch("http://localhost:3000/cat-read-admin")
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-admin`)
         const data = await res.json()
         setCatData(data)
     }
@@ -18,6 +18,7 @@ function Cats() {
 
     return (
         <>
+            <AddCat fetchCats={fetchCats}/>
             <div className="container keep-aside cat-contain">
                 <div className="admin-cats-container">
                     {catData.map((element, index) => (
@@ -25,8 +26,8 @@ function Cats() {
                             <div className="card-body">
                                 <h5 className="card-title">{element.catName}</h5>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Id: {element._id}</h6>
-                                <h6 className="card-subtitle mb-2 text-body-secondary">Navigation: {element.navigation === 1? "Yes": "No"}</h6>
-                                <h6 className="card-subtitle mb-2 text-body-secondary">Slide: {element.slideTop === 1? "Yes": "No"}</h6>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Navigation: {element.navigation === 1 ? "Yes" : "No"}</h6>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Slide: {element.slideTop === 1 ? "Yes" : "No"}</h6>
                                 <button to="#" className="btn btn-primary card-link cat-admin-link m-2">Edit</button>
                                 <button to="#" className="btn btn-danger card-link cat-admin-link m-2">Delete</button>
                             </div>
