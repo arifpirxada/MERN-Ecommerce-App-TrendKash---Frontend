@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import AddHeaderCat from "./add-header-cat"
 
 function HeaderCat() {
 
@@ -15,8 +16,35 @@ function HeaderCat() {
         fetchCats()
     }, [])
 
+
+    // Function to delete head category
+
+    const delHeadCat = async (e) => {
+        const delId = e.target.parentNode.children[0].value
+
+        const delCatData = {
+            id: delId
+        }
+
+        const req = await fetch(`${import.meta.env.VITE_SERVER_URL}delete-head-cat`, {
+            method: "DELETE",
+            body: JSON.stringify(delCatData),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const res = await req.json()
+
+        if (res.message === "Deletion successful") {
+            fetchCats()
+        } else {
+            alert(res.message)
+        }
+    }
+
     return (
         <>
+        <AddHeaderCat fetchReadCats={fetchCats}/>
             <div className="container keep-aside cat-contain">
                 <div className="admin-cats-container">
                     {catData.map((element, index) => (
@@ -24,10 +52,9 @@ function HeaderCat() {
                             <img src={`${import.meta.env.VITE_SERVER_URL}read-head-img/${element.catImg}`} className="card-img-top" alt="..." style={{ width: "18rem" }} />
                             <div className="card-body my-flex">
                                 <h5 className="card-title">{element.catName}</h5>
-                                <input type="hidden" value={element._id}/>
                                 <div className="my-flex" style={{ flexDirection: "row" }}>
-                                    <button className="btn btn-primary m-2 edit-header-btn">Edit</button>
-                                    <button className="btn btn-danger m-2">Delete</button>
+                                    <input type="hidden" value={element._id} />
+                                    <button onClick={delHeadCat} className="btn btn-danger m-2">Delete</button>
                                 </div>
                             </div>
                         </div>

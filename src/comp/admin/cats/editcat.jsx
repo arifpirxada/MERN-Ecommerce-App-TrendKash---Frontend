@@ -14,7 +14,6 @@ function EditCat({fetchCats}) {
         if (document.getElementById("edit-slide").checked) {
             slide = 1
         }
-        console.log(catId, editCatName, navigation, slide)
 
         const editCategoryData = {
             id: catId,

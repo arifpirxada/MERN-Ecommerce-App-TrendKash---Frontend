@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-function AddHeaderCat() {
+function AddHeaderCat({fetchReadCats}) {
 
     useEffect(() => {
         document.querySelector(".firstNav").addEventListener("click", () => {
@@ -45,8 +45,10 @@ function AddHeaderCat() {
         })
         const data = await res.json()
 
-        console.log(data)
         messBox.innerHTML = data.message
+        if (data.message === "Insertion successful") {
+            fetchReadCats()
+        }
     }
 
     return (

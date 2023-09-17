@@ -2,14 +2,6 @@ import { useEffect } from "react"
 
 function EditHeaderCat() {
 
-    useEffect(() => {
-        document.querySelectorAll(".edit-header-btn").forEach(element => {
-            element.addEventListener("click", () => {
-                document.querySelector(".editHeaderCatModal").style.display = "block"
-            })
-        });
-    }, [])
-
     const closeModal = () => {
         document.querySelector(".editHeaderCatModal").style.display = "none"
     }
