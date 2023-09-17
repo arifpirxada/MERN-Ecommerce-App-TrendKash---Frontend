@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 function AddHeaderCat() {
 
@@ -12,6 +12,43 @@ function AddHeaderCat() {
         document.querySelector(".addHeaderCatModal").style.display = "none"
     }
 
+    // To fetch categories for select
+
+    const [catData, setCatData] = useState([])
+
+    // Fetching Header Cats
+    const fetchCats = async () => {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-admin`)
+        const data = await res.json()
+        setCatData(data)
+    }
+
+    useEffect(() => {
+        fetchCats()
+    }, [])
+
+    // Function to add header categories
+
+    const addHeadCat = async () => {
+        const formData = new FormData()
+
+        const messBox = document.getElementById("head-message")
+        const name= document.getElementById("head-category").value
+        const img = document.getElementById("head-img").files[0]
+        
+        formData.append("header-img", img)
+        formData.append("name", name)
+
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}create-head-cat`, {
+            method: 'POST',
+            body: formData,
+        })
+        const data = await res.json()
+
+        console.log(data)
+        messBox.innerHTML = data.message
+    }
+
     return (
         <>
             <div className="container admin-modal addHeaderCatModal" >
@@ -23,21 +60,22 @@ function AddHeaderCat() {
                         </div>
                         <div className="modal-body">
                             <form className="my-flex">
-                                <select className="form-select" aria-label="Default select example" style={{marginBottom: "10px"}}>
+                                <select id="head-category" className="form-select" aria-label="Default select example" style={{marginBottom: "10px"}}>
                                     <option value="default">Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    {catData.map((element, index) => (
+                                        <option key={index} value={element.catName}>{element.catName}</option>
+                                    ))}
                                 </select>
                                 <div className="m-2">
-                                    <label htmlFor="header-img">Upload image for Head Category</label>
-                                    <input type="file" id="header-img" />
+                                    <label htmlFor="head-img">Upload image for Head Category</label>
+                                    <input type="file" id="head-img" accept="image/*" />
                                 </div>
+                                <p id="head-message"></p>
                             </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
-                            <button type="button" className="btn btn-primary">Add</button>
+                            <button onClick={addHeadCat} type="button" className="btn btn-primary">Add</button>
                         </div>
                     </div>
                 </div>

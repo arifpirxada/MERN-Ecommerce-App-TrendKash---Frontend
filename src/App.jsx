@@ -57,7 +57,7 @@ function App() {
           <Route path="/storetrend" element={<><Navbar /><Store /><Footer /></>} />
           <Route path="/admin-dashboard" element={<Nav />} />
           <Route path="/admin-cats" element={<><Nav firstNav="Add Cat" firstNavClass="btn btn-primary" /><Cats /></>} />
-          <Route path="/admin-header-cats" element={<><Nav firstNav="Add Cat" firstNavClass="btn btn-primary" /><AddHeaderCat /><EditHeaderCat /><HeaderCat /></>} />
+          <Route path="/admin-header-cats" element={<><Nav firstNav="Add Head Cat" firstNavClass="btn btn-primary" /><AddHeaderCat /><EditHeaderCat /><HeaderCat /></>} />
           <Route path="/admin-products" element={<><Nav firstNav="Add Product" firstNavClass="btn btn-primary" /><AddProduct /><EditProduct /><AdminProduct /></>} />
           <Route path="*" element={<><Navbar /><NotFound /><Footer /></>} />
         </Routes>
