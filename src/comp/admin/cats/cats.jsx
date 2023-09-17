@@ -1,75 +1,39 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Cats() {
+
+    const [catData, setCatData] = useState([])
+
+    // Fetching Header Cats
+    const fetchCats = async () => {
+        const res = await fetch("http://localhost:3000/cat-read-admin")
+        const data = await res.json()
+        setCatData(data)
+    }
+
+    useEffect(() => {
+        fetchCats()
+    }, [])
+
     return (
         <>
             <div className="container keep-aside cat-contain">
                 <div className="admin-cats-container">
-                    <div className="card cat-admin-card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                            <Link to="#" className="card-link cat-admin-link">Card link</Link>
-                            <Link to="#" className="card-link cat-admin-link">Another link</Link>
+                    {catData.map((element, index) => (
+                        <div key={index} className="card cat-admin-card">
+                            <div className="card-body">
+                                <h5 className="card-title">{element.catName}</h5>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Id: {element._id}</h6>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Navigation: {element.navigation === 1? "Yes": "No"}</h6>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Slide: {element.slideTop === 1? "Yes": "No"}</h6>
+                                <button to="#" className="btn btn-primary card-link cat-admin-link m-2">Edit</button>
+                                <button to="#" className="btn btn-danger card-link cat-admin-link m-2">Delete</button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="card cat-admin-card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                            <Link to="#" className="card-link cat-admin-link">Card link</Link>
-                            <Link to="#" className="card-link cat-admin-link">Another link</Link>
-                        </div>
-                    </div>
-                    <div className="card cat-admin-card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                            <Link to="#" className="card-link cat-admin-link">Card link</Link>
-                            <Link to="#" className="card-link cat-admin-link">Another link</Link>
-                        </div>
-                    </div>
-                    <div className="card cat-admin-card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                            <Link to="#" className="card-link cat-admin-link">Card link</Link>
-                            <Link to="#" className="card-link cat-admin-link">Another link</Link>
-                        </div>
-                    </div>
-                    <div className="card cat-admin-card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                            <Link to="#" className="card-link cat-admin-link">Card link</Link>
-                            <Link to="#" className="card-link cat-admin-link">Another link</Link>
-                        </div>
-                    </div>
-                    <div className="card cat-admin-card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                            <Link to="#" className="card-link cat-admin-link">Card link</Link>
-                            <Link to="#" className="card-link cat-admin-link">Another link</Link>
-                        </div>
-                    </div>
-                    <div className="card cat-admin-card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                            <Link to="#" className="card-link cat-admin-link">Card link</Link>
-                            <Link to="#" className="card-link cat-admin-link">Another link</Link>
-                        </div>
-                    </div>
-                    <div className="card cat-admin-card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                            <Link to="#" className="card-link cat-admin-link">Card link</Link>
-                            <Link to="#" className="card-link cat-admin-link">Another link</Link>
-                        </div>
-                    </div>
+                    ))}
+
+
                 </div>
             </div>
         </>
