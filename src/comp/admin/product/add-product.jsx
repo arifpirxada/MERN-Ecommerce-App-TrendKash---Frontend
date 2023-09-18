@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-function AddProduct() {
+function AddProduct({fetchProducts}) {
 
     const closeModal = () => {
         document.querySelector(".addProductModal").style.display = "none"
@@ -48,6 +48,83 @@ function AddProduct() {
         setCategoryArr(updatedCategoryArr)
     }
 
+    // Insert product into the database ->
+
+    const addProduct = async () => {
+        const formData = new FormData()
+
+        const messBox = document.getElementById("pro-message")
+        const proName = document.getElementById("pro-name").value
+        const proDesc = document.getElementById("pro-desc").value
+        const detailData = []
+        detailRows.map((_, index) => {
+            detailData.push({
+                key: document.getElementById(`key${index}`).value,
+                value: document.getElementById(`value${index}`).value
+            })
+        })
+        const imgOne = document.getElementById("img1").files[0]
+        const imgTwo = document.getElementById("img2").files[0]
+        const imgThree = document.getElementById("img3").files[0]
+        const imgFour = document.getElementById("img4").files[0]
+
+        const price = document.getElementById("pro-price").value
+        const stock = document.getElementById("pro-stock").value
+        const brand = document.getElementById("pro-brand").value
+        if (proName === "" || proDesc === "" || !imgOne || !imgTwo || !imgThree || !imgFour || price === "" || stock === "" ) {
+            messBox.innerHTML = "Please fill all the required fields!"
+            return;
+        }
+
+        const keywordData = []
+        keywordArr.map((_, index) => {
+            keywordData.push(document.getElementById(`keyword${index}`).value)
+        })
+
+        const categoryData = []
+        categoryArr.map((_, index) => {
+            categoryData.push(document.getElementById(`cat${index}`).value)
+        })
+
+        formData.append("name", proName)
+        formData.append("desc", proDesc)
+        formData.append("details", JSON.stringify(detailData))
+        formData.append("photos", imgOne)
+        formData.append("photos", imgTwo)
+        formData.append("photos", imgThree)
+        formData.append("photos", imgFour)
+        formData.append("price", price)
+        formData.append("stock", stock)
+        formData.append("brand", brand)
+        formData.append("keywords", JSON.stringify(keywordData))
+        formData.append("cat", JSON.stringify(categoryArr))
+
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}create-pro`, {
+            method: 'POST',
+            body: formData,
+        })
+        const data = await res.json()
+
+        messBox.innerHTML = data.message
+        if (data.message === "Insertion successful") {
+            fetchProducts()
+        }
+    }
+
+    // Fetch Categories
+
+    const [catData, setCatData] = useState([])
+
+    const fetchCats = async () => {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-admin`)
+        const data = await res.json()
+        setCatData(data)
+    }
+
+    useEffect(() => {
+        fetchCats()
+    }, [])
+
     return (
         <>
             <div className="container admin-modal addProductModal" >
@@ -72,7 +149,7 @@ function AddProduct() {
 
                                 {/* div for details */}
                                 <div className="detail-container m-2">
-                                    <h5 className="mt-2">*&nbsp;Details</h5>
+                                    <h5 className="mt-2">*&nbsp;Details (optional)</h5>
                                     <div className="detail-head d-flex" style={{ justifyContent: "end" }}>
                                         <button onClick={addDetailrow} className="btn btn-primary m-2">Add Row</button>
                                         <button onClick={delDetailRow} className="btn btn-danger m-2">Delete Row</button>
@@ -90,17 +167,6 @@ function AddProduct() {
                                         </div>
                                     ))}
                                 </div>
-
-                                <div className="d-flex">
-                                    <div className="d-flex">
-                                        <label htmlFor="pro-price" className="mt-2">Price</label>
-                                        <input className="form-control m-2 mt-2" type="text" id="pro-price" />
-                                    </div>
-                                    <div className="d-flex">
-                                        <label htmlFor="pro-stock" className="mt-2">Stock</label>
-                                        <input className="form-control m-2 mt-2" type="text" id="pro-stock" />
-                                    </div>
-                                </div>
                             </div>
 
                             {/* Photos */}
@@ -112,41 +178,57 @@ function AddProduct() {
                                 <input className="m-2" type="file" id="img4" />
                             </div>
 
+                            <div className="d-flex mt-2">
+                                <div className="d-flex">
+                                    <label htmlFor="pro-price" className="mt-2">Price</label>
+                                    <input className="form-control m-2 mt-2" type="number" id="pro-price" />
+                                </div>
+                                <div className="d-flex">
+                                    <label htmlFor="pro-stock" className="mt-2">Stock</label>
+                                    <input className="form-control m-2 mt-2" type="number" id="pro-stock" />
+                                </div>
+                            </div>
+
                             <div className="d-flex m-2 mt-2">
-                                <label htmlFor="pro-brand">*&nbsp;Brand</label>
+                                <label htmlFor="pro-brand">*&nbsp;Brand&nbsp;(optional)</label>
                                 <input className="form-control m-2" type="text" id="pro-brand" />
                             </div>
 
                             <div className="keywords-contain m-2 mt-2">
-                                <h5>*&nbsp;Keywords</h5>
+                                <h5>*&nbsp;Keywords (optional)</h5>
                                 <div className="d-flex" style={{ justifyContent: "end" }}>
                                     <button onClick={addkeyword} className="btn btn-primary m-2">Add Keyword</button>
                                     <button onClick={delkeyword} className="btn btn-danger m-2">Delete Keyword</button>
                                 </div>
-                                <div className="d-flex" style={{flexWrap: "wrap"}}>
+                                <div className="d-flex" style={{ flexWrap: "wrap" }}>
                                     {keywordArr.map((_, index) => (
-                                        <input key={index} className="form-control m-2" type="text" id={`keyword${index}`} style={{width: "40%"}} />
+                                        <input key={index} className="form-control m-2" type="text" id={`keyword${index}`} style={{ width: "40%" }} />
                                     ))}
                                 </div>
                             </div>
 
                             <div className="category-contain m-2 mt-2">
-                                <h5>*&nbsp;Categories</h5>
+                                <h5>*&nbsp;Categories (optional)</h5>
                                 <div className="d-flex" style={{ justifyContent: "end" }}>
                                     <button onClick={addCat} className="btn btn-primary m-2">Add Category</button>
                                     <button onClick={delCat} className="btn btn-danger m-2">Delete Category</button>
                                 </div>
-                                <div className="d-flex" style={{flexWrap: "wrap"}}>
+                                <div className="d-flex" style={{ flexWrap: "wrap" }}>
                                     {categoryArr.map((_, index) => (
-                                        <input key={index} className="form-control m-2" type="text" id={`cat${index}`} style={{width: "40%"}} />
+                                        <select key={index} id={`cat${index}`} className="form-select m-2" aria-label="Default select example" style={{ width: "40%" }}>
+                                            <option value="default">Select Category</option>
+                                            {catData.map((element, index) => (
+                                                <option key={index} value={element.catName}>{element.catName}</option>
+                                            ))}
+                                        </select>
                                     ))}
                                 </div>
                             </div>
-
+                            <p id="pro-message" ></p>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
-                            <button type="button" className="btn btn-primary">Add</button>
+                            <button onClick={addProduct} type="button" className="btn btn-primary">Add Product</button>
                         </div>
                     </div>
                 </div>
