@@ -8,26 +8,12 @@ function AdminProduct() {
                         <div className="card-body my-flex">
                             <h5 className="card-title">Card title</h5>
                             <div className="my-flex" style={{ flexDirection: "row" }}>
-                                <button className="btn btn-primary m-2 edit-product-btn">Edit</button>
-                                <button className="btn btn-danger m-2">Delete</button>
+                                <button className="btn btn-primary m-2 edit-product-btn r-2">Edit</button>
+                                <button className="btn btn-danger m-2 r-2">Delete</button>
                             </div>
                             <div className="my-flex" style={{ flexDirection: "row" }}>
-                                <button className="btn btn-warning m-2">Edit Images</button>
-                                <button className="btn btn-warning m-2">View</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card cat-admin-card">
-                        <img src="img\product03.png" className="card-img-top" alt="..." style={{ width: "18rem" }} />
-                        <div className="card-body my-flex">
-                            <h5 className="card-title">Card title</h5>
-                            <div className="my-flex" style={{ flexDirection: "row" }}>
-                                <button className="btn btn-primary m-2 edit-product-btn">Edit</button>
-                                <button className="btn btn-danger m-2">Delete</button>
-                            </div>
-                            <div className="my-flex" style={{ flexDirection: "row" }}>
-                                <button className="btn btn-warning m-2">Edit Images</button>
-                                <button className="btn btn-warning m-2">View</button>
+                                <button className="btn btn-warning m-2 r-2">Images</button>
+                                <button className="btn btn-warning m-2 r-2">View</button>
                             </div>
                         </div>
                     </div>
@@ -36,12 +22,26 @@ function AdminProduct() {
                         <div className="card-body my-flex">
                             <h5 className="card-title">Card title</h5>
                             <div className="my-flex" style={{ flexDirection: "row" }}>
-                                <button className="btn btn-primary m-2 edit-product-btn">Edit</button>
-                                <button className="btn btn-danger m-2">Delete</button>
+                                <button className="btn btn-primary m-2 edit-product-btn r-2">Edit</button>
+                                <button className="btn btn-danger m-2 r-2">Delete</button>
                             </div>
                             <div className="my-flex" style={{ flexDirection: "row" }}>
-                                <button className="btn btn-warning m-2">Edit Images</button>
-                                <button className="btn btn-warning m-2">View</button>
+                                <button className="btn btn-warning m-2 r-2">Images</button>
+                                <button className="btn btn-warning m-2 r-2">View</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card cat-admin-card">
+                        <img src="img\product03.png" className="card-img-top" alt="..." style={{ width: "18rem" }} />
+                        <div className="card-body my-flex">
+                            <h5 className="card-title">Card title</h5>
+                            <div className="my-flex" style={{ flexDirection: "row" }}>
+                                <button className="btn btn-primary m-2 edit-product-btn r-2">Edit</button>
+                                <button className="btn btn-danger m-2 r-2">Delete</button>
+                            </div>
+                            <div className="my-flex" style={{ flexDirection: "row" }}>
+                                <button className="btn btn-warning m-2 r-2">Images</button>
+                                <button className="btn btn-warning m-2 r-2">View</button>
                             </div>
                         </div>
                     </div>

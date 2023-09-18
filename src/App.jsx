@@ -32,6 +32,7 @@ import EditHeaderCat from './comp/admin/header-cat/edit-header-cat'
 import AdminProduct from './comp/admin/product/admin-product'
 import AddProduct from './comp/admin/product/add-product'
 import EditProduct from './comp/admin/product/edit-product'
+import AdminDeal from './comp/admin/deal/admin-deal'
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
           <Route path="/admin-cats" element={<><Nav firstNav="Add Cat" firstNavClass="btn btn-primary" modalClass=".addCatModal" /><Cats /></>} />
           <Route path="/admin-header-cats" element={<><Nav firstNav="Add Head Cat" firstNavClass="btn btn-primary" modalClass=".addHeaderCatModal" /><HeaderCat /></>} />
           <Route path="/admin-products" element={<><Nav firstNav="Add Product" firstNavClass="btn btn-primary" modalClass=".addProductModal" /><AddProduct /><EditProduct /><AdminProduct /></>} />
+          <Route path="/admin-deal" element={<><Nav firstNav="Add Deal" firstNavClass="btn btn-primary" modalClass=".addDealModal" /><AdminDeal /></>} />
           <Route path="*" element={<><Navbar /><NotFound /><Footer /></>} />
         </Routes>
       </BrowserRouter>

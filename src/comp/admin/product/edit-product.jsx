@@ -25,7 +25,7 @@ function EditProduct() {
                         </div>
                         <div className="modal-body">
                             <form className="my-flex">
-                                <select className="form-select" aria-label="Default select example" style={{ marginBottom: "10px" }}>
+                                <select id="pro-select" className="form-select" aria-label="Default select example" style={{ marginBottom: "10px" }}>
                                     <option value="default">Open this select menu</option>
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
