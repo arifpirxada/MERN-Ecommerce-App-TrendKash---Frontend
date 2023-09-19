@@ -229,8 +229,29 @@
     margin-top: 20px;
 }
 
-#pro-message {
+.ml-2 {
+    margin-left: 20px;
+}
+
+.message {
     text-align: center;
     color: red;
     font-size: 16px
+}
+
+.pr-view {
+    font-weight: 500;
+}
+
+.view-head {
+    font-weight: 600;
+    display: inline;
+}
+
+.d-inline {
+    display: inline;
+}
+
+.ad-hr {
+    margin: 8px 0px;
 }

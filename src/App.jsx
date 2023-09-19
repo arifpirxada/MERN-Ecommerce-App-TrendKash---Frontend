@@ -2,13 +2,6 @@ import { React, useEffect, useState, useRef } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import './App.css'
 
-// import './js/jquery.min'
-// import './js/bootstrap.min'
-// import './js/slick.min'
-// import './js/nouislider.min'
-// import './js/jquery.zoom.min'
-
-
 import Navbar from './comp/common/navbar'
 import Footer from './comp/common/footer'
 import Topcats from './comp/home/topcats'
@@ -28,7 +21,6 @@ import Cats from './comp/admin/cats/cats'
 import AddCat from './comp/admin/cats/addcat'
 import HeaderCat from './comp/admin/header-cat/header-cat'
 import AddHeaderCat from './comp/admin/header-cat/add-header-cat'
-import EditHeaderCat from './comp/admin/header-cat/edit-header-cat'
 import AdminProduct from './comp/admin/product/admin-product'
 import AddProduct from './comp/admin/product/add-product'
 import EditProduct from './comp/admin/product/edit-product'

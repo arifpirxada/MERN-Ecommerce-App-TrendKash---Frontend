@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-function AddProduct({fetchProducts}) {
+function AddProduct({ fetchProducts }) {
 
     const closeModal = () => {
         document.querySelector(".addProductModal").style.display = "none"
@@ -71,7 +71,7 @@ function AddProduct({fetchProducts}) {
         const price = document.getElementById("pro-price").value
         const stock = document.getElementById("pro-stock").value
         const brand = document.getElementById("pro-brand").value
-        if (proName === "" || proDesc === "" || !imgOne || !imgTwo || !imgThree || !imgFour || price === "" || stock === "" ) {
+        if (proName === "" || proDesc === "" || !imgOne || !imgTwo || !imgThree || !imgFour || price === "" || stock === "") {
             messBox.innerHTML = "Please fill all the required fields!"
             return;
         }
@@ -97,7 +97,7 @@ function AddProduct({fetchProducts}) {
         formData.append("stock", stock)
         formData.append("brand", brand)
         formData.append("keywords", JSON.stringify(keywordData))
-        formData.append("cat", JSON.stringify(categoryArr))
+        formData.append("cat", JSON.stringify(categoryData))
 
         const res = await fetch(`${import.meta.env.VITE_SERVER_URL}create-pro`, {
             method: 'POST',
@@ -224,7 +224,7 @@ function AddProduct({fetchProducts}) {
                                     ))}
                                 </div>
                             </div>
-                            <p id="pro-message" ></p>
+                            <p id="pro-message" className="message" ></p>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
