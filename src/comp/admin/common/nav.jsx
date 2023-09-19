@@ -77,7 +77,9 @@ function Nav(props) {
     }
     const location = useLocation()
     useEffect(() => {
-        checknav()
+        if (document.documentElement.clientWidth >= 900) {
+            checknav()
+        }
     }, [location])
 
     // Function to open Modal

@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useRef } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import './App.css'
 
 import Navbar from './comp/common/navbar'
@@ -18,12 +18,8 @@ import Store from './comp/store/store'
 
 import Nav from './comp/admin/common/nav'
 import Cats from './comp/admin/cats/cats'
-import AddCat from './comp/admin/cats/addcat'
 import HeaderCat from './comp/admin/header-cat/header-cat'
-import AddHeaderCat from './comp/admin/header-cat/add-header-cat'
 import AdminProduct from './comp/admin/product/admin-product'
-import AddProduct from './comp/admin/product/add-product'
-import EditProduct from './comp/admin/product/edit-product'
 import AdminDeal from './comp/admin/deal/admin-deal'
 
 
