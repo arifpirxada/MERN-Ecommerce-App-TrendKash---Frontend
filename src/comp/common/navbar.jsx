@@ -9,14 +9,18 @@ function Navbar(props) {
     setIsActive(!isActive)
   }
 
-  // Fetching Navigation categories
+  // Fetch Categories
+  const [catData, setCatData] = useState([])
 
-  // const fetchCats = async () => {
-  //   const response = await fetch("http://localhost:3000/cat-read-navi")
-  //   const catData = await response.json()
-  //   console.log(catData)
-  // }
-  // fetchCats()
+  const fetchCats = async () => {
+    const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-navi`)
+    const data = await res.json()
+    setCatData(data)
+  }
+
+  useEffect(() => {
+    fetchCats()
+  }, [])
 
   return (
     <>
@@ -164,12 +168,9 @@ function Navbar(props) {
             {/* NAV */}
             <ul className="main-nav nav navbar-nav">
               <li className="active"><Link to="/">Home</Link></li>
-              <li><Link to="/productrend">Hot Deals</Link></li>
-              <li><Link to="/storetrend">Categories</Link></li>
-              <li><Link to="#">Laptops</Link></li>
-              <li><Link to="#">Smartphones</Link></li>
-              <li><Link to="#">Cameras</Link></li>
-              <li><Link to="#">Accessories</Link></li>
+              {catData.map((element, i) => (
+                <li key={i}><Link to="#">{element.catName}</Link></li>
+              ))}
             </ul>
             {/* /NAV */}
           </div>

@@ -1,6 +1,21 @@
-import React from "react";
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 
 function SlideHeader(props) {
+
+    const [catData, setCatData] = useState([])
+
+    // Fetching Header Cats
+    const fetchCats = async () => {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-slide`)
+        const data = await res.json()
+        setCatData(data)
+    }
+
+    useEffect(() => {
+        fetchCats()
+    }, [])
+
     return (
         <>
 
@@ -14,10 +29,9 @@ function SlideHeader(props) {
                                 <h3 className="title">{props.cardTitle}</h3>
                                 <div className="section-nav">
                                     <ul className="section-tab-nav tab-nav">
-                                        <li className="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
-                                        <li><a data-toggle="tab" href="#tab1">Smartphones</a></li>
-                                        <li><a data-toggle="tab" href="#tab1">Cameras</a></li>
-                                        <li><a data-toggle="tab" href="#tab1">Accessories</a></li>
+                                        {catData.map((element, i) => (
+                                            <li key={i}><Link data-toggle="tab" to="#tab1">{element.catName}</Link></li>
+                                        ))}
                                     </ul>
                                 </div>
                             </div>
