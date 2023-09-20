@@ -1,7 +1,8 @@
-import { React, useEffect } from "react"
+import { React, useEffect, useContext } from "react"
 import { Link, useLocation } from "react-router-dom"
 import '../../../assets/admin.css'
 import '../../../js/admin'
+import ContactContext from "../../context/admin/contact-context"
 
 function Nav(props) {
 
@@ -13,15 +14,18 @@ function Nav(props) {
         if (docHeight <= 900) {
             const leftham = document.querySelector(".left-ham")
             const rightham = document.querySelector(".right-ham")
+            const unreadShow = document.querySelector(".unread-qty")
 
             if (sideNav.style.width === "0px" || sideNav.style.width === "") {
                 sideNav.style.width = "250px";
                 leftham.style.marginLeft = "250px"
                 rightham.style.display = "none"
+                unreadShow.style.display = "block"
             } else {
                 sideNav.style.width = "0px";
                 leftham.style.marginLeft = "0px"
                 rightham.style.display = "block"
+                unreadShow.style.display = "none"
             }
 
         } else {
@@ -88,6 +92,10 @@ function Nav(props) {
         document.querySelector(props.modalClass).style.display = "block"
     }
 
+    // Using context for showing unread messages
+
+    const { unseen } = useContext(ContactContext)
+
     return (
         <>
             {/* <!-- Side Navigation Bar --> */}
@@ -97,8 +105,8 @@ function Nav(props) {
                 <Link to="/admin-header-cats"><img src="img\adminImg\headcat-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Head Categories</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-products"><img src="img\adminImg\product-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Products</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-deal"><img src="img\adminImg\hotdeal-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Hot Deals</p></Link><hr className="sidenav-hr" />
-                <Link to="#"><img src="img\adminImg\order-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Orders</p></Link><hr className="sidenav-hr" />
-                <Link to="#"><img src="img\adminImg\contact-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Contacts</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-orders"><img src="img\adminImg\order-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Orders</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-contacts"><img src="img\adminImg\contact-icon.png" alt="" height="40px" />{(unseen.unseen === 0)? "" : <div className="unread-qty">{unseen.unseen}</div>}&nbsp;&nbsp;<p className="left-nav-item">Contacts</p></Link><hr className="sidenav-hr" />
             </div>
 
 

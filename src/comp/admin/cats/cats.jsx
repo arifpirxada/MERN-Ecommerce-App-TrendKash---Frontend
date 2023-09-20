@@ -75,8 +75,8 @@ function Cats() {
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Id: {element._id}</h6>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Navigation: {element.navigation === 1 ? "Yes" : "No"}</h6>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Slide: {element.slideTop === 1 ? "Yes" : "No"}</h6>
-                                <button onClick={openEditModal} className="btn btn-primary card-link cat-admin-link m-2 edit-cat-btn">Edit</button>
-                                <button onClick={deleteCategory} className="btn btn-danger card-link cat-admin-link m-2 del-cat-btn">Delete</button>
+                                <button onClick={openEditModal} className="btn btn-primary card-link cat-admin-link m-2 r-2">Edit</button>
+                                <button onClick={deleteCategory} className="btn btn-danger card-link cat-admin-link m-2 r-2">Delete</button>
                             </div>
                         </div>
                     ))}

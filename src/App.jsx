@@ -1,6 +1,6 @@
-import { React, useEffect, useState, useRef } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import './App.css'
+import ContactState from './comp/context/admin/contact-state'
 
 import Navbar from './comp/common/navbar'
 import Footer from './comp/common/footer'
@@ -21,36 +21,40 @@ import Cats from './comp/admin/cats/cats'
 import HeaderCat from './comp/admin/header-cat/header-cat'
 import AdminProduct from './comp/admin/product/admin-product'
 import AdminDeal from './comp/admin/deal/admin-deal'
+import AdminContact from './comp/admin/contact/admin-contact'
 
 
 function App() {
 
   // for admin modal cats
-  
+
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route index element={<>
-            <Navbar />
-            <Topcats />
-            <SlideHeader cardTitle="New Products" /><FirstProductCard />
-            <HotDeal />
-            <SlideHeader cardTitle="Top Selling" /><SecondProductCard />
-            <FooterSlide />
-            <Footer />
-          </>} />
-          <Route path="/cartrend" element={<><Navbar /><Cart /><Footer /></>} />
-          <Route path="/checkoutrend" element={<><Navbar /><Checkout /><Footer /></>} />
-          <Route path="/productrend" element={<><Navbar /><Product /><Footer /></>} />
-          <Route path="/storetrend" element={<><Navbar /><Store /><Footer /></>} />
-          <Route path="/admin-dashboard" element={<Nav />} />
-          <Route path="/admin-cats" element={<><Nav firstNav="Add Cat" firstNavClass="btn btn-primary" modalClass=".addCatModal" /><Cats /></>} />
-          <Route path="/admin-header-cats" element={<><Nav firstNav="Add Head Cat" firstNavClass="btn btn-primary" modalClass=".addHeaderCatModal" /><HeaderCat /></>} />
-          <Route path="/admin-products" element={<><Nav firstNav="Add Product" firstNavClass="btn btn-primary" modalClass=".addProductModal" /><AdminProduct /></>} />
-          <Route path="/admin-deal" element={<><Nav firstNav="Add Deal" firstNavClass="btn btn-primary" modalClass=".addDealModal" /><AdminDeal /></>} />
-          <Route path="*" element={<><Navbar /><NotFound /><Footer /></>} />
-        </Routes>
+        <ContactState>
+          <Routes>
+            <Route index element={<>
+              <Navbar />
+              <Topcats />
+              <SlideHeader cardTitle="New Products" /><FirstProductCard />
+              <HotDeal />
+              <SlideHeader cardTitle="Top Selling" /><SecondProductCard />
+              <FooterSlide />
+              <Footer />
+            </>} />
+            <Route path="/cartrend" element={<><Navbar /><Cart /><Footer /></>} />
+            <Route path="/checkoutrend" element={<><Navbar /><Checkout /><Footer /></>} />
+            <Route path="/productrend" element={<><Navbar /><Product /><Footer /></>} />
+            <Route path="/storetrend" element={<><Navbar /><Store /><Footer /></>} />
+            <Route path="/admin-dashboard" element={<Nav />} />
+            <Route path="/admin-cats" element={<><Nav firstNav="Add Cat" firstNavClass="btn btn-primary" modalClass=".addCatModal" /><Cats /></>} />
+            <Route path="/admin-header-cats" element={<><Nav firstNav="Add Head Cat" firstNavClass="btn btn-primary" modalClass=".addHeaderCatModal" /><HeaderCat /></>} />
+            <Route path="/admin-products" element={<><Nav firstNav="Add Product" firstNavClass="btn btn-primary" modalClass=".addProductModal" /><AdminProduct /></>} />
+            <Route path="/admin-deal" element={<><Nav firstNav="Add Deal" firstNavClass="btn btn-primary" modalClass=".addDealModal" /><AdminDeal /></>} />
+            <Route path="/admin-contacts" element={<><Nav modalClass=".addReplyModal" /><AdminContact /></>} />
+            <Route path="*" element={<><Navbar /><NotFound /><Footer /></>} />
+          </Routes>
+        </ContactState>
       </BrowserRouter>
     </>
   )

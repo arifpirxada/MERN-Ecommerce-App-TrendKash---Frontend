@@ -70,7 +70,7 @@ function AdminProduct() {
             <EditProductImages fetchProducts={fetchProducts} />
             <div className="container keep-aside cat-contain">
                 <div className="admin-cats-container">
-                    {(proData.length !== 0) ? "" : <div className="no-data">
+                    {(proData.length !== 0) ? "" : <div className="f-5">
                         No Products Found
                     </div>}
                     {proData.map((element, i) => (

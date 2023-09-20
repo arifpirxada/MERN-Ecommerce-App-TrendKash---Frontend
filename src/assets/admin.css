@@ -255,3 +255,22 @@
 .ad-hr {
     margin: 8px 0px;
 }
+
+.f-5 {
+    font-weight: 500;
+}
+
+.unread-qty {
+    background-color: red;
+    height: fit-content;
+    padding: 0px 7px;
+    border-radius: 50%;
+    position: fixed;
+    left: 35px;
+}
+
+@media Only screen and (max-width: 900px) {
+    .unread-qty {
+        display: none;
+    }
+}
