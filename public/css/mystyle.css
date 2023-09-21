@@ -151,3 +151,25 @@ body {
         display: flex;
     }
 } */
+
+/* css for navbar search */
+
+.my-search-input {
+    border-radius: 4px;
+    width: 70% !important;
+}
+
+.my-search-input:focus {
+    outline: 2px solid rgb(67, 116, 250);
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+}
+
+.my-search-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

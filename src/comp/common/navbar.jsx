@@ -76,19 +76,27 @@ function Navbar(props) {
                 </div>
                 <div className="col-md-6">
                   <div className="header-search">
-                    <form>
-                      <select className="input-select">
+                    <form className='search-form'>
+                      {/* <select className="input-select">
                         <option value="0">All Categories</option>
                         <option value="1">Category 01</option>
                         <option value="1">Category 02</option>
-                      </select>
-                      <input className="input" placeholder="Search here" />
-                      <button className="search-btn">Search</button>
+                      </select> */}
+                      <input className="input my-search-input" placeholder="Search here" />
+                      <Link to="/searchrend" className="search-btn my-search-btn">Search</Link>
                     </form>
                   </div>
                 </div>
                 <div className="col-md-3 clearfix">
                   <div className="header-ctn">
+
+                    <div>
+                      <a href="#">
+                        <i className="fa fa-user-o"></i>
+                        <span>Login</span>
+                      </a>
+                    </div>
+
                     <div className="dropdown">
                       <Link
                         className="dropdown-toggle c-pointer"

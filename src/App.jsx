@@ -23,6 +23,7 @@ import AdminProduct from './comp/admin/product/admin-product'
 import AdminDeal from './comp/admin/deal/admin-deal'
 import AdminContact from './comp/admin/contact/admin-contact'
 import EcomState from "./comp/context/e-com-state"
+import Search from "./comp/search/search"
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
               <Route path="/checkoutrend" element={<><Navbar /><Checkout /><Footer /></>} />
               <Route path="/productrend" element={<><Navbar /><Product /><Footer /></>} />
               <Route path="/storetrend" element={<><Navbar /><Store /><Footer /></>} />
+              <Route path="/searchrend" element={<><Navbar /><Search /><Footer /></>} />
               <Route path="/admin-dashboard" element={<Nav />} />
               <Route path="/admin-cats" element={<><Nav firstNav="Add Cat" firstNavClass="btn btn-primary" modalClass=".addCatModal" /><Cats /></>} />
               <Route path="/admin-header-cats" element={<><Nav firstNav="Add Head Cat" firstNavClass="btn btn-primary" modalClass=".addHeaderCatModal" /><HeaderCat /></>} />
