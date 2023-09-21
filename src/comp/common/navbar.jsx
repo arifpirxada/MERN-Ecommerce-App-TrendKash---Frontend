@@ -91,10 +91,10 @@ function Navbar(props) {
                   <div className="header-ctn">
 
                     <div>
-                      <a href="#">
+                      <Link href="#">
                         <i className="fa fa-user-o"></i>
                         <span>Login</span>
-                      </a>
+                      </Link>
                     </div>
 
                     <div className="dropdown">
@@ -177,7 +177,7 @@ function Navbar(props) {
             <ul className="main-nav nav navbar-nav">
               <li className="active"><Link to="/">Home</Link></li>
               {catData.map((element, i) => (
-                <li key={i}><Link to="#">{element.catName}</Link></li>
+                <li key={i}><Link to={`/store/${element.catName}`}>{element.catName}</Link></li>
               ))}
             </ul>
             {/* /NAV */}
