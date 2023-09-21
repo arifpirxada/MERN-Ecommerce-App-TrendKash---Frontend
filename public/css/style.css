@@ -472,7 +472,6 @@ textarea.input {
 }
 
 .header-search form .input {
-  width: calc(100% - 260px);
   margin-right: -4px;
 }
 
@@ -483,7 +482,7 @@ textarea.input {
   color: #FFF;
   font-weight: 700;
   border: none;
-  border-radius: 0px 40px 40px 0px;
+  border-radius: 5px 40px 40px 5px;
 }
 
 /*----------------------------*\
@@ -856,6 +855,7 @@ textarea.input {
   box-shadow: 0px 0px 0px 0px #E4E7ED, 0px 0px 0px 1px #E4E7ED;
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
+  cursor: pointer;
 }
 
 .product:hover {

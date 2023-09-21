@@ -155,7 +155,7 @@ body {
 /* css for navbar search */
 
 .my-search-input {
-    border-radius: 4px;
+    border-radius: 40px 5px 5px 40px;
     width: 70% !important;
 }
 
@@ -198,6 +198,7 @@ body {
 .product-price {
     margin: 0px 5px !important;
 }
+
 .product-rating {
     margin: 0px 8px 0px 0px !important;
 }
@@ -208,4 +209,42 @@ body {
 
 .pro-section {
     padding-top: 0px !important;
+}
+
+.apply-filter-btn {
+    border-radius: 2px !important;
+    margin-top: 20px;
+}
+
+.add-filter-btn {
+    border-radius: 2px !important;
+    margin: 5px !important;
+    display: none;
+}
+
+@media only screen and (max-width: 992px) {
+    .aside-none {
+        display: none;
+    }
+
+    .add-filter-btn {
+        display: block;
+    }
+}
+
+.store-product {
+    width: 18rem;
+    margin: 5px;
+}
+
+@media only screen and (max-width: 380px) {
+    .store-product {
+        width: 16rem !important;
+    }
+}
+
+@media only screen and (max-width: 340px) {
+    .store-product {
+        width: 30rem !important;
+    }
 }
