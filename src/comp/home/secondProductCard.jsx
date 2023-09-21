@@ -23,7 +23,7 @@ const SecondProductSlide = (props) => {
             }
         },
         {
-            breakpoint: 360,
+            breakpoint: 350,
             settings: {
                 slidesToShow: 1,
                 slidesToScroll: 1,
