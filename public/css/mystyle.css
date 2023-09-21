@@ -173,3 +173,39 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+/* Styling for product slide react-slick */
+
+.slider-item {
+    margin-bottom: 80px !important;
+    width: 95%;
+}
+
+.product-body {
+    margin: 0px 1px !important;
+}
+
+.slick-slider {
+    overflow: hidden;
+}
+
+.my-product-card {
+    width: fit-content;
+    padding: 4px 8px 8px 8px;
+    margin: 8px;
+}
+
+.product-price {
+    margin: 0px 5px !important;
+}
+.product-rating {
+    margin: 0px 8px 0px 0px !important;
+}
+
+.pro-container {
+    padding: 10px;
+}
+
+.pro-section {
+    padding-top: 0px !important;
+}

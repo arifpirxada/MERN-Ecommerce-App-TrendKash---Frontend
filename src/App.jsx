@@ -25,6 +25,9 @@ import AdminContact from './comp/admin/contact/admin-contact'
 import EcomState from "./comp/context/e-com-state"
 import Search from "./comp/search/search"
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css"
+
 
 function App() {
 
@@ -39,9 +42,9 @@ function App() {
               <Route index element={<>
                 <Navbar />
                 <Topcats />
-                <SlideHeader cardTitle="New Products" /><FirstProductCard />
+                <FirstProductCard />
                 <HotDeal />
-                <SlideHeader cardTitle="Top Selling" /><SecondProductCard />
+                <SecondProductCard />
                 <FooterSlide />
                 <Footer />
               </>} />
