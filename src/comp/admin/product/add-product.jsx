@@ -48,6 +48,34 @@ function AddProduct({ fetchProducts }) {
         setCategoryArr(updatedCategoryArr)
     }
 
+    // To add and remove size ->
+
+    const [sizeArr, setSizeArr] = useState([{}])
+
+    const addSize = () => {
+        setSizeArr([...sizeArr, {}])
+    }
+
+    const delSize = () => {
+        const updatedSizeArr = [...sizeArr]
+        updatedSizeArr.pop()
+        setSizeArr(updatedSizeArr)
+    }
+
+    // To add and remove Color ->
+
+    const [colorArr, setColorArr] = useState([{}])
+
+    const addColor = () => {
+        setColorArr([...colorArr, {}])
+    }
+
+    const delColor = () => {
+        const updatedColorArr = [...colorArr]
+        updatedColorArr.pop()
+        setColorArr(updatedColorArr)
+    }
+
     // Insert product into the database ->
 
     const addProduct = async () => {
@@ -71,7 +99,9 @@ function AddProduct({ fetchProducts }) {
         const price = document.getElementById("pro-price").value
         const stock = document.getElementById("pro-stock").value
         const brand = document.getElementById("pro-brand").value
-        if (proName === "" || proDesc === "" || !imgOne || !imgTwo || !imgThree || !imgFour || price === "" || stock === "") {
+        const oldPrice = document.getElementById("pro-oldPrice").value
+        const disPercentage = document.getElementById("pro-disPercentage").value
+        if (proName === "" || !imgOne || !imgTwo || !imgThree || !imgFour || price === "" || stock === "") {
             messBox.innerHTML = "Please fill all the required fields!"
             return;
         }
@@ -86,6 +116,16 @@ function AddProduct({ fetchProducts }) {
             categoryData.push(document.getElementById(`cat${index}`).value)
         })
 
+        const sizeData = []
+        sizeArr.map((_, index) => {
+            sizeData.push(document.getElementById(`size${index}`).value)
+        })
+
+        const colorData = []
+        colorArr.map((_, index) => {
+            colorData.push(document.getElementById(`color${index}`).value)
+        })
+
         formData.append("name", proName)
         formData.append("desc", proDesc)
         formData.append("details", JSON.stringify(detailData))
@@ -98,6 +138,10 @@ function AddProduct({ fetchProducts }) {
         formData.append("brand", brand)
         formData.append("keywords", JSON.stringify(keywordData))
         formData.append("cat", JSON.stringify(categoryData))
+        formData.append("size", JSON.stringify(sizeData))
+        formData.append("color", JSON.stringify(colorData))
+        formData.append("oldPrice", oldPrice)
+        formData.append("disPercentage", disPercentage)
 
         const res = await fetch(`${import.meta.env.VITE_SERVER_URL}create-pro`, {
             method: 'POST',
@@ -178,20 +222,54 @@ function AddProduct({ fetchProducts }) {
                                 <input className="m-2" type="file" id="img4" />
                             </div>
 
-                            <div className="d-flex mt-2">
+                            <div className="d-flex mt-2" style={{flexWrap: "wrap"}}>
                                 <div className="d-flex">
                                     <label htmlFor="pro-price" className="mt-2">Price</label>
                                     <input className="form-control m-2 mt-2" type="number" id="pro-price" />
                                 </div>
                                 <div className="d-flex">
+                                    <label htmlFor="pro-oldPrice" className="mt-2">Old&nbsp;Price</label>
+                                    <input className="form-control m-2 mt-2" type="number" id="pro-oldPrice" />
+                                </div>
+                                <div className="d-flex">
                                     <label htmlFor="pro-stock" className="mt-2">Stock</label>
                                     <input className="form-control m-2 mt-2" type="number" id="pro-stock" />
+                                </div>
+                                <div className="d-flex">
+                                    <label htmlFor="pro-disPercentage" className="mt-2">Discount&nbsp;Percentage</label>
+                                    <input className="form-control m-2 mt-2" type="number" id="pro-disPercentage" />
                                 </div>
                             </div>
 
                             <div className="d-flex m-2 mt-2">
                                 <label htmlFor="pro-brand">*&nbsp;Brand&nbsp;(optional)</label>
                                 <input className="form-control m-2" type="text" id="pro-brand" />
+                            </div>
+
+                            <div className="m-2 mt-2">
+                                <h5>*&nbsp;Size (optional)</h5>
+                                <div className="d-flex" style={{ justifyContent: "end" }}>
+                                    <button onClick={addSize} className="btn btn-primary m-2">Add Size</button>
+                                    <button onClick={delSize} className="btn btn-danger m-2">Delete Size</button>
+                                </div>
+                                <div className="d-flex" style={{ flexWrap: "wrap" }}>
+                                    {sizeArr.map((_, index) => (
+                                        <input key={index} className="form-control m-2" type="text" id={`size${index}`} style={{ width: "40%" }} />
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="m-2 mt-2">
+                                <h5>*&nbsp;Color (optional)</h5>
+                                <div className="d-flex" style={{ justifyContent: "end" }}>
+                                    <button onClick={addColor} className="btn btn-primary m-2">Add Color</button>
+                                    <button onClick={delColor} className="btn btn-danger m-2">Delete Color</button>
+                                </div>
+                                <div className="d-flex" style={{ flexWrap: "wrap" }}>
+                                    {colorArr.map((_, index) => (
+                                        <input key={index} className="form-control m-2" type="text" id={`color${index}`} style={{ width: "40%" }} />
+                                    ))}
+                                </div>
                             </div>
 
                             <div className="keywords-contain m-2 mt-2">

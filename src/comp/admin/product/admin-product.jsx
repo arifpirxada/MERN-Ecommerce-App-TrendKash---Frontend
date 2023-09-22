@@ -66,7 +66,7 @@ function AdminProduct() {
         <>
             <AddProduct fetchProducts={fetchProducts} />
             <ViewProduct productData={productData} />
-            <EditProduct fetchProducts={fetchProducts} productData={productData} />
+            <EditProduct fetchProducts={fetchProducts} productData={productData} setProductData={setProductData} />
             <EditProductImages fetchProducts={fetchProducts} />
             <div className="container keep-aside cat-contain">
                 <div className="admin-cats-container">

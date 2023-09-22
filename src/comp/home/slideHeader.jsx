@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 
-function SlideHeader({ cardTitle, fetchFunc }) {
+function SlideHeader({ cardTitle, fetchFunc, fetchArg }) {
 
     const [catData, setCatData] = useState([])
 
@@ -28,8 +28,9 @@ function SlideHeader({ cardTitle, fetchFunc }) {
                                 <h3 className="title">{cardTitle}</h3>
                                 <div className="section-nav">
                                     <ul className="section-tab-nav tab-nav">
+                                        <li className="active" onClick={() => { fetchFunc(fetchArg) }} ><Link data-toggle="tab" to={`#top`}>Top</Link></li>
                                         {catData.map((element, i) => (
-                                            <li key={i} onClick={() => { fetchFunc(element.catName) }} ><Link data-toggle="tab" to="#tab1">{element.catName}</Link></li>
+                                            <li key={i} onClick={() => { fetchFunc(element.catName) }} ><Link data-toggle="tab" to={`#${element.catName}`}>{element.catName}</Link></li>
                                         ))}
                                     </ul>
                                 </div>

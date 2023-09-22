@@ -1,127 +1,139 @@
-import { React, useEffect, useRef } from "react"
-
+import { React, useEffect, useState, useContext } from "react"
+import Slider from "react-slick"
+import { Link, useParams } from "react-router-dom"
+import EcomContext from "../context/e-com-context"
 
 function Product() {
-    const productMainImg = useRef(null)
-    const productImgs = useRef(null)
 
-    const stylePro = () => {
+    const mainSettings = {
+        infinite: true,
+        speed: 300,
+        dots: false,
+        arrows: true,
+        autoplay: true,
+    }
 
-        try {
-            $(productMainImg.current).slick({
-                infinite: true,
-                speed: 300,
-                dots: false,
-                arrows: true,
-                fade: true,
-                asNavFor: '#product-imgs',
-            });
-
-            // Product imgs Slick
-            $(productImgs.current).slick({
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                arrows: true,
-                centerMode: true,
-                focusOnSelect: true,
-                centerPadding: 0,
-                vertical: true,
-                asNavFor: '#product-main-img',
-                responsive: [{
-                    breakpoint: 991,
-                    settings: {
-                        vertical: false,
-                        arrows: false,
-                        dots: true,
-                    }
-                },
-                ]
-            });
-
-            // Product img zoom
-            var zoomMainProduct = productMainImg.current.querySelector('.product-preview');
-            if (zoomMainProduct) {
-                $(zoomMainProduct).zoom();
+    const settings = {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        arrows: false,
+        centerMode: true,
+        focusOnSelect: true,
+        autoplay: true,
+        centerPadding: 0,
+        vertical: true,
+        responsive: [{
+            breakpoint: 991,
+            settings: {
+                vertical: false,
+                arrows: false,
+                dots: true,
             }
-        } catch (e) {
-            console.error("Slick carousel error:");
+        },
+        ]
+    }
+
+
+    const relatedSettings = {
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: true,
+        arrows: true,
+        responsive: [{
+            breakpoint: 991,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+            }
+        },
+        {
+            breakpoint: 350,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+            }
+        },
+        ]
+    }
+
+    // Fetch Product Data Here
+
+    const [productData, setProductData] = useState()
+    const { id } = useParams()
+
+    const fetchProductData = async () => {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro/${id}`)
+        const data = await res.json()
+        setProductData(data)
+        console.log(data)
+        if (data.message === "Internal server error") {
+            alert("Error! Product Not found")
         }
     }
 
     useEffect(() => {
-        stylePro()
-    }, [])
+        fetchProductData()
+    }, [id])
+
+    // For related products -> 
+
+    const { firstSlideData } = useContext(EcomContext)
 
     return (
         <>
-            {/* <!-- BREADCRUMB --> */}
-            <div id="breadcrumb" className="section">
-                {/* <!-- container --> */}
-                <div className="container">
-                    {/* <!-- row --> */}
-                    <div className="row">
-                        <div className="col-md-12">
-                            <ul className="breadcrumb-tree">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">All Categories</a></li>
-                                <li><a href="#">Accessories</a></li>
-                                <li><a href="#">Headphones</a></li>
-                                <li className="active">Product name goes here</li>
-                            </ul>
-                        </div>
-                    </div>
-                    {/* <!-- /row --> */}
-                </div>
-                {/* <!-- /container --> */}
-            </div>
-            {/* <!-- /BREADCRUMB --> */}
-
             {/* <!-- SECTION --> */}
-            <div className="section">
+            {productData && <div className="section">
                 {/* <!-- container --> */}
                 <div className="container">
                     {/* <!-- row --> */}
                     <div className="row" id="product-page">
                         {/* <!-- Product main img --> */}
                         <div className="col-md-5 col-md-push-2 main-container">
-                            <div ref={productMainImg} className="img-container" id="product-main-img">
-                                <div className="product-preview">
-                                    <img src="./img/product01.png" alt="" />
-                                </div>
+                            <div className="img-container" id="product-main-img" >
+                                <Slider {...mainSettings} >
+                                    <div className="product-preview">
+                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[0]}`} alt="" />
+                                    </div>
 
-                                <div className="product-preview">
-                                    <img src="./img/product03.png" alt="" />
-                                </div>
+                                    <div className="product-preview">
+                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[1]}`} alt="" />
+                                    </div>
 
-                                <div className="product-preview">
-                                    <img src="./img/product06.png" alt="" />
-                                </div>
+                                    <div className="product-preview">
+                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[2]}`} alt="" />
+                                    </div>
 
-                                <div className="product-preview">
-                                    <img src="./img/product08.png" alt="" />
-                                </div>
+                                    <div className="product-preview">
+                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[3]}`} alt="" />
+                                    </div>
+                                </Slider>
                             </div>
                         </div>
                         {/* <!-- /Product main img --> */}
 
                         {/* <!-- Product thumb imgs --> */}
                         <div className="col-md-2  col-md-pull-5">
-                            <div ref={productImgs} className="thumb-imgs-container" id="product-imgs">
-                                <div className="product-preview">
-                                    <img src="./img/product01.png" alt="" />
-                                </div>
+                            <div className="thumb-imgs-container" id="product-imgs" >
+                                <Slider {...settings} >
+                                    <div className="product-preview">
+                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[0]}`} alt="" />
+                                    </div>
 
-                                <div className="product-preview">
-                                    <img src="./img/product03.png" alt="" />
-                                </div>
+                                    <div className="product-preview">
+                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[1]}`} alt="" />
+                                    </div>
 
-                                <div className="product-preview">
-                                    <img src="./img/product06.png" alt="" />
-                                </div>
+                                    <div className="product-preview">
+                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[2]}`} alt="" />
+                                    </div>
 
-                                <div className="product-preview">
-                                    <img src="./img/product08.png" alt="" />
-                                </div>
+                                    <div className="product-preview">
+                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[3]}`} alt="" />
+                                    </div>
+                                </Slider>
                             </div>
                         </div>
                         {/* <!-- /Product thumb imgs --> */}
@@ -129,67 +141,66 @@ function Product() {
                         {/* <!-- Product details --> */}
                         <div className="col-md-5">
                             <div className="product-details">
-                                <h2 className="product-name">product name goes here</h2>
+                                <h2 className="product-name">{productData.name}</h2>
                                 <div>
-                                    <div className="product-rating">
+                                    {productData.ratings.length > 0 ? <div className="product-rating">
                                         <i className="fa fa-star"></i>
                                         <i className="fa fa-star"></i>
                                         <i className="fa fa-star"></i>
                                         <i className="fa fa-star"></i>
                                         <i className="fa fa-star-o"></i>
-                                    </div>
-                                    <a className="review-link" href="#">10 Review(s) | Add your review</a>
+                                    </div> : ""}
+                                    <Link className="review-link" to="#">{productData.ratings.length} Review(s) | Add your review</Link>
                                 </div>
                                 <div>
-                                    <h3 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h3>
-                                    <span className="product-available">In Stock</span>
+                                    <h3 className="product-price">{`₹${productData.price}`} <del className="product-old-price">{productData.oldPrice > 0 ? `₹${productData.oldPrice}` : ""}</del></h3>
+                                    <span className="product-available">{productData.stock > 0 ? "In Stock" : "Not Available"}</span>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <p>{productData.desc && productData.desc}</p>
 
                                 <div className="product-options">
-                                    <label>
+                                    {productData.size && <label>
                                         Size
-                                        <select className="input-select">
-                                            <option value="0">X</option>
+                                        <select className="input-select ml-1">
+                                            <option value={productData.size[0]}>{productData.size[0]}</option>
+                                            {productData.size.map((element, i) => (
+                                                <option key={i} value={element}>{element}</option>
+                                            ))}
                                         </select>
-                                    </label>
-                                    <label>
+                                    </label>}
+                                    {productData.color && <label>
                                         Color
-                                        <select className="input-select">
-                                            <option value="0">Red</option>
+                                        <select className="input-select ml-1">
+                                            <option value={productData.color[0]}>{productData.color[0]}</option>
+                                            {productData.color.map((element, i) => (
+                                                <option key={i} value={element}>{element}</option>
+                                            ))}
                                         </select>
-                                    </label>
-                                </div>
-
-                                <div className="add-to-cart">
-                                    <div className="qty-label">
+                                    </label>}
+                                    {productData.stock > 0 && <label>
                                         Qty
-                                        <div className="input-number">
-                                            <input type="number" />
-                                            <span className="qty-up">+</span>
-                                            <span className="qty-down">-</span>
-                                        </div>
-                                    </div>
-                                    <button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
+                                        <select className="input-select ml-1">
+                                            <option value={1}>1</option>
+                                            {Array.from({ length: productData.stock - 1 }).map((_, index) => (
+                                                <option key={index + 2} value={index + 2}>
+                                                    {index + 2}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>}
                                 </div>
 
-                                <ul className="product-btns">
-                                    <li><a href="#"><i className="fa fa-heart-o"></i> add to wishlist</a></li>
-                                    <li><a href="#"><i className="fa fa-exchange"></i> add to compare</a></li>
-                                </ul>
-
-                                <ul className="product-links">
-                                    <li>Category:</li>
-                                    <li><a href="#">Headphones</a></li>
-                                    <li><a href="#">Accessories</a></li>
-                                </ul>
+                                <div className="add-to-cart pro-sale-btn">
+                                    <button className="add-to-cart-btn m-2 r-2"><i className="fa fa-shopping-cart"></i> add to cart</button>
+                                    <button className="add-to-cart-btn m-2 r-2"><i className="fa fa-heart-o"></i> Buy Now</button>
+                                </div>
 
                                 <ul className="product-links">
                                     <li>Share:</li>
-                                    <li><a href="#"><i className="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i className="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i className="fa fa-google-plus"></i></a></li>
-                                    <li><a href="#"><i className="fa fa-envelope"></i></a></li>
+                                    <li><Link to="#"><i className="fa fa-facebook"></i></Link></li>
+                                    <li><Link to="#"><i className="fa fa-twitter"></i></Link></li>
+                                    <li><Link to="#"><i className="fa fa-google-plus"></i></Link></li>
+                                    <li><Link to="#"><i className="fa fa-envelope"></i></Link></li>
                                 </ul>
 
                             </div>
@@ -201,26 +212,26 @@ function Product() {
                             <div id="product-tab">
                                 {/* <!-- product tab nav --> */}
                                 <ul className="tab-nav">
-                                    <li className="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-                                    <li><a data-toggle="tab" href="#tab2">Details</a></li>
-                                    <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                                    {/* <li className="active"><Link data-toggle="tab" to="#tab1">Description</Link></li> */}
+                                    <li className="active"><Link data-toggle="tab" to="#tab1">Details</Link></li>
+                                    <li><Link data-toggle="tab" to="#tab3">Reviews (3)</Link></li>
                                 </ul>
                                 {/* <!-- /product tab nav --> */}
 
                                 {/* <!-- product tab content --> */}
                                 <div className="tab-content">
                                     {/* <!-- tab1  --> */}
-                                    <div id="tab1" className="tab-pane fade in active">
+                                    {/* <div id="tab1" className="tab-pane fade in active">
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     {/* <!-- /tab1  --> */}
 
                                     {/* <!-- tab2  --> */}
-                                    <div id="tab2" className="tab-pane fade in">
+                                    <div id="tab1" className="tab-pane fade in active">
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -318,7 +329,7 @@ function Product() {
 
                                             {/* <!-- Reviews --> */}
                                             <div className="col-md-6">
-                                                <div id="reviews">
+                                                {productData.ratings.length > 0 ? < div id="reviews">
                                                     <ul className="reviews">
                                                         <li>
                                                             <div className="review-heading">
@@ -371,12 +382,12 @@ function Product() {
                                                     </ul>
                                                     <ul className="reviews-pagination">
                                                         <li className="active">1</li>
-                                                        <li><a href="#">2</a></li>
-                                                        <li><a href="#">3</a></li>
-                                                        <li><a href="#">4</a></li>
-                                                        <li><a href="#"><i className="fa fa-angle-right"></i></a></li>
+                                                        <li><Link to="#">2</Link></li>
+                                                        <li><Link to="#">3</Link></li>
+                                                        <li><Link to="#">4</Link></li>
+                                                        <li><Link to="#"><i className="fa fa-angle-right"></i></Link></li>
                                                     </ul>
-                                                </div>
+                                                </div> : <p className="text-center no-review-container">No Reviews Yet</p>}
                                             </div>
                                             {/* <!-- /Reviews --> */}
 
@@ -414,7 +425,7 @@ function Product() {
                     {/* <!-- /row --> */}
                 </div>
                 {/* <!-- /container --> */}
-            </div>
+            </div >}
             {/* <!-- /SECTION --> */}
 
             {/* <!-- Section --> */}
@@ -423,131 +434,43 @@ function Product() {
                 <div className="container">
                     {/* <!-- row --> */}
                     <div className="row">
-
-                        <div className="col-md-12">
+                        <div>
                             <div className="section-title text-center">
                                 <h3 className="title">Related Products</h3>
                             </div>
                         </div>
 
-                        {/* <!-- product --> */}
-                        <div className="col-md-3 col-xs-6 d-flex">
-                            <div className="product">
-                                <div className="product-img">
-                                    <img src="./img/product01.png" alt="" />
-                                    <div className="product-label">
-                                        <span className="sale">-30%</span>
+                        <Slider {...relatedSettings}>
+                            {firstSlideData.map((element, i) => (
+                                <div key={i} className="pro-container">
+                                    <div className="product" style={{ marginRight: "10px !important" }}>
+                                        <div className="product-img">
+                                            <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${element.img[0]}`} alt="" />
+                                            <div className="product-label">
+                                                <span className="sale">-30%</span>
+                                                <span className="new">NEW</span>
+                                            </div>
+                                        </div>
+                                        <div className="product-body">
+                                            <h3 className="product-name"><Link to="#">{element.name}</Link></h3>
+                                            <h4 className="product-price d-inline">₹{element.price}
+                                                {/* <del className="product-old-price">$990.00</del> */}
+                                            </h4>
+                                            <div className="product-rating d-inline">
+                                                <i className="fa fa-star"></i>
+                                                <i className="fa fa-star"></i>
+                                                <i className="fa fa-star"></i>
+                                                <i className="fa fa-star"></i>
+                                                <i className="fa fa-star"></i>
+                                            </div>
+                                            <div className="product-desc d-inline">
+                                                {`${element.desc.slice(0, 45)}...`}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="product-body">
-                                    <p className="product-category">Category</p>
-                                    <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                    <div className="product-rating">
-                                    </div>
-                                    <div className="product-btns">
-                                        <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-                                        <button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-                                        <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-                                    </div>
-                                </div>
-                                <div className="add-to-cart">
-                                    <button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        {/* <!-- /product --> */}
-
-                        {/* <!-- product --> */}
-                        <div className="col-md-3 col-xs-6 d-flex">
-                            <div className="product">
-                                <div className="product-img">
-                                    <img src="./img/product02.png" alt="" />
-                                    <div className="product-label">
-                                        <span className="new">NEW</span>
-                                    </div>
-                                </div>
-                                <div className="product-body">
-                                    <p className="product-category">Category</p>
-                                    <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                    <div className="product-rating">
-                                        <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                    </div>
-                                    <div className="product-btns">
-                                        <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-                                        <button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-                                        <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-                                    </div>
-                                </div>
-                                <div className="add-to-cart">
-                                    <button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        {/* <!-- /product --> */}
-
-                        <div className="clearfix visible-sm visible-xs"></div>
-
-                        {/* <!-- product --> */}
-                        <div className="col-md-3 col-xs-6 d-flex">
-                            <div className="product">
-                                <div className="product-img">
-                                    <img src="./img/product03.png" alt="" />
-                                </div>
-                                <div className="product-body">
-                                    <p className="product-category">Category</p>
-                                    <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                    <div className="product-rating">
-                                        <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                        <i className="fa fa-star-o"></i>
-                                    </div>
-                                    <div className="product-btns">
-                                        <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-                                        <button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-                                        <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-                                    </div>
-                                </div>
-                                <div className="add-to-cart">
-                                    <button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        {/* <!-- /product --> */}
-
-                        {/* <!-- product --> */}
-                        <div className="col-md-3 col-xs-6 d-flex">
-                            <div className="product">
-                                <div className="product-img">
-                                    <img src="./img/product04.png" alt="" />
-                                </div>
-                                <div className="product-body">
-                                    <p className="product-category">Category</p>
-                                    <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                    <div className="product-rating">
-                                    </div>
-                                    <div className="product-btns">
-                                        <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-                                        <button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-                                        <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-                                    </div>
-                                </div>
-                                <div className="add-to-cart">
-                                    <button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        {/* <!-- /product --> */}
-
+                            ))}
+                        </Slider>
                     </div>
                     {/* <!-- /row --> */}
                 </div>

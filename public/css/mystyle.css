@@ -248,3 +248,36 @@ body {
         width: 30rem !important;
     }
 }
+
+.slick-arrow {
+    background: #add1f0 !important;
+}
+
+.ml-1 {
+    margin-left: 6px;
+}
+
+.r-2 {
+    border-radius: 2px !important;
+}
+
+.no-review-container {
+    font-size: 16px;
+    font-weight: 600;
+    color: #D10024;
+    margin: 20px 0px;
+}
+
+.d-block {
+    display: block;
+}
+
+.pro-sale-btn {
+    display: flex !important;
+}
+
+@media only screen and (max-width: 373px) {
+    .pro-sale-btn {
+        flex-direction: column;
+    }
+}

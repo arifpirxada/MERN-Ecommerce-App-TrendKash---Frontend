@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react"
-
 function ViewProduct({ productData }) {
 
     const closeModal = () => {
@@ -44,12 +42,24 @@ function ViewProduct({ productData }) {
                                 <div className="m-2 pr-view"><p className="view-head">Stock: </p>{productData.stock}</div><hr className="ad-hr" />
                                 <div className="m-2 pr-view"><p className="view-head">Brand: </p>{productData.brand}</div><hr className="ad-hr" />
                                 <div className="m-2 pr-view"><p className="view-head">Ratings: </p>{productData.price}</div><hr className="ad-hr" />
+                                <div className="m-2 pr-view"><p className="view-head">Old Price: </p>{productData.oldPrice}</div><hr className="ad-hr" />
+                                <div className="m-2 pr-view"><p className="view-head">Discount Percentage: </p>{productData.disPercentage}</div><hr className="ad-hr" />
                                 <div className="m-2 pr-view"><p className="view-head">Keywords: </p>{productData.keywords.map((element, i) => (
                                     <div key={i} className="ml-2 d-inline">
                                         {element}
                                     </div>
                                 ))}</div><hr className="ad-hr" />
                                 <div className="m-2 pr-view"><p className="view-head">Categories: </p>{productData.cat.map((element, i) => (
+                                    <div key={i} className="ml-2 d-inline">
+                                        {element}
+                                    </div>
+                                ))}</div><hr className="ad-hr" />
+                                <div className="m-2 pr-view"><p className="view-head">Size: </p>{productData.size.map((element, i) => (
+                                    <div key={i} className="ml-2 d-inline">
+                                        {element}
+                                    </div>
+                                ))}</div><hr className="ad-hr" />
+                                <div className="m-2 pr-view"><p className="view-head">Color: </p>{productData.color.map((element, i) => (
                                     <div key={i} className="ml-2 d-inline">
                                         {element}
                                     </div>

@@ -16,15 +16,11 @@ function Store(props) {
 	// Fetching Starts Here ->
 
 	const { category } = useParams()
-	const { storeData, fetchStoreData, shortProductDesc, catData } = useContext(EcomContext)
+	const { storeData, fetchStoreData, catData } = useContext(EcomContext)
 
 	useEffect(() => {
 		fetchStoreData(category)
 	}, [category])
-
-	useEffect(() => {
-		shortProductDesc()
-	}, [storeData])
 
 	return (
 		<>
@@ -175,22 +171,25 @@ function Store(props) {
 										<div className="product-img">
 											<img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${element.img[0]}`} alt="" />
 											<div className="product-label">
-												<span className="sale">-30%</span>
+												{element.disPercentage && <span className="sale">{`-${element.disPercentage}%`}</span>}
 												<span className="new">NEW</span>
 											</div>
 										</div>
 										<div className="product-body">
-											<h3 className="product-name"><Link href="#">{element.name}</Link></h3>
-											<h4 className="product-price d-inline">₹{element.price}</h4>
-											<div className="product-rating d-inline">
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-											</div>
+											<h3 className="product-name"><Link to={`/product/${element._id}`}>{element.name}</Link></h3>
+											<h4 className="product-price d-inline">₹{element.price}
+												<del className="product-old-price" style={{ marginLeft: "3px" }}>{element.oldPrice && `₹${element.oldPrice}`}</del>
+											</h4>
+											{(element.ratings.length > 0) ?
+												<div className="product-rating d-inline">
+													<i className="fa fa-star"></i>
+													<i className="fa fa-star"></i>
+													<i className="fa fa-star"></i>
+													<i className="fa fa-star"></i>
+													<i className="fa fa-star"></i>
+												</div> : ""}
 											<div className="product-desc d-inline">
-												{element.desc}
+												{element.desc.length > 0 ? `${element.desc.slice(0, 45)}...` : ""}
 											</div>
 										</div>
 									</div>

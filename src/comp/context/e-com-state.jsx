@@ -3,14 +3,6 @@ import EcomContext from "./e-com-context";
 
 const EcomState = (props) => {
 
-    function shortProductDesc() {
-        let productDesc = document.querySelectorAll(".product-desc")
-        productDesc.forEach((element) => {
-            let shortDesc = `${element.innerHTML.slice(0, 45)}...`
-            element.innerHTML = shortDesc
-        })
-    }
-
     // Context for first product slide of home page
 
     const [firstSlideData, setFirstSlideData] = useState([])
@@ -39,7 +31,6 @@ const EcomState = (props) => {
         const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-cat/${cat}`)
         const data = await res.json()
         setStoreData(data)
-        console.log(data)
     }
 
     // Context for fetching categories
@@ -60,7 +51,7 @@ const EcomState = (props) => {
     }, [])
 
     return (
-        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, shortProductDesc, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData }}>
+        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData }}>
             {props.children}
         </EcomContext.Provider>
     )

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
+import { Link } from "react-router-dom";
 
 const Topcats = () => {
 
@@ -67,7 +68,7 @@ const Topcats = () => {
                                         </div>
                                         <div className="shop-body">
                                             <h3>{element.catName}<br />Collection</h3>
-                                            <a href="#" className="cta-btn">Shop now <i className="fa fa-arrow-circle-right"></i></a>
+                                            <Link to={`/store/${element.catName}`} className="cta-btn">Shop now <i className="fa fa-arrow-circle-right"></i></Link>
                                         </div>
                                     </div>
                                 </div>

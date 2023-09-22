@@ -30,8 +30,6 @@ import "slick-carousel/slick/slick-theme.css"
 
 function App() {
 
-  // for admin modal cats
-
   return (
     <>
       <BrowserRouter>
@@ -49,7 +47,7 @@ function App() {
               </>} />
               <Route path="/cartrend" element={<><Navbar /><Cart /><Footer /></>} />
               <Route path="/checkoutrend" element={<><Navbar /><Checkout /><Footer /></>} />
-              <Route path="/productrend" element={<><Navbar /><Product /><Footer /></>} />
+              <Route path="/product/:id" element={<><Navbar /><Product /><Footer /></>} />
               <Route path="/store/:category" element={<><Navbar /><Store /><Footer /></>} />
               <Route path="/searchrend" element={<><Navbar /><Search /><Footer /></>} />
               <Route path="/admin-dashboard" element={<Nav />} />
