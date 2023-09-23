@@ -16,16 +16,20 @@ function Store(props) {
 	// Fetching Starts Here ->
 
 	const { category } = useParams()
+	const [priceSort, setPriceSort] = useState()
 	const { storeData, fetchStoreData, catData, filterStoreData, sortPriceStoreData } = useContext(EcomContext)
 
 	useEffect(() => {
-		fetchStoreData(category)
+		if (!priceSort) {
+			fetchStoreData(category)
+		} else {
+			sortPriceStoreData(filterCat, priceSort, category)
+		}
 	}, [category])
 
 	// Script for making the category filter work ->
 
 	const [filterCat, setFilterCat] = useState([])
-	const [priceSort, setPriceSort] = useState()
 
 	useEffect(() => {
 		if (filterCat.length > 0 && !priceSort) {
