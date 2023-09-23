@@ -68,7 +68,6 @@ function Product() {
         const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro/${id}`)
         const data = await res.json()
         setProductData(data)
-        console.log(data)
         if (data.message === "Internal server error") {
             alert("Error! Product Not found")
         }
@@ -80,12 +79,24 @@ function Product() {
 
     // For related products -> 
 
-    const { firstSlideData } = useContext(EcomContext)
+    const { relatedProducts, fetchRelatedProducts } = useContext(EcomContext)
+
+    useEffect(() => {
+        if (productData) {
+            const newCats = productData.cat.filter(item => item !== "FirstTop" && item != "SecondTop")
+            fetchRelatedProducts(newCats, id)
+        }
+    }, [productData])
+
+    const scrollToReviews = () => {
+        document.getElementById("product-tab").scrollIntoView({ behavior: 'smooth' });
+        document.getElementById("review-btn").click()
+    }
 
     return (
         <>
             {/* <!-- SECTION --> */}
-            {productData && <div className="section">
+            {productData && <div className="section" id="pro-section">
                 {/* <!-- container --> */}
                 <div className="container">
                     {/* <!-- row --> */}
@@ -150,7 +161,7 @@ function Product() {
                                         <i className="fa fa-star"></i>
                                         <i className="fa fa-star-o"></i>
                                     </div> : ""}
-                                    <Link className="review-link" to="#">{productData.ratings.length} Review(s) | Add your review</Link>
+                                    <Link onClick={scrollToReviews} className="review-link" to="#">{productData.ratings.length} Review(s) | Add your review</Link>
                                 </div>
                                 <div>
                                     <h3 className="product-price">{`₹${productData.price}`} <del className="product-old-price">{productData.oldPrice > 0 ? `₹${productData.oldPrice}` : ""}</del></h3>
@@ -214,7 +225,7 @@ function Product() {
                                 <ul className="tab-nav">
                                     {/* <li className="active"><Link data-toggle="tab" to="#tab1">Description</Link></li> */}
                                     <li className="active"><Link data-toggle="tab" to="#tab1">Details</Link></li>
-                                    <li><Link data-toggle="tab" to="#tab3">Reviews (3)</Link></li>
+                                    <li><Link id="review-btn" data-toggle="tab" to="#tab3">Reviews ({productData.ratings.length})</Link></li>
                                 </ul>
                                 {/* <!-- /product tab nav --> */}
 
@@ -441,7 +452,7 @@ function Product() {
                         </div>
 
                         <Slider {...relatedSettings}>
-                            {firstSlideData.map((element, i) => (
+                            {relatedProducts && relatedProducts.map((element, i) => (
                                 <div key={i} className="pro-container">
                                     <div className="product" style={{ marginRight: "10px !important" }}>
                                         <div className="product-img">
@@ -452,19 +463,20 @@ function Product() {
                                             </div>
                                         </div>
                                         <div className="product-body">
-                                            <h3 className="product-name"><Link to="#">{element.name}</Link></h3>
+                                            <h3 className="product-name"><Link onClick={() => { window.scrollTo(0, 140) }} to={`/product/${element._id}`}>{element.name}</Link></h3>
                                             <h4 className="product-price d-inline">₹{element.price}
-                                                {/* <del className="product-old-price">$990.00</del> */}
+                                                <del className="product-old-price" style={{ marginLeft: "3px" }}>{element.oldPrice && `₹${element.oldPrice}`}</del>
                                             </h4>
-                                            <div className="product-rating d-inline">
-                                                <i className="fa fa-star"></i>
-                                                <i className="fa fa-star"></i>
-                                                <i className="fa fa-star"></i>
-                                                <i className="fa fa-star"></i>
-                                                <i className="fa fa-star"></i>
-                                            </div>
+                                            {(element.ratings.length > 0) ?
+                                                <div className="product-rating d-inline">
+                                                    <i className="fa fa-star"></i>
+                                                    <i className="fa fa-star"></i>
+                                                    <i className="fa fa-star"></i>
+                                                    <i className="fa fa-star"></i>
+                                                    <i className="fa fa-star"></i>
+                                                </div> : ""}
                                             <div className="product-desc d-inline">
-                                                {`${element.desc.slice(0, 45)}...`}
+                                                {element.desc.length > 0 ? `${element.desc.slice(0, 45)}...` : ""}
                                             </div>
                                         </div>
                                     </div>

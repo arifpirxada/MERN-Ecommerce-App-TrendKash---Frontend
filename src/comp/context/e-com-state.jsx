@@ -33,6 +33,30 @@ const EcomState = (props) => {
         setStoreData(data)
     }
 
+    const filterStoreData = async (cat) => {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-filter-cat`, {
+            method: "POST",
+            body: JSON.stringify({ categories: cat }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await res.json()
+        setStoreData(data)
+    }
+
+    const sortPriceStoreData = async (cat, priceSort, defaultCategory) => {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-sort-price`, {
+            method: "POST",
+            body: JSON.stringify({ categories: cat, priceSort: priceSort, defaultCat: defaultCategory }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await res.json()
+        setStoreData(data)
+    }
+
     // Context for fetching categories
 
     const [catData, setCatData] = useState([])
@@ -50,8 +74,24 @@ const EcomState = (props) => {
         fetchCats()
     }, [])
 
+    // Fetch Related Products
+
+    const [relatedProducts, setRelatedProducts] = useState()
+
+    const fetchRelatedProducts = async (cats, id) => {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-related`, {
+            method: "POST",
+            body: JSON.stringify({ categories: cats, id: id }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await res.json()
+        setRelatedProducts(data)
+    }
+
     return (
-        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData }}>
+        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData }}>
             {props.children}
         </EcomContext.Provider>
     )

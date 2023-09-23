@@ -62,30 +62,30 @@ const FirstProductCard = (props) => {
                                                 {firstSlideData.map((element, i) => (
                                                     <div key={i} className="pro-container">
                                                         <div className="product" style={{ marginRight: "10px !important" }}>
-                                                                <div className="product-img">
-                                                                    <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${element.img[0]}`} alt="" />
-                                                                    <div className="product-label">
-                                                                        {element.disPercentage && <span className="sale">{`-${element.disPercentage}%`}</span>}
-                                                                        <span className="new">NEW</span>
-                                                                    </div>
+                                                            <div className="product-img">
+                                                                <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${element.img[0]}`} alt="" />
+                                                                <div className="product-label">
+                                                                    {element.disPercentage && <span className="sale">{`-${element.disPercentage}%`}</span>}
+                                                                    <span className="new">NEW</span>
                                                                 </div>
-                                                                <div className="product-body">
-                                                                    <h3 className="product-name"><Link to={`/product/${element._id}`}>{element.name}</Link></h3>
-                                                                    <h4 className="product-price d-inline">₹{element.price}
-                                                                        <del className="product-old-price" style={{ marginLeft: "3px" }}>{element.oldPrice && `₹${element.oldPrice}`}</del>
-                                                                    </h4>
-                                                                    {(element.ratings.length > 0) ?
-                                                                        <div className="product-rating d-inline">
-                                                                            <i className="fa fa-star"></i>
-                                                                            <i className="fa fa-star"></i>
-                                                                            <i className="fa fa-star"></i>
-                                                                            <i className="fa fa-star"></i>
-                                                                            <i className="fa fa-star"></i>
-                                                                        </div> : ""}
-                                                                    <div className="product-desc d-inline">
-                                                                        {element.desc.length > 0 ? `${element.desc.slice(0, 45)}...` : ""}
-                                                                    </div>
+                                                            </div>
+                                                            <div className="product-body">
+                                                                <h3 className="product-name"><Link onClick={() => { window.scrollTo(0, 140) }} to={`/product/${element._id}`}>{element.name}</Link></h3>
+                                                                <h4 className="product-price d-inline">₹{element.price}
+                                                                    <del className="product-old-price" style={{ marginLeft: "3px" }}>{element.oldPrice && `₹${element.oldPrice}`}</del>
+                                                                </h4>
+                                                                {(element.ratings.length > 0) ?
+                                                                    <div className="product-rating d-inline">
+                                                                        <i className="fa fa-star"></i>
+                                                                        <i className="fa fa-star"></i>
+                                                                        <i className="fa fa-star"></i>
+                                                                        <i className="fa fa-star"></i>
+                                                                        <i className="fa fa-star"></i>
+                                                                    </div> : ""}
+                                                                <div className="product-desc d-inline">
+                                                                    {element.desc.length > 0 ? `${element.desc.slice(0, 45)}...` : ""}
                                                                 </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 ))}

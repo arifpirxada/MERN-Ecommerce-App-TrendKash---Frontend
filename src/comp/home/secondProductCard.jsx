@@ -70,7 +70,7 @@ const SecondProductSlide = (props) => {
                                                                 </div>
                                                             </div>
                                                             <div className="product-body">
-                                                                <h3 className="product-name"><Link to={`/product/${element._id}`}>{element.name}</Link></h3>
+                                                                <h3 className="product-name"><Link onClick={() => { window.scrollTo(0, 140) }} to={`/product/${element._id}`}>{element.name}</Link></h3>
                                                                 <h4 className="product-price d-inline">₹{element.price}
                                                                     <del className="product-old-price" style={{ marginLeft: "3px" }}>{element.oldPrice > 0 ? `₹${element.oldPrice}` : ""}</del>
                                                                 </h4>

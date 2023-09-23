@@ -1,4 +1,4 @@
-import { React, useContext, useEffect } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import EcomContext from "../context/e-com-context";
 
@@ -16,11 +16,42 @@ function Store(props) {
 	// Fetching Starts Here ->
 
 	const { category } = useParams()
-	const { storeData, fetchStoreData, catData } = useContext(EcomContext)
+	const { storeData, fetchStoreData, catData, filterStoreData, sortPriceStoreData } = useContext(EcomContext)
 
 	useEffect(() => {
 		fetchStoreData(category)
 	}, [category])
+
+	// Script for making the category filter work ->
+
+	const [filterCat, setFilterCat] = useState([])
+	const [priceSort, setPriceSort] = useState()
+
+	useEffect(() => {
+		if (filterCat.length > 0 && !priceSort) {
+			filterStoreData(filterCat)
+		} else if (priceSort) {
+			sortPriceStoreData(filterCat, priceSort, category)
+		} else {
+			fetchStoreData(category)
+		}
+	}, [filterCat])
+
+	const updateFilterCat = (e) => {
+		const cat = e.target.parentNode.children[0].id
+		if (e.target.parentNode.children[0].checked) {
+			const updatedFilter = filterCat.filter(item => item !== cat)
+			setFilterCat(updatedFilter)
+		} else {
+			setFilterCat([...filterCat, cat])
+		}
+	}
+
+	// Script for sorting products according to price ->
+
+	useEffect(() => {
+		priceSort && sortPriceStoreData(filterCat, priceSort, category)
+	}, [priceSort])
 
 	return (
 		<>
@@ -40,7 +71,7 @@ function Store(props) {
 									{catData.map((element, i) => (
 										<div key={i} className="input-checkbox">
 											<input type="checkbox" id={element.catName} />
-											<label htmlFor={element.catName}>
+											<label onClick={updateFilterCat} htmlFor={element.catName}>
 												<span></span>
 												{element.catName}
 											</label>
@@ -57,14 +88,14 @@ function Store(props) {
 								<div className="price-filter">
 									<div className="input-checkbox">
 										<input type="radio" name="price-sort" id="high-price" />
-										<label htmlFor="high-price">
+										<label onClick={() => { setPriceSort(-1) }} htmlFor="high-price">
 											<span></span>
 											HIGH TO LOW
 										</label>
 									</div>
 									<div className="input-checkbox">
 										<input type="radio" name="price-sort" id="low-price" />
-										<label htmlFor="low-price">
+										<label onClick={() => { setPriceSort(1) }} htmlFor="low-price">
 											LOW TO HIGH
 										</label>
 									</div>
@@ -73,7 +104,7 @@ function Store(props) {
 							{/* <!-- /aside Widget --> */}
 
 							{/* <!-- aside Widget --> */}
-							<div className="aside aside-none">
+							{/* <div className="aside aside-none">
 								<h3 className="aside-title">Brand</h3>
 								<div className="checkbox-filter">
 									<div className="input-checkbox">
@@ -125,12 +156,12 @@ function Store(props) {
 										</label>
 									</div>
 								</div>
-							</div>
-							<div className="aside aside-none product-details">
+							</div> */}
+							{/* <div className="aside aside-none product-details">
 								<div className="add-to-cart">
 									<button className="add-to-cart-btn apply-filter-btn"><i className="fa fa-shopping-cart"></i> Apply Filters</button>
 								</div>
-							</div>
+							</div> */}
 
 						</div>
 						{/* <!-- /ASIDE --> */}
@@ -176,7 +207,7 @@ function Store(props) {
 											</div>
 										</div>
 										<div className="product-body">
-											<h3 className="product-name"><Link to={`/product/${element._id}`}>{element.name}</Link></h3>
+											<h3 className="product-name"><Link onClick={() => { window.scrollTo(0, 140) }} to={`/product/${element._id}`}>{element.name}</Link></h3>
 											<h4 className="product-price d-inline">₹{element.price}
 												<del className="product-old-price" style={{ marginLeft: "3px" }}>{element.oldPrice && `₹${element.oldPrice}`}</del>
 											</h4>
