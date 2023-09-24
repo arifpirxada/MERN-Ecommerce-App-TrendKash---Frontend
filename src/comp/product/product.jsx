@@ -79,7 +79,7 @@ function Product() {
 
     // For related products -> 
 
-    const { relatedProducts, fetchRelatedProducts } = useContext(EcomContext)
+    const { relatedProducts, fetchRelatedProducts, uid, logged } = useContext(EcomContext)
 
     useEffect(() => {
         if (productData) {
@@ -94,6 +94,55 @@ function Product() {
     const scrollToReviews = () => {
         productTabRef.current.scrollIntoView({ behavior: 'smooth' });
         reviewBtnRef.current.click()
+    }
+
+    // Add Product to cart ->
+
+    const qtyRef = useRef(null)
+
+    const addToCart = async () => {
+        try {
+            if (uid && logged) {
+                const cartData = {
+                    uid: uid,
+                    product: {
+                        pid: id,
+                        name: productData.name,
+                        price: productData.price,
+                        qty: parseInt(qtyRef.current.value)
+                    }
+                }
+
+                const res = await fetch("/api/add-to-cart", {
+                    method: "POST",
+                    body: JSON.stringify(cartData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                const data = await res.json()
+                if (data.message === "Insertion successful") {
+                    document.getElementById("cart-message").innerHTML = "Product added to cart"
+                    setTimeout(() => {
+                        document.getElementById("cart-message").innerHTML = ""
+                    }, 5000);
+                } else {
+                    document.getElementById("cart-message").innerHTML = data.message
+                    setTimeout(() => {
+                        document.getElementById("cart-message").innerHTML = ""
+                    }, 5000);
+                }
+            } else {
+                document.getElementById("top-header").scrollIntoView({ behavior: 'smooth' });
+                document.querySelector(".signupModal").style.display = "flex"
+                document.querySelector(".signup-modal-content").style.marginTop = "-250px"
+                setTimeout(() => {
+                    document.querySelector(".signup-modal-content").style.marginTop = "0px"
+                }, 0);
+            }
+        } catch (e) {
+
+        }
     }
 
     return (
@@ -193,7 +242,7 @@ function Product() {
                                     </label>}
                                     {productData.stock > 0 && <label>
                                         Qty
-                                        <select className="input-select ml-1">
+                                        <select ref={qtyRef} className="input-select ml-1">
                                             <option value={1}>1</option>
                                             {Array.from({ length: productData.stock - 1 }).map((_, index) => (
                                                 <option key={index + 2} value={index + 2}>
@@ -205,10 +254,10 @@ function Product() {
                                 </div>
 
                                 <div className="add-to-cart pro-sale-btn">
-                                    <button className="add-to-cart-btn m-2 r-2"><i className="fa fa-shopping-cart"></i> add to cart</button>
+                                    <button onClick={addToCart} className="add-to-cart-btn m-2 r-2"><i className="fa fa-shopping-cart"></i> add to cart</button>
                                     <button className="add-to-cart-btn m-2 r-2"><i className="fa fa-heart-o"></i> Buy Now</button>
                                 </div>
-
+                                <p id="cart-message" className="f-5 c-red text-center f-16"></p>
                                 <ul className="product-links">
                                     <li>Share:</li>
                                     <li><Link to="#"><i className="fa fa-facebook"></i></Link></li>
@@ -461,14 +510,14 @@ function Product() {
                 <div className="container">
                     {/* <!-- row --> */}
                     <div className="row">
-                        <div>
+                        {relatedProducts && relatedProducts.length > 0 && <div>
                             <div className="section-title text-center">
                                 <h3 className="title">Related Products</h3>
                             </div>
-                        </div>
+                        </div>}
 
                         <Slider {...relatedSettings}>
-                            {relatedProducts && relatedProducts.map((element, i) => (
+                            {relatedProducts && relatedProducts.length > 0 && relatedProducts.map((element, i) => (
                                 <div key={i} className="pro-container">
                                     <div className="product" style={{ marginRight: "10px !important" }}>
                                         <div className="product-img">
