@@ -227,8 +227,8 @@ function Product() {
                                 {/* <!-- product tab nav --> */}
                                 <ul className="tab-nav">
                                     {/* <li className="active"><Link data-toggle="tab" to="#tab1">Description</Link></li> */}
-                                    <li className="active"><Link data-toggle="tab" to="#tab1">Details</Link></li>
-                                    <li><Link ref={reviewBtnRef} id="review-btn" data-toggle="tab" to="#tab3">Reviews ({productData.ratings.length})</Link></li>
+                                    {(productData.details.length > 0 && productData.details[0].key && productData.details[0].value) ? <li className="active"><Link data-toggle="tab" to="#tab1">Details</Link></li> : ""}
+                                    <li className={`${(productData.details.length > 0 && productData.details[0].key && productData.details[0].value) ? "" : "active"}`}><Link ref={reviewBtnRef} id="review-btn" data-toggle="tab" to="#tab3">Reviews ({productData.ratings.length})</Link></li>
                                 </ul>
                                 {/* <!-- /product tab nav --> */}
 
@@ -245,17 +245,30 @@ function Product() {
                                     {/* <!-- /tab1  --> */}
 
                                     {/* <!-- tab2  --> */}
-                                    <div id="tab1" className="tab-pane fade in active">
+                                    {(productData.details.length > 0 && productData.details[0].key && productData.details[0].value) ? <div id="tab1" className="tab-pane fade in active">
                                         <div className="row">
-                                            <div className="col-md-12">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                            </div>
+                                            {/* Detail Table */}
+                                            <table className="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="text-center" colSpan="2" scope="col">Details</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {productData.details.map((element, i) => (
+                                                        <tr key={i}>
+                                                            <td>{element.key}</td>
+                                                            <td>{element.value}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    </div>
+                                    </div> : ""}
                                     {/* <!-- /tab2  --> */}
 
                                     {/* <!-- tab3  --> */}
-                                    <div id="tab3" className="tab-pane fade in">
+                                    <div id="tab3" className={`tab-pane fade in ${(productData.details.length > 0 && productData.details[0].key && productData.details[0].value) ? "" : "active"}`}>
                                         <div className="row">
                                             {/* <!-- Rating --> */}
                                             <div className="col-md-3">
