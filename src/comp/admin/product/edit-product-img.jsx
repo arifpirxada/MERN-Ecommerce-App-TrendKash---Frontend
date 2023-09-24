@@ -28,7 +28,7 @@ function EditProductImages({ fetchProducts }) {
         formData.append("photos", imgFour)
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}update-pro-img`, {
+            const res = await fetch(`/api/update-pro-img`, {
                 method: 'POST',
                 body: formData,
             })

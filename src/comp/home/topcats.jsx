@@ -9,7 +9,7 @@ const Topcats = () => {
 
     // Fetching Header Cats
     const fetchCats = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-head-cat`)
+        const res = await fetch(`/api/read-head-cat`)
         const data = await res.json()
         setCatData(data)
     }
@@ -64,7 +64,7 @@ const Topcats = () => {
                                 <div key={i} className="col-md-3 col-xs-6">
                                     <div className="shop">
                                         <div className="shop-img">
-                                            <img src={`${import.meta.env.VITE_SERVER_URL}read-head-img/${element.catImg}`} alt="" />
+                                            <img src={`/api/read-head-img/${element.catImg}`} alt="" />
                                         </div>
                                         <div className="shop-body">
                                             <h3>{element.catName}<br />Collection</h3>

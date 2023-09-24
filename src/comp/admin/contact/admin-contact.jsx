@@ -8,7 +8,7 @@ function AdminContact() {
 
     // Fetching Contacts
     const fetchContacts = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-contact`)
+        const res = await fetch(`/api/read-contact`)
         const data = await res.json()
         setContactData(data)
     }
@@ -28,7 +28,7 @@ function AdminContact() {
 
         if (e.target.parentNode.children[4].children[0].innerHTML === "Unseen") {
             try {
-                const res = await fetch(`${import.meta.env.VITE_SERVER_URL}update-contact`, {
+                const res = await fetch(`/api/update-contact`, {
                     method: "PATCH",
                     body: JSON.stringify({
                         id: e.target.parentNode.children[0].value,
@@ -59,7 +59,7 @@ function AdminContact() {
             id: e.target.parentNode.children[0].value
         }
 
-        const req = await fetch(`${import.meta.env.VITE_SERVER_URL}delete-contact`, {
+        const req = await fetch(`/api/delete-contact`, {
             method: "DELETE",
             body: JSON.stringify(delContactData),
             headers: {

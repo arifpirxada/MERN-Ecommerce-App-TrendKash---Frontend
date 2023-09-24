@@ -8,7 +8,7 @@ const EcomState = (props) => {
     const [firstSlideData, setFirstSlideData] = useState([])
 
     const fetchFirstSlide = async (cat) => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-cat/${cat}`)
+        const res = await fetch(`/api/read-pro-cat/${cat}`)
         const data = await res.json()
         setFirstSlideData(data)
     }
@@ -18,7 +18,7 @@ const EcomState = (props) => {
     const [secondSlideData, setSecondSlideData] = useState([])
 
     const fetchSecondSlide = async (cat) => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-cat/${cat}`)
+        const res = await fetch(`/api/read-pro-cat/${cat}`)
         const data = await res.json()
         setSecondSlideData(data)
     }
@@ -28,13 +28,13 @@ const EcomState = (props) => {
     const [storeData, setStoreData] = useState([])
 
     const fetchStoreData = async (cat) => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-cat/${cat}`)
+        const res = await fetch(`/api/read-pro-cat/${cat}`)
         const data = await res.json()
         setStoreData(data)
     }
 
     const filterStoreData = async (cat) => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-filter-cat`, {
+        const res = await fetch(`/api/read-pro-filter-cat`, {
             method: "POST",
             body: JSON.stringify({ categories: cat }),
             headers: {
@@ -46,7 +46,7 @@ const EcomState = (props) => {
     }
 
     const sortPriceStoreData = async (cat, priceSort, defaultCategory) => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-sort-price`, {
+        const res = await fetch(`/api/read-pro-sort-price`, {
             method: "POST",
             body: JSON.stringify({ categories: cat, priceSort: priceSort, defaultCat: defaultCategory }),
             headers: {
@@ -63,7 +63,7 @@ const EcomState = (props) => {
 
     // Fetching Header Cats
     const fetchCats = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-admin`)
+        const res = await fetch(`/api/cat-read-admin`)
         const data = await res.json()
         setCatData(data)
     }
@@ -79,7 +79,7 @@ const EcomState = (props) => {
     const [relatedProducts, setRelatedProducts] = useState()
 
     const fetchRelatedProducts = async (cats, id) => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-related`, {
+        const res = await fetch(`/api/read-pro-related`, {
             method: "POST",
             body: JSON.stringify({ categories: cats, id: id }),
             headers: {
@@ -90,8 +90,29 @@ const EcomState = (props) => {
         setRelatedProducts(data)
     }
 
+    // Function to authorize a user ->
+
+    const [logged, setLogged] = useState(false)
+    const [uid, setUid] = useState()
+
+    const authorize = async () => {
+        const res = await fetch("/api/authorization")
+        const data = await res.json()
+        if (data.message === "logged") {
+            setLogged(true)
+            setUid(data.uid)
+        } else {
+            setLogged(false)
+            setUid()
+        }
+    }
+
+    useEffect(() => {
+        authorize()
+    }, [])
+
     return (
-        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData }}>
+        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData, logged, uid , authorize}}>
             {props.children}
         </EcomContext.Provider>
     )

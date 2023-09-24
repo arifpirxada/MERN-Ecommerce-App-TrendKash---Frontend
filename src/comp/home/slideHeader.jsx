@@ -7,7 +7,7 @@ function SlideHeader({ cardTitle, fetchFunc, fetchArg }) {
 
     // Fetching Header Cats
     const fetchCats = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-slide`)
+        const res = await fetch(`/api/cat-read-slide`)
         const data = await res.json()
         setCatData(data)
     }

@@ -143,7 +143,7 @@ function AddProduct({ fetchProducts }) {
         formData.append("oldPrice", oldPrice)
         formData.append("disPercentage", disPercentage)
 
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}create-pro`, {
+        const res = await fetch(`/api/create-pro`, {
             method: 'POST',
             body: formData,
         })
@@ -160,7 +160,7 @@ function AddProduct({ fetchProducts }) {
     const [catData, setCatData] = useState([])
 
     const fetchCats = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-admin`)
+        const res = await fetch(`/api/cat-read-admin`)
         const data = await res.json()
         setCatData(data)
     }

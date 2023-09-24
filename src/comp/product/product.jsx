@@ -1,4 +1,4 @@
-import { React, useEffect, useState, useContext } from "react"
+import { React, useEffect, useState, useContext, useRef } from "react"
 import Slider from "react-slick"
 import { Link, useParams } from "react-router-dom"
 import EcomContext from "../context/e-com-context"
@@ -65,7 +65,7 @@ function Product() {
     const { id } = useParams()
 
     const fetchProductData = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro/${id}`)
+        const res = await fetch(`/api/read-pro/${id}`)
         const data = await res.json()
         setProductData(data)
         if (data.message === "Internal server error") {
@@ -88,9 +88,12 @@ function Product() {
         }
     }, [productData])
 
+    const productTabRef = useRef(null)
+    const reviewBtnRef = useRef(null)
+
     const scrollToReviews = () => {
-        document.getElementById("product-tab").scrollIntoView({ behavior: 'smooth' });
-        document.getElementById("review-btn").click()
+        productTabRef.current.scrollIntoView({ behavior: 'smooth' });
+        reviewBtnRef.current.click()
     }
 
     return (
@@ -106,19 +109,19 @@ function Product() {
                             <div className="img-container" id="product-main-img" >
                                 <Slider {...mainSettings} >
                                     <div className="product-preview">
-                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[0]}`} alt="" />
+                                        <img src={`/api/read-pro-img/${productData.img[0]}`} alt="" />
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[1]}`} alt="" />
+                                        <img src={`/api/read-pro-img/${productData.img[1]}`} alt="" />
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[2]}`} alt="" />
+                                        <img src={`/api/read-pro-img/${productData.img[2]}`} alt="" />
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[3]}`} alt="" />
+                                        <img src={`/api/read-pro-img/${productData.img[3]}`} alt="" />
                                     </div>
                                 </Slider>
                             </div>
@@ -130,19 +133,19 @@ function Product() {
                             <div className="thumb-imgs-container" id="product-imgs" >
                                 <Slider {...settings} >
                                     <div className="product-preview">
-                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[0]}`} alt="" />
+                                        <img src={`/api/read-pro-img/${productData.img[0]}`} alt="" />
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[1]}`} alt="" />
+                                        <img src={`/api/read-pro-img/${productData.img[1]}`} alt="" />
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[2]}`} alt="" />
+                                        <img src={`/api/read-pro-img/${productData.img[2]}`} alt="" />
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[3]}`} alt="" />
+                                        <img src={`/api/read-pro-img/${productData.img[3]}`} alt="" />
                                     </div>
                                 </Slider>
                             </div>
@@ -220,12 +223,12 @@ function Product() {
 
                         {/* <!-- Product tab --> */}
                         <div className="col-md-12">
-                            <div id="product-tab">
+                            <div id="product-tab" ref={productTabRef}>
                                 {/* <!-- product tab nav --> */}
                                 <ul className="tab-nav">
                                     {/* <li className="active"><Link data-toggle="tab" to="#tab1">Description</Link></li> */}
                                     <li className="active"><Link data-toggle="tab" to="#tab1">Details</Link></li>
-                                    <li><Link id="review-btn" data-toggle="tab" to="#tab3">Reviews ({productData.ratings.length})</Link></li>
+                                    <li><Link ref={reviewBtnRef} id="review-btn" data-toggle="tab" to="#tab3">Reviews ({productData.ratings.length})</Link></li>
                                 </ul>
                                 {/* <!-- /product tab nav --> */}
 
@@ -456,7 +459,7 @@ function Product() {
                                 <div key={i} className="pro-container">
                                     <div className="product" style={{ marginRight: "10px !important" }}>
                                         <div className="product-img">
-                                            <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${element.img[0]}`} alt="" />
+                                            <img src={`/api/read-pro-img/${element.img[0]}`} alt="" />
                                             <div className="product-label">
                                                 <span className="sale">-30%</span>
                                                 <span className="new">NEW</span>

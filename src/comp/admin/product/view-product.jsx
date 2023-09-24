@@ -23,10 +23,10 @@ function ViewProduct({ productData }) {
                         <div className="modal-body">
                             {productData && <div className="view-contain">
                                 <div className="d-flex" style={{ flexWrap: "wrap" }}>
-                                    <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[0]}`} className="card-img-top m-2" alt="..." style={{ width: "22rem" }} />
-                                    <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[1]}`} className="card-img-top m-2" alt="..." style={{ width: "22rem" }} />
-                                    <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[2]}`} className="card-img-top m-2" alt="..." style={{ width: "22rem" }} />
-                                    <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${productData.img[3]}`} className="card-img-top m-2" alt="..." style={{ width: "22rem" }} />
+                                    <img src={`/api/read-pro-img/${productData.img[0]}`} className="card-img-top m-2" alt="..." style={{ width: "22rem" }} />
+                                    <img src={`/api/read-pro-img/${productData.img[1]}`} className="card-img-top m-2" alt="..." style={{ width: "22rem" }} />
+                                    <img src={`/api/read-pro-img/${productData.img[2]}`} className="card-img-top m-2" alt="..." style={{ width: "22rem" }} />
+                                    <img src={`/api/read-pro-img/${productData.img[3]}`} className="card-img-top m-2" alt="..." style={{ width: "22rem" }} />
                                 </div>
 
                                 <div className="m-2 pr-view mt-2"><p className="view-head" >_id: </p>{productData._id}</div><hr className="ad-hr" />

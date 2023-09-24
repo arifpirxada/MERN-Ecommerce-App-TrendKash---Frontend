@@ -18,7 +18,7 @@ function AddDeal({fetchDeals}) {
         formData.append("deal-img", img)
         formData.append("name", name)
 
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}create-deal`, {
+        const res = await fetch(`/api/create-deal`, {
             method: 'POST',
             body: formData,
         })

@@ -204,7 +204,7 @@ function Store(props) {
 								{storeData.map((element, i) => (
 									< div key={i} className="product store-product" >
 										<div className="product-img">
-											<img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${element.img[0]}`} alt="" />
+											<img src={`/api/read-pro-img/${element.img[0]}`} alt="" />
 											<div className="product-label">
 												{element.disPercentage && <span className="sale">{`-${element.disPercentage}%`}</span>}
 												<span className="new">NEW</span>

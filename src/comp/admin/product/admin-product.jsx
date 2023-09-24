@@ -11,7 +11,7 @@ function AdminProduct() {
     const [proData, setProData] = useState([])
 
     const fetchProducts = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro-half`)
+        const res = await fetch(`/api/read-pro-half`)
         const data = await res.json()
         setProData(data)
     }
@@ -25,7 +25,7 @@ function AdminProduct() {
     const [productData, setProductData] = useState()
     const openViewModal = async (e) => {
         document.querySelector(".viewProductModal").style.display = "block"
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-pro/${e.target.parentNode.parentNode.children[3].value}`)
+        const res = await fetch(`/api/read-pro/${e.target.parentNode.parentNode.children[3].value}`)
         const data = await res.json()
         setProductData(data)
     }
@@ -44,7 +44,7 @@ function AdminProduct() {
     const delProduct = async (e) => {
         try {
             const delId = e.target.parentNode.parentNode.children[3].value
-            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}delete-pro`, {
+            const res = await fetch(`/api/delete-pro`, {
                 method: "DELETE",
                 body: JSON.stringify({ id: delId }),
                 headers: {
@@ -75,7 +75,7 @@ function AdminProduct() {
                     </div>}
                     {proData.map((element, i) => (
                         <div key={i} className="card cat-admin-card">
-                            <img src={`${import.meta.env.VITE_SERVER_URL}read-pro-img/${element.img[0]}`} className="card-img-top m-2" alt="..." style={{ width: "18rem" }} />
+                            <img src={`/api/read-pro-img/${element.img[0]}`} className="card-img-top m-2" alt="..." style={{ width: "18rem" }} />
                             <div className="card-body my-flex">
                                 <h5 className="card-title">{element.name}</h5>
                                 <p>{element.desc.slice(0, 50)}</p>

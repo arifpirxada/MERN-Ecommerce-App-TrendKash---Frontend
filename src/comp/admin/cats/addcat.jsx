@@ -20,7 +20,7 @@ function AddCat({ fetchCats }) {
             slide: slide
         }
 
-        const req = await fetch(`${import.meta.env.VITE_SERVER_URL}create-cat`, {
+        const req = await fetch(`/api/create-cat`, {
             method: "POST",
             body: JSON.stringify(categoryData),
             headers: {

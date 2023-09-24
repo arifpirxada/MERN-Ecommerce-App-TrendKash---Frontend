@@ -22,7 +22,7 @@ function EditCat({fetchCats}) {
             slideTop: slide
         }
 
-        const req = await fetch(`${import.meta.env.VITE_SERVER_URL}update-cat`, {
+        const req = await fetch(`/api/update-cat`, {
             method: "PATCH",
             body: JSON.stringify(editCategoryData),
             headers: {

@@ -8,7 +8,7 @@ function AdminDeal() {
     const [dealData, setDealData] = useState([])
 
     const fetchDeals = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-deal`)
+        const res = await fetch(`/api/read-deal`)
         const data = await res.json()
         setDealData(data)
     }
@@ -25,7 +25,7 @@ function AdminDeal() {
         const delDealData = {
             id: delId
         }
-        const req = await fetch(`${import.meta.env.VITE_SERVER_URL}delete-deal`, {
+        const req = await fetch(`/api/delete-deal`, {
             method: "DELETE",
             body: JSON.stringify(delDealData),
             headers: {
@@ -48,7 +48,7 @@ function AdminDeal() {
                 <div className="admin-cats-container">
                     {dealData.map((element) => (
                         <div key={element._id} className="card cat-admin-card">
-                            <img src={`${import.meta.env.VITE_SERVER_URL}read-deal-img/${element.img}`} className="card-img-top" alt="..." style={{ width: "18rem" }} />
+                            <img src={`/api/read-deal-img/${element.img}`} className="card-img-top" alt="..." style={{ width: "18rem" }} />
                             <div className="card-body my-flex">
                                 <h5 className="card-title">{element.name}</h5>
                                 <div className="my-flex" style={{ flexDirection: "row" }}>

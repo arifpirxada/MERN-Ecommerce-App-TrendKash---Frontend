@@ -12,7 +12,7 @@ function EditProduct({ fetchProducts, productData, setProductData }) {
     const [catData, setCatData] = useState([])
 
     const fetchCats = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-admin`)
+        const res = await fetch(`/api/cat-read-admin`)
         const data = await res.json()
         setCatData(data)
     }
@@ -174,7 +174,7 @@ function EditProduct({ fetchProducts, productData, setProductData }) {
             oldPrice: oldPrice
         }
 
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}update-pro`, {
+        const res = await fetch(`/api/update-pro`, {
             method: 'PATCH',
             body: JSON.stringify(updateProductData),
             headers: {

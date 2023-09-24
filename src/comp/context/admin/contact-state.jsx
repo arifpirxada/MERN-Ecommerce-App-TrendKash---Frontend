@@ -7,7 +7,7 @@ function ContactState(props) {
 
     const fetchUnseen = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}read-contact-view`)
+            const res = await fetch(`/api/read-contact-view`)
             const data = await res.json()
             setUnseen(data)
         } catch (e) {

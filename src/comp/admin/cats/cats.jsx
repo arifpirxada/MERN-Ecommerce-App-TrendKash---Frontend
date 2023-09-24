@@ -8,7 +8,7 @@ function Cats() {
 
     // Fetching Header Cats
     const fetchCats = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-admin`)
+        const res = await fetch(`/api/cat-read-admin`)
         const data = await res.json()
         setCatData(data)
     }
@@ -46,7 +46,7 @@ function Cats() {
             id: delId
         }
 
-        const req = await fetch(`${import.meta.env.VITE_SERVER_URL}delete-cat`, {
+        const req = await fetch(`/api/delete-cat`, {
             method: "DELETE",
             body: JSON.stringify(delCategoryData),
             headers: {

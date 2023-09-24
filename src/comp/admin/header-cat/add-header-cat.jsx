@@ -12,7 +12,7 @@ function AddHeaderCat({fetchReadCats}) {
 
     // Fetching Header Cats
     const fetchCats = async () => {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}cat-read-admin`)
+        const res = await fetch(`/api/cat-read-admin`)
         const data = await res.json()
         setCatData(data)
     }
@@ -33,7 +33,7 @@ function AddHeaderCat({fetchReadCats}) {
         formData.append("header-img", img)
         formData.append("name", name)
 
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}create-head-cat`, {
+        const res = await fetch(`/api/create-head-cat`, {
             method: 'POST',
             body: formData,
         })
