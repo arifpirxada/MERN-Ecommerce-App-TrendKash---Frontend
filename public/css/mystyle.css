@@ -341,3 +341,25 @@ body {
 .f-16 {
     font-size: 16px;
 }
+
+/* For cart */
+
+.cart-item {
+    margin: 10px !important;
+}
+
+.cart-body {
+    background-color: #fff !important;
+}
+
+.f-wrap {
+    flex-wrap: wrap !important;
+}
+
+.mb-1 {
+    margin-bottom: 5px;
+}
+
+.h-2 {
+    height: 20px !important;
+}

@@ -46,7 +46,7 @@ function Navbar(props) {
     }
 
     // Authorization ->
-    const { logged, uid } = useContext(EcomContext)
+    const { logged, uid, cartData, delCartProduct, totalPrice } = useContext(EcomContext)
 
     // Fetch user Here ->
 
@@ -140,27 +140,32 @@ function Navbar(props) {
                                             >
                                                 <i className="fa fa-shopping-cart" />
                                                 <span>Your Cart</span>
-                                                <div className="qty">3</div>
+                                                <div className="qty">{(cartData && cartData.products.length > 0) ? cartData.products.length : 0}</div>
                                             </Link>
                                             <div className="cart-dropdown">
                                                 <div className="cart-list">
-                                                    <div className="product-widget">
-                                                        <div className="product-img">
-                                                            <img src="./img/product01.png" alt="" />
+                                                    {(cartData && cartData.products.length > 0) ? cartData.products.map((element, i) => (
+                                                        <div key={i} className="product-widget">
+                                                            <div className="product-img">
+                                                                <img src={`/api/read-pro-img/${element.img}`} alt="" />
+                                                            </div>
+                                                            <div className="product-body">
+                                                                <h3 className="product-name">
+                                                                    <Link to={`/product/${element.pid}`}>{element.name}</Link>
+                                                                </h3>
+                                                                <h4 className="product-price">
+                                                                    <span className="qty">{element.qty}x</span>&#x20B9;{element.price}
+                                                                </h4>
+                                                            </div>
+                                                            <button onClick={delCartProduct} data-pid={element.pid} className="delete">
+                                                                <i className="fa fa-close" />
+                                                            </button>
                                                         </div>
-                                                        <div className="product-body">
-                                                            <h3 className="product-name">
-                                                                <Link to="#">product name goes here</Link>
-                                                            </h3>
-                                                            <h4 className="product-price">
-                                                                <span className="qty">1x</span>$980.00
-                                                            </h4>
-                                                        </div>
-                                                        <button className="delete">
-                                                            <i className="fa fa-close" />
-                                                        </button>
-                                                    </div>
-                                                    <div className="product-widget">
+                                                    )) : <h4 className="product-price">
+                                                        No Products Added
+                                                    </h4>}
+
+                                                    {/* <div className="product-widget">
                                                         <div className="product-img">
                                                             <img src="./img/product02.png" alt="" />
                                                         </div>
@@ -175,12 +180,12 @@ function Navbar(props) {
                                                         <button className="delete">
                                                             <i className="fa fa-close" />
                                                         </button>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
-                                                <div className="cart-summary">
-                                                    <small>3 Item(s) selected</small>
-                                                    <h5>SUBTOTAL: $2940.00</h5>
-                                                </div>
+                                                {(cartData && cartData.products.length > 0) ? <div className="cart-summary">
+                                                    <small>{cartData.products.length} Product(s) selected</small>
+                                                    <h5>SUBTOTAL: &#x20B9;{totalPrice && totalPrice}</h5>
+                                                </div> : ""}
                                                 <div className="cart-btns">
                                                     <Link to="/cartrend">View Cart</Link>
                                                     <Link to="/checkoutrend">

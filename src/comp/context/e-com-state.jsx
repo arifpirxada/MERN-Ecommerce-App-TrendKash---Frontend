@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import EcomContext from "./e-com-context";
+import Product from "../product/product";
 
 const EcomState = (props) => {
 
@@ -111,8 +112,95 @@ const EcomState = (props) => {
         authorize()
     }, [])
 
+    // Fetch Cart Products Here ->
+
+    const [cartData, setCartData] = useState()
+    const [totalPrice, setTotalPrice] = useState()
+    const [totalItems, setTotalItems] = useState()
+
+    const fetchCartData = async () => {
+        if (uid && logged) {
+            try {
+                const res = await fetch(`/api/read-cart-data/${uid}`)
+                const data = await res.json()
+                if (data.message !== "No data") {
+                    setCartData(data)
+                    var updatePrice = 0
+                    var updateItems = 0
+                    data.products.forEach(element => {
+                        updatePrice += element.price * element.qty
+                        updateItems += parseInt(element.qty)
+                    })
+                    setTotalPrice(updatePrice)
+                    setTotalItems(updateItems)
+                } else if (data.message === "No data") {
+                    setCartData()
+                }
+            } catch (e) {
+                console.error("cart err", e)
+            }
+        }
+    }
+
+    const updateCartQty = async (e) => {
+        if (uid && logged) {
+            try {
+                const updateData = {
+                    uid: uid,
+                    pid: e.target.getAttribute("data-pid"),
+                    qty: e.target.value
+                }
+                const res = await fetch(`/api/update-cart-qty`, {
+                    method: "PATCH",
+                    body: JSON.stringify(updateData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                const data = await res.json()
+                if (data.message === "Updation successful") {
+                    fetchCartData()
+                } else {
+                    alert(data.message)
+                }
+            } catch (e) {
+                console.error("update qty err")
+            }
+        }
+    }
+
+    const delCartProduct = async (e) => {
+        if (uid && logged) {
+            try {
+                const delData = {
+                    uid: uid,
+                    pid: e.currentTarget.getAttribute("data-pid")
+                }
+                const res = await fetch(`/api/delete-cart-product`, {
+                    method: "DELETE",
+                    body: JSON.stringify(delData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                const data = await res.json()
+                if (data.message === "Deletion successful") {
+                    fetchCartData()
+                } else {
+                    alert(data.message)
+                }
+            } catch (e) {
+                console.error("delete cart product err", e)
+            }
+        }
+    }
+
+    useEffect(() => {
+        fetchCartData()
+    }, [uid])
+
     return (
-        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData, logged, uid , authorize}}>
+        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData, logged, uid, authorize, cartData, fetchCartData, updateCartQty, delCartProduct, totalPrice, totalItems }}>
             {props.children}
         </EcomContext.Provider>
     )

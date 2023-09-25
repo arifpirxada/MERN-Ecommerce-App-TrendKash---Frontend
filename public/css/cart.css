@@ -32,6 +32,8 @@
   padding: 4vh 5vh;
   border-bottom-left-radius: 1rem;
   border-top-left-radius: 1rem;
+  min-height: 478px !important;
+  position: relative;
 }
 
 @media(max-width:767px) {
@@ -90,7 +92,7 @@
 }
 
 .cartLink:hover {
-  color: black;
+  color: #D10024;
   text-decoration: none;
 }
 
@@ -104,7 +106,8 @@
 }
 
 .back-to-shop {
-  margin-top: 4.5rem;
+  position: absolute;
+  bottom: 20px;
 }
 
 .cartH5 {

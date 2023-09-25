@@ -1,7 +1,13 @@
-import React from "react"
+import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import EcomContext from '../context/e-com-context';
 
 function Cart() {
+
+    // Get cart Data ->
+
+    const { cartData, updateCartQty, delCartProduct, totalPrice, totalItems } = useContext(EcomContext)
+
     return (
         <>
             <div className="cart-body">
@@ -13,54 +19,39 @@ function Cart() {
                                     <div className="col">
                                         <h4><b>Shopping Cart</b></h4>
                                     </div>
-                                    <div className="col align-self-center text-right text-muted">3 items</div>
-                                </div>
-                            </div>
-                            <div className="d-flex">
-
-                                <div className="row-cart border-top border-bottom m-1">
-                                    <div className="row-cart main align-items-center">
-                                        <div className="col-2"><img className="cartImg img-fluid" src="https://i.imgur.com/1GrakTl.jpg" /></div>
-                                        <div className="col">
-                                            <div className="row-cart text-muted">Shirt</div>
-                                            <div className="row-cart">Cotton T-shirt</div>
-                                        </div>
-                                        <div className="col">
-                                            <Link className="cartLink" to="#">-</Link><Link to="#" className="border cartLink">1</Link><Link className="cartLink" to="#">+</Link>
-                                        </div>
-                                        <div className="col">&euro; 44.00 <span className="close">&#10005;</span></div>
-                                    </div>
-                                </div>
-                                <div className="row-cart">
-                                    <div className="row-cart main align-items-center m-1">
-                                        <div className="col-2"><img className="cartImg img-fluid" src="https://i.imgur.com/ba3tvGm.jpg" /></div>
-                                        <div className="col">
-                                            <div className="row-cart text-muted">Shirt</div>
-                                            <div className="row-cart">Cotton T-shirt</div>
-                                        </div>
-                                        <div className="col">
-                                            <Link className="cartLink" to="#">-</Link><Link to="#" className="border cartLink">1</Link><Link className="cartLink" to="#">+</Link>
-                                        </div>
-                                        <div className="col">&euro; 44.00 <span className="close">&#10005;</span></div>
-                                    </div>
-                                </div>
-                                <div className="row-cart border-top border-bottom m-1">
-                                    <div className="row-cart main align-items-center">
-                                        <div className="col-2"><img className="cartImg img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg" /></div>
-                                        <div className="col">
-                                            <div className="row-cart text-muted">Shirt</div>
-                                            <div className="row-cart">Cotton T-shirt</div>
-                                        </div>
-                                        <div className="col">
-                                            <Link className="cartLink" to="#">-</Link><Link to="#" className="border cartLink">1</Link><Link className="cartLink" to="#">+</Link>
-                                        </div>
-                                        <div className="col">&euro; 44.00 <span className="close">&#10005;</span></div>
-                                    </div>
+                                    <div className="col align-self-center text-right text-muted">{cartData && `${cartData.products.length} Product(s)`}</div>
                                 </div>
                             </div>
 
-                            <div className="back-to-shop"><Link className="cartLink" to="/">&nbsp;Back to shop</Link>
+                            <div className="d-flex f-wrap">
+                                {(cartData && cartData.products.length > 0) ? cartData.products.map((element, i) => (
+                                    <div key={i} className="row-cart border-top border-bottom m-1">
+                                        <div className="row-cart main align-items-center cart-item">
+                                            <div className="col-2"><img className="cartImg img-fluid" src={`/api/read-pro-img/${element.img}`} /></div>
+                                            <div className="col">
+                                                <Link to={`/product/${element.pid}`}>
+                                                    <div className="row-cart text-muted m-2">{element.name}</div>
+                                                </Link>
+                                            </div>
+                                            <div className="col">
+
+                                                <select defaultValue={element.qty} onChange={updateCartQty} data-pid={element.pid} className="input-select mb-1 h-2">
+                                                    {Array.from({ length: element.stock - 1 }).map((_, index) => (
+                                                        <option key={index + 1} value={index + 1}>
+                                                            {index + 1}
+                                                        </option>
+                                                    ))}
+                                                </select>
+
+                                            </div>
+                                            <div className="col">&#8377; {element.price} <span className="text-muted ml-2 c-pointer" onClick={delCartProduct} data-pid={element.pid}>&#10005;</span></div>
+                                        </div>
+                                    </div>
+                                )) : "No Products Added"}
+
                             </div>
+
+                            <div className="back-to-shop"><Link className="cartLink" onClick={() => { window.scrollTo(0, 0) }} to="/"><i className='fa fa-arrow-left'></i>&nbsp;Back to shop</Link></div>
                         </div>
                         <div className="col-md-4 summary">
                             <div>
@@ -68,8 +59,7 @@ function Cart() {
                             </div>
                             <hr id="cartHr" />
                             <div className="row-cart">
-                                <div className="col" style={{ paddingLeft: 0 }}>ITEMS 3</div>
-                                <div className="col text-right">&euro; 132.00</div>
+                                <div className="col" style={{ paddingLeft: 0 }}>ITEMS {totalItems}</div>
                             </div>
                             <form className="cartForm">
                                 <p>SHIPPING</p>
@@ -79,9 +69,9 @@ function Cart() {
                                 <p>GIVE CODE</p>
                                 <input className="cartInput" id="code" placeholder="Enter your code" />
                             </form>
-                            <div className="row-cart" style={{ borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0" }}>
+                            <div className="row-cart d-flex" style={{ borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0" }}>
                                 <div className="col">TOTAL PRICE</div>
-                                <div className="col text-right">&euro; 137.00</div>
+                                <div className="col text-right">&#x20B9;{totalPrice}</div>
                             </div>
                             <button className="cartBtn primary-btn order-submit">CHECKOUT</button>
                         </div>

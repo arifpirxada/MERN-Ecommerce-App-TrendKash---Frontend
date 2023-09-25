@@ -79,7 +79,7 @@ function Product() {
 
     // For related products -> 
 
-    const { relatedProducts, fetchRelatedProducts, uid, logged } = useContext(EcomContext)
+    const { relatedProducts, fetchRelatedProducts, uid, logged, fetchCartData } = useContext(EcomContext)
 
     useEffect(() => {
         if (productData) {
@@ -101,15 +101,21 @@ function Product() {
     const qtyRef = useRef(null)
 
     const addToCart = async () => {
+        if (!qtyRef.current) {
+            return document.getElementById("cart-message").innerHTML = "Product is not available"
+        }
         try {
+
             if (uid && logged) {
                 const cartData = {
                     uid: uid,
                     product: {
                         pid: id,
                         name: productData.name,
+                        img: productData.img[0],
                         price: productData.price,
-                        qty: parseInt(qtyRef.current.value)
+                        qty: parseInt(qtyRef.current.value),
+                        stock: productData.stock
                     }
                 }
 
@@ -122,6 +128,7 @@ function Product() {
                 })
                 const data = await res.json()
                 if (data.message === "Insertion successful") {
+                    fetchCartData()
                     document.getElementById("cart-message").innerHTML = "Product added to cart"
                     setTimeout(() => {
                         document.getElementById("cart-message").innerHTML = ""
@@ -141,7 +148,7 @@ function Product() {
                 }, 0);
             }
         } catch (e) {
-
+            document.getElementById("cart-message").innerHTML = "Some error occured! please try later"
         }
     }
 
