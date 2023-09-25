@@ -9,7 +9,7 @@ function UserProfile({ openSignModal, userData }) {
         document.querySelector(".userProfileModal").style.display = "none"
     }
 
-    const { logged, authorize } = useContext(EcomContext)
+    const { logged, authorize, setCartData } = useContext(EcomContext)
 
     // Logout User ->
 
@@ -17,6 +17,7 @@ function UserProfile({ openSignModal, userData }) {
         const res = await fetch("/api/logout")
         const data = await res.json()
         if (data.message === "Logout successful") {
+            setCartData()
             closeModal()
             authorize()
         } else {

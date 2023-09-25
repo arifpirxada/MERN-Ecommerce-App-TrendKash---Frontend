@@ -200,7 +200,7 @@ const EcomState = (props) => {
     }, [uid])
 
     return (
-        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData, logged, uid, authorize, cartData, fetchCartData, updateCartQty, delCartProduct, totalPrice, totalItems }}>
+        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData, logged, uid, authorize, cartData, fetchCartData, updateCartQty, delCartProduct, totalPrice, totalItems, setCartData }}>
             {props.children}
         </EcomContext.Provider>
     )

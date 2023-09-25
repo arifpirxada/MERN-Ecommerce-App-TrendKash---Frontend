@@ -7,6 +7,7 @@ function AddCat({ fetchCats }) {
         const name = document.getElementById("catname").value
         var navigation = 0
         var slide = 0
+        var groupSlider = 0
         if (document.getElementById("navigation").checked) {
             navigation = 1
         }
@@ -14,10 +15,15 @@ function AddCat({ fetchCats }) {
             slide = 1
         }
 
+        if (document.getElementById("group-slider").checked) {
+            groupSlider = 1
+        }
+
         const categoryData = {
             name: name,
             navi: navigation,
-            slide: slide
+            slide: slide,
+            groupSlider: groupSlider
         }
 
         const req = await fetch(`/api/create-cat`, {
@@ -34,14 +40,6 @@ function AddCat({ fetchCats }) {
             fetchCats()
         }
     }
-
-    // useEffect(() => {
-    //     if (document.querySelector(".addCatModal") !== null) {
-    //         document.querySelector(".firstNav").addEventListener("click", () => {
-    //             document.querySelector(".addCatModal").style.display = "block"
-    //         })
-    //     }
-    // }, [])
 
     const closeModal = () => {
         document.querySelector(".addCatModal").style.display = "none"
@@ -69,6 +67,10 @@ function AddCat({ fetchCats }) {
                                 <div className="m-2 form-check">
                                     <input type="checkbox" className="form-check-input" id="slide" />
                                     <label className="form-check-label m-2" htmlFor="slide">Keep on slide</label>
+                                </div>
+                                <div className="m-2 form-check">
+                                    <input type="checkbox" className="form-check-input" id="group-slider" />
+                                    <label className="form-check-label m-2" htmlFor="group-slider">Keep products in group slider</label>
                                 </div>
                             </div>
                             <p id="catMesBox"></p>

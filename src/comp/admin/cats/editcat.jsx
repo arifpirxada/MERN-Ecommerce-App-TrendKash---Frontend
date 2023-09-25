@@ -7,6 +7,7 @@ function EditCat({fetchCats}) {
         const editCatName =  document.getElementById("edit-catname").value
         var navigation = 0
         var slide = 0
+        var groupSlider = 0
 
         if (document.getElementById("edit-navigation").checked) {
             navigation = 1
@@ -15,11 +16,16 @@ function EditCat({fetchCats}) {
             slide = 1
         }
 
+        if (document.getElementById("edit-group-slider").checked) {
+            groupSlider = 1
+        }
+
         const editCategoryData = {
             id: catId,
             catName: editCatName,
             navigation: navigation,
-            slideTop: slide
+            slideTop: slide,
+            groupSlider: groupSlider
         }
 
         const req = await fetch(`/api/update-cat`, {
@@ -63,6 +69,10 @@ function EditCat({fetchCats}) {
                                 <div className="m-2 form-check">
                                     <input type="checkbox" className="form-check-input" id="edit-slide" />
                                     <label className="form-check-label m-2" htmlFor="edit-slide">Keep on slide</label>
+                                </div>
+                                <div className="m-2 form-check">
+                                    <input type="checkbox" className="form-check-input" id="edit-group-slider" />
+                                    <label className="form-check-label m-2" htmlFor="edit-group-slider">Keep products in group slider</label>
                                 </div>
                             </div>
                             <input type="hidden" id="edit-cat-id" />

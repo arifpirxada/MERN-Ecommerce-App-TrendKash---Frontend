@@ -35,6 +35,11 @@ function Cats() {
         } else {
             document.getElementById("edit-slide").checked = false
         }
+        if (editArr[4].innerHTML.slice(14) === "Yes") {
+            document.getElementById("edit-group-slider").checked = true
+        } else {
+            document.getElementById("edit-group-slider").checked = false
+        }
     }
 
     // Function to delete Categories
@@ -75,6 +80,7 @@ function Cats() {
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Id: {element._id}</h6>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Navigation: {element.navigation === 1 ? "Yes" : "No"}</h6>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Slide: {element.slideTop === 1 ? "Yes" : "No"}</h6>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Group slider: {element.groupSlider === 1 ? "Yes" : "No"}</h6>
                                 <button onClick={openEditModal} className="btn btn-primary card-link cat-admin-link m-2 r-2">Edit</button>
                                 <button onClick={deleteCategory} className="btn btn-danger card-link cat-admin-link m-2 r-2">Delete</button>
                             </div>
