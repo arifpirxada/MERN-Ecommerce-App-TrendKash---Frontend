@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
+import Slider from "react-slick"
 
 function HotDeal(props) {
 
@@ -23,8 +24,10 @@ function HotDeal(props) {
 
     // Get difference of deal ending date and now ->
 
-    var timeInterval;
+    const [countdown, setCountdown] = useState()
 
+    var timeInterval;
+    const updateCount = []
     const dateDiff = async (index, endDt, delId) => {
         const now = new Date()
         const endDate = new Date(endDt)
@@ -40,7 +43,7 @@ function HotDeal(props) {
                     }
                 })
                 const res = await req.json()
-                
+
                 if (res.message === "Deletion successful") {
                     fetchDeal()
                     clearInterval(timeInterval)
@@ -58,10 +61,13 @@ function HotDeal(props) {
         const minutes = Math.floor((diff / 60) % 60)
         const seconds = Math.floor(diff % 60)
 
-        document.getElementById(`days${index}`).innerHTML = days
-        document.getElementById(`hours${index}`).innerHTML = hours
-        document.getElementById(`minutes${index}`).innerHTML = minutes
-        document.getElementById(`seconds${index}`).innerHTML = seconds
+        updateCount[index] = {
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        }
+        setCountdown([...updateCount])
     }
 
     useEffect(() => {
@@ -74,54 +80,86 @@ function HotDeal(props) {
         }
     }, [dealData])
 
+    // Slider Script ->
+
+    const [infinite, setInfinite] = useState(false)
+
+    useEffect(() => {
+        if (dealData) {
+            if (dealData.length >= 2) {
+                setInfinite(true)
+            } else {
+                setInfinite(false)
+            }
+        }
+    }, [dealData])
+
+    const settings = {
+        dots: false,
+        infinite: infinite,
+        speed: 700,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        arrows: true
+    }
+
 
     return (
         <>
-            {dealData && dealData.map((element, i) => (
-                <div key={i} id="hot-deal" style={{
-                    backgroundImage: `URL(/api/read-deal-img/${element.img}`, backgroundSize: "cover", backgroundPosition: "center center",
-                    backgroundRepeat: "no-repeat"
-                }} className="section">
-                    <div className="container">
-                        <div style={{ marginRight: "0px" }} className="row">
-                            <div className="col-md-12">
-                                <div className="hot-deal">
-                                    <ul className="hot-deal-countdown">
-                                        <li>
-                                            <div>
-                                                <h3 id={`days${i}`}>02</h3>
-                                                <span>Days</span>
+
+            {(dealData && countdown) ?
+                <Slider {...settings}>
+                    {dealData.map((element, i) => (
+                        <div key={i}>
+                 
+                            <div id="hot-deal" style={{
+                                backgroundImage: `URL(/api/read-deal-img/${encodeURIComponent(element.img)}`, backgroundSize: "cover", backgroundPosition: "center center",
+                                backgroundRepeat: "no-repeat"
+                            }} className="section">
+                                <div className="container">
+                                    <div style={{ marginRight: "0px" }} className="row">
+                                        <div className="col-md-12">
+                                            <div className="hot-deal">
+                                                <ul className="hot-deal-countdown">
+                                                    <li>
+                                                        <div>
+                                                            <h3 id={`days${i}`}>{countdown[i].days}</h3>
+                                                            <span>Days</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div>
+                                                            <h3 id={`hours${i}`}>{countdown[i].hours}</h3>
+                                                            <span>Hours</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div>
+                                                            <h3 id={`minutes${i}`}>{countdown[i].minutes}</h3>
+                                                            <span>Mins</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div>
+                                                            <h3 id={`seconds${i}`}>{countdown && countdown[i].seconds}</h3>
+                                                            <span>Secs</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <h2 className="text-uppercase">{element.name}</h2>
+                                                <p>{element.offer}</p>
+                                                <Link className="primary-btn cta-btn" onClick={() => { document.getElementById("top-header").scrollIntoView({ behavior: "smooth" }) }} to={`/store/${element.cat}`}>Shop now</Link>
                                             </div>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <h3 id={`hours${i}`}>10</h3>
-                                                <span>Hours</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <h3 id={`minutes${i}`}>34</h3>
-                                                <span>Mins</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <h3 id={`seconds${i}`}>60</h3>
-                                                <span>Secs</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <h2 className="text-uppercase">{element.name}</h2>
-                                    <p>{element.offer}</p>
-                                    <Link className="primary-btn cta-btn" onClick={() => { document.getElementById("top-header").scrollIntoView({ behavior: "smooth" }) }} to={`/store/${element.cat}`}>Shop now</Link>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    {/* {dealData && <img src={`/api/read-deal-img/${dealData[0].img}`} id="hot-deal-img" alt="deal image" />} */}
-                </div>
-            ))}
+                        </div >
+                    ))}
+                </Slider > : "Loading..."
+
+            }
 
         </>
     )
