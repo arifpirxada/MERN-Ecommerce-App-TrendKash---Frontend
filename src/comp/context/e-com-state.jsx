@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import EcomContext from "./e-com-context";
-import Product from "../product/product";
 
 const EcomState = (props) => {
 

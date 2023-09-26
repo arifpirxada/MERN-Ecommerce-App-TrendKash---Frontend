@@ -371,3 +371,27 @@ body {
 #hot-deal-img {
     width: 100vw;
 }
+
+.del-review {
+    position: absolute;
+    top: 0px;
+    right: 8px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.tooltip-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 2%;
+    z-index: 1;
+    bottom: 100%;
+    right: 0px;
+}
+
+.tooltip-trigger:hover + .tooltip-content {
+    display: block;
+}
