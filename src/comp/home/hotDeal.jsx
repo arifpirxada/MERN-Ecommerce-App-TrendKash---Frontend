@@ -23,12 +23,35 @@ function HotDeal(props) {
 
     // Get difference of deal ending date and now ->
 
-    const dateDiff = (index, endDt) => {
+    var timeInterval;
+
+    const dateDiff = async (index, endDt, delId) => {
         const now = new Date()
         const endDate = new Date(endDt)
         const diff = (endDate - now) / 1000
 
-        if (diff < 0) return
+        if (diff < 0) {
+            try {
+                const req = await fetch(`/api/delete-deal`, {
+                    method: "DELETE",
+                    body: JSON.stringify({ id: delId }),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                const res = await req.json()
+                
+                if (res.message === "Deletion successful") {
+                    fetchDeal()
+                    clearInterval(timeInterval)
+                } else {
+                    console.error(data.message)
+                }
+            } catch (e) {
+                console.error("Error deleting deal")
+            }
+            return
+        }
 
         const days = Math.floor(diff / (3600 * 24))
         const hours = Math.floor(diff / 3600 % 24)
@@ -43,9 +66,9 @@ function HotDeal(props) {
 
     useEffect(() => {
         if (dealData) {
-            setInterval(() => {
+            timeInterval = setInterval(() => {
                 dealData.map((element, i) => {
-                    dateDiff(i, element.endDate)
+                    dateDiff(i, element.endDate, element._id)
                 })
             }, 1000);
         }

@@ -97,6 +97,7 @@ function AddDeal({ fetchDeals }) {
                                 <div className="mb-3">
                                     <label htmlFor="dealCat" className="form-label mt-2">Product Category</label>
                                     <select type="text" className="form-control" id="dealCat" >
+                                        <option value="">Select Category</option>
                                         {catData && catData.map((element, i) => (
                                             <option key={i} value={element.catName}>{element.catName}</option>
                                         ))}
