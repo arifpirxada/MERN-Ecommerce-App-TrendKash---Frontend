@@ -363,3 +363,11 @@ body {
 .h-2 {
     height: 20px !important;
 }
+
+.h-fit {
+    height: fit-content !important;
+}
+
+#hot-deal-img {
+    width: 100vw;
+}

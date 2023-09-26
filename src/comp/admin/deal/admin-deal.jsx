@@ -47,10 +47,12 @@ function AdminDeal() {
             <div className="container keep-aside cat-contain">
                 <div className="admin-cats-container">
                     {dealData.map((element) => (
-                        <div key={element._id} className="card cat-admin-card">
-                            <img src={`/api/read-deal-img/${element.img}`} className="card-img-top" alt="..." style={{ width: "18rem" }} />
+                        <div key={element._id} style={{width: "30rem"}} className="card cat-admin-card h-fit">
+                            <img src={`/api/read-deal-img/${element.img}`} className="card-img-top" alt="..." style={{ width: "27rem" }} />
                             <div className="card-body my-flex">
-                                <h5 className="card-title">{element.name}</h5>
+                                <h5 className="card-title text-muted mt-2">{element.name}</h5>
+                                <p className="card-desc">{element.offer}</p>
+                                <p className="card-desc">{element.endDate && `Ending Date: ${element.endDate}`}</p>
                                 <div className="my-flex" style={{ flexDirection: "row" }}>
                                     <input type="hidden" value={element._id} />
                                     <button onClick={delDeal} className="btn btn-danger m-2">Delete</button>

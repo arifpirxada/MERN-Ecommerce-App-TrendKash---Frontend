@@ -1,47 +1,105 @@
-import React from "react";
+import { useEffect, useState } from "react"
+import { Link } from 'react-router-dom'
 
 function HotDeal(props) {
+
+    // Fetch Deals ->
+
+    const [dealData, setDealData] = useState()
+
+    const fetchDeal = async () => {
+        try {
+            const res = await fetch("/api/read-deal")
+            const data = await res.json()
+            setDealData(data)
+        } catch (e) {
+            console.error("Deal fetch Error")
+        }
+    }
+
+    useEffect(() => {
+        fetchDeal()
+    }, [])
+
+    // Get difference of deal ending date and now ->
+
+    const dateDiff = (index, endDt) => {
+        const now = new Date()
+        const endDate = new Date(endDt)
+        const diff = (endDate - now) / 1000
+
+        if (diff < 0) return
+
+        const days = Math.floor(diff / (3600 * 24))
+        const hours = Math.floor(diff / 3600 % 24)
+        const minutes = Math.floor((diff / 60) % 60)
+        const seconds = Math.floor(diff % 60)
+
+        document.getElementById(`days${index}`).innerHTML = days
+        document.getElementById(`hours${index}`).innerHTML = hours
+        document.getElementById(`minutes${index}`).innerHTML = minutes
+        document.getElementById(`seconds${index}`).innerHTML = seconds
+    }
+
+    useEffect(() => {
+        if (dealData) {
+            setInterval(() => {
+                dealData.map((element, i) => {
+                    dateDiff(i, element.endDate)
+                })
+            }, 1000);
+        }
+    }, [dealData])
+
+
     return (
         <>
-            <div id="hot-deal" className="section">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="hot-deal">
-                                <ul className="hot-deal-countdown">
-                                    <li>
-                                        <div>
-                                            <h3>02</h3>
-                                            <span>Days</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <h3>10</h3>
-                                            <span>Hours</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <h3>34</h3>
-                                            <span>Mins</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <h3>60</h3>
-                                            <span>Secs</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <h2 className="text-uppercase">hot deal this week</h2>
-                                <p>New Collection Up to 50% OFF</p>
-                                <a className="primary-btn cta-btn" href="#">Shop now</a>
+            {dealData && dealData.map((element, i) => (
+                <div key={i} id="hot-deal" style={{
+                    backgroundImage: `URL(/api/read-deal-img/${element.img}`, backgroundSize: "cover", backgroundPosition: "center center",
+                    backgroundRepeat: "no-repeat"
+                }} className="section">
+                    <div className="container">
+                        <div style={{ marginRight: "0px" }} className="row">
+                            <div className="col-md-12">
+                                <div className="hot-deal">
+                                    <ul className="hot-deal-countdown">
+                                        <li>
+                                            <div>
+                                                <h3 id={`days${i}`}>02</h3>
+                                                <span>Days</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <h3 id={`hours${i}`}>10</h3>
+                                                <span>Hours</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <h3 id={`minutes${i}`}>34</h3>
+                                                <span>Mins</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <h3 id={`seconds${i}`}>60</h3>
+                                                <span>Secs</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <h2 className="text-uppercase">{element.name}</h2>
+                                    <p>{element.offer}</p>
+                                    <Link className="primary-btn cta-btn" onClick={() => { document.getElementById("top-header").scrollIntoView({ behavior: "smooth" }) }} to={`/store/${element.cat}`}>Shop now</Link>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {/* {dealData && <img src={`/api/read-deal-img/${dealData[0].img}`} id="hot-deal-img" alt="deal image" />} */}
                 </div>
-            </div>
+            ))}
+
         </>
     )
 }
