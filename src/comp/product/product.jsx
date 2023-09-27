@@ -293,6 +293,39 @@ function Product() {
         }
     }
 
+    // Get Average Rating and Rating by number ->
+
+    const [avgRating, setAvgRating] = useState()
+    const [numRating, setNumRating] = useState()
+
+    const calcRating = () => {
+        if (productData) {
+            var rateArr = 0
+            var numArr = [0, 0, 0, 0, 0]
+            productData.ratings.map((element) => {
+                rateArr += parseInt(element.rating)
+                if (element.rating === "1") {
+                    numArr[0] += 1
+                } else if (element.rating === "2") {
+                    numArr[1] += 1
+                } else if (element.rating === "3") {
+                    numArr[2] += 1
+                } else if (element.rating === "4") {
+                    numArr[3] += 1
+                } else {
+                    numArr[4] += 1
+                }
+            })
+            const avg = Math.round(rateArr / productData.ratings.length * 10)
+            setAvgRating(avg/10)
+            setNumRating(numArr)
+        }
+    }
+
+    useEffect(() => {
+        calcRating()
+    }, [productData])
+
 
     return (
         <>
@@ -593,17 +626,17 @@ function Product() {
                                                 { productData.ratings.length > 0 ? (
                                                     <div className="col-md-3">
                                                         <div id="rating">
-                                                            <div className="rating-avg">
-                                                                <span>4.5</span>
+                                                            { avgRating && <div className="rating-avg">
+                                                                <span>{ avgRating }</span>
                                                                 <div className="rating-stars">
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star-o"></i>
+                                                                    <i className={ `fa fa-star${parseInt(avgRating) > 0 ? "" : "-o"}` }></i>
+                                                                    <i className={ `fa fa-star${parseInt(avgRating) > 1 ? "" : "-o"}` }></i>
+                                                                    <i className={ `fa fa-star${parseInt(avgRating) > 2 ? "" : "-o"}` }></i>
+                                                                    <i className={ `fa fa-star${parseInt(avgRating) > 3 ? "" : "-o"}` }></i>
+                                                                    <i className={ `fa fa-star${parseInt(avgRating) > 4 ? "" : "-o"}` }></i>
                                                                 </div>
-                                                            </div>
-                                                            <ul className="rating">
+                                                            </div> }
+                                                            { numRating && <ul className="rating">
                                                                 <li>
                                                                     <div className="rating-stars">
                                                                         <i className="fa fa-star"></i>
@@ -613,9 +646,9 @@ function Product() {
                                                                         <i className="fa fa-star"></i>
                                                                     </div>
                                                                     <div className="rating-progress">
-                                                                        <div style={ { width: "80%" } }></div>
+                                                                        <div style={ { width: `${Math.round((numRating[4] / productData.ratings.length) * 100)}%` } }></div>
                                                                     </div>
-                                                                    <span className="sum">3</span>
+                                                                    <span className="sum">{ numRating[4] }</span>
                                                                 </li>
                                                                 <li>
                                                                     <div className="rating-stars">
@@ -626,9 +659,9 @@ function Product() {
                                                                         <i className="fa fa-star-o"></i>
                                                                     </div>
                                                                     <div className="rating-progress">
-                                                                        <div style={ { width: "60%" } }></div>
+                                                                        <div style={ { width: `${Math.round((numRating[3] / productData.ratings.length) * 100)}%` } }></div>
                                                                     </div>
-                                                                    <span className="sum">2</span>
+                                                                    <span className="sum">{ numRating[3] }</span>
                                                                 </li>
                                                                 <li>
                                                                     <div className="rating-stars">
@@ -639,9 +672,9 @@ function Product() {
                                                                         <i className="fa fa-star-o"></i>
                                                                     </div>
                                                                     <div className="rating-progress">
-                                                                        <div></div>
+                                                                        <div style={ { width: `${Math.round((numRating[2] / productData.ratings.length) * 100)}%` } }></div>
                                                                     </div>
-                                                                    <span className="sum">0</span>
+                                                                    <span className="sum">{ numRating[2] }</span>
                                                                 </li>
                                                                 <li>
                                                                     <div className="rating-stars">
@@ -652,9 +685,9 @@ function Product() {
                                                                         <i className="fa fa-star-o"></i>
                                                                     </div>
                                                                     <div className="rating-progress">
-                                                                        <div></div>
+                                                                        <div style={ { width: `${Math.round((numRating[1] / productData.ratings.length) * 100)}%` } }></div>
                                                                     </div>
-                                                                    <span className="sum">0</span>
+                                                                    <span className="sum">{ numRating[1] }</span>
                                                                 </li>
                                                                 <li>
                                                                     <div className="rating-stars">
@@ -665,11 +698,11 @@ function Product() {
                                                                         <i className="fa fa-star-o"></i>
                                                                     </div>
                                                                     <div className="rating-progress">
-                                                                        <div></div>
+                                                                        <div style={ { width: `${Math.round((numRating[0] / productData.ratings.length) * 100)}%` } }></div>
                                                                     </div>
-                                                                    <span className="sum">0</span>
+                                                                    <span className="sum">{ numRating[0] }</span>
                                                                 </li>
-                                                            </ul>
+                                                            </ul> }
                                                         </div>
                                                     </div>
                                                 ) : (
