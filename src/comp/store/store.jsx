@@ -17,7 +17,7 @@ function Store(props) {
 
 	const { category } = useParams()
 	const [priceSort, setPriceSort] = useState()
-	const { storeData, fetchStoreData, catData, filterStoreData, sortPriceStoreData } = useContext(EcomContext)
+	const { storeData, fetchStoreData, catData, filterStoreData, sortPriceStoreData, calcAvgRating } = useContext(EcomContext)
 
 	useEffect(() => {
 		if (!priceSort) {
@@ -105,67 +105,6 @@ function Store(props) {
 									</div>
 								</div>
 							</div>
-							{/* <!-- /aside Widget --> */}
-
-							{/* <!-- aside Widget --> */}
-							{/* <div className="aside aside-none">
-								<h3 className="aside-title">Brand</h3>
-								<div className="checkbox-filter">
-									<div className="input-checkbox">
-										<input type="checkbox" id="brand-1" />
-										<label htmlFor="brand-1">
-											<span></span>
-											SAMSUNG
-											<small>(578)</small>
-										</label>
-									</div>
-									<div className="input-checkbox">
-										<input type="checkbox" id="brand-2" />
-										<label htmlFor="brand-2">
-											<span></span>
-											LG
-											<small>(125)</small>
-										</label>
-									</div>
-									<div className="input-checkbox">
-										<input type="checkbox" id="brand-3" />
-										<label htmlFor="brand-3">
-											<span></span>
-											SONY
-											<small>(755)</small>
-										</label>
-									</div>
-									<div className="input-checkbox">
-										<input type="checkbox" id="brand-4" />
-										<label htmlFor="brand-4">
-											<span></span>
-											SAMSUNG
-											<small>(578)</small>
-										</label>
-									</div>
-									<div className="input-checkbox">
-										<input type="checkbox" id="brand-5" />
-										<label htmlFor="brand-5">
-											<span></span>
-											LG
-											<small>(125)</small>
-										</label>
-									</div>
-									<div className="input-checkbox">
-										<input type="checkbox" id="brand-6" />
-										<label htmlFor="brand-6">
-											<span></span>
-											SONY
-											<small>(755)</small>
-										</label>
-									</div>
-								</div>
-							</div> */}
-							{/* <div className="aside aside-none product-details">
-								<div className="add-to-cart">
-									<button className="add-to-cart-btn apply-filter-btn"><i className="fa fa-shopping-cart"></i> Apply Filters</button>
-								</div>
-							</div> */}
 
 						</div>
 						{/* <!-- /ASIDE --> */}
@@ -216,7 +155,8 @@ function Store(props) {
 												<del className="product-old-price" style={{ marginLeft: "3px" }}>{element.oldPrice && `₹${element.oldPrice}`}</del>
 											</h4>
 											{(element.ratings.length > 0) ?
-												<div className="product-rating d-inline">
+												<div className="product-rating">
+													<p className="d-inline f-5 mr-1">{calcAvgRating(element.ratings)}</p>
 													<i className="fa fa-star"></i>
 													<i className="fa fa-star"></i>
 													<i className="fa fa-star"></i>

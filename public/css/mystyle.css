@@ -375,23 +375,35 @@ body {
 .del-review {
     position: absolute;
     top: 0px;
-    right: 8px;
+    right: 15px;
     font-weight: 700;
     font-size: 20px;
 }
 
 .tooltip-content {
-    display: none;
     position: absolute;
     background-color: #333;
     color: #fff;
     padding: 5px;
     border-radius: 2%;
     z-index: 1;
-    bottom: 100%;
-    right: 0px;
+    bottom: 46%;
+    right: 18px;
+    cursor: pointer;
 }
 
-.tooltip-trigger:hover + .tooltip-content {
-    display: block;
+.tooltip-content:hover {
+    background-color: #4f4b4b;
+}
+
+.d-none {
+    display: none;
+}
+
+.mr-1 {
+    margin-right: 5px !important;
+}
+
+.mr-2 {
+    margin-right: 25px !important;
 }

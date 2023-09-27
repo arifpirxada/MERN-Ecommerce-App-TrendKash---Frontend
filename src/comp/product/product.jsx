@@ -78,7 +78,7 @@ function Product() {
   }, [id]);
 
   // For related products ->
-  const { relatedProducts, fetchRelatedProducts, uid, logged, fetchCartData } = useContext(EcomContext);
+  const { relatedProducts, fetchRelatedProducts, uid, logged, fetchCartDat, calcAvgRating } = useContext(EcomContext);
 
   useEffect(() => {
     if (productData) {
@@ -415,11 +415,11 @@ function Product() {
                   <div>
                     { productData.ratings.length > 0 ? (
                       <div className="product-rating">
-                        <i className="fa fa-star"></i>
-                        <i className="fa fa-star"></i>
-                        <i className="fa fa-star"></i>
-                        <i className="fa fa-star"></i>
-                        <i className="fa fa-star-o"></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) > 0 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) > 1 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) > 2 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) > 3 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) > 4 ? "" : "-o"}` }></i>
                       </div>
                     ) : (
                       ""
@@ -716,9 +716,9 @@ function Product() {
                           { productData.ratings.length > 0 ? (
                             <div id="reviews">
                               <ul className="reviews">
-                                { productData.ratings.map((element, i) => (
+                                { productData.ratings.map((element, i) => (//&#10005;
                                   <li key={ i }>
-                                    { uid && uid === element.uid ? <><span onClick={ () => { delReview(element.review) } } className="text-muted del-review c-pointer tooltip-trigger" data-pid={ "wait" }>&#10005;</span><div className="tooltip-content">Delete Review</div></> : "" }
+                                    { uid && uid === element.uid ? <><span onClick={ (e) => { e.target.parentNode.querySelector(".tooltip-content").classList.toggle("d-none") } } className="text-muted del-review c-pointer tooltip-trigger" >&#8942;</span><div onClick={ () => { delReview(element.review) } } className="tooltip-content d-none">Delete Review</div></> : "" }
                                     <div className="review-heading">
                                       <h5 className="name">{ element.name }</h5>
                                       <p className="date">
@@ -732,43 +732,11 @@ function Product() {
                                         <i className={ `fa fa-star${parseInt(element.rating) > 4 ? "" : "-o"}` }></i>
                                       </div>
                                     </div>
-                                    <div className="review-body">
+                                    <div className="review-body mr-2">
                                       <p>{ element.review }</p>
                                     </div>
                                   </li>
                                 )) }
-                                {/* <li>
-                                                            <div className="review-heading">
-                                                                <h5 className="name">John</h5>
-                                                                <p className="date">27 DEC 2018, 8:0 PM</p>
-                                                                <div className="review-rating">
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star-o empty"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div className="review-body">
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                            </div>
-                                                        </li> */}
-                                {/* <li>
-                                                            <div className="review-heading">
-                                                                <h5 className="name">John</h5>
-                                                                <p className="date">27 DEC 2018, 8:0 PM</p>
-                                                                <div className="review-rating">
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star"></i>
-                                                                    <i className="fa fa-star-o empty"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div className="review-body">
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                            </div>
-                                                        </li> */}
                               </ul>
                               <ul className="reviews-pagination">
                                 <li className="active">1</li>
@@ -942,7 +910,8 @@ function Product() {
                           </del>
                         </h4>
                         { element.ratings.length > 0 ? (
-                          <div className="product-rating d-inline">
+                          <div className="product-rating">
+                            <p className="d-inline f-5 mr-1">{ calcAvgRating(element.ratings) }</p>
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>

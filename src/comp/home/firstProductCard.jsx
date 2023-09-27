@@ -33,7 +33,7 @@ const FirstProductCard = (props) => {
         ]
     }
 
-    const { firstSlideData, fetchFirstSlide } = useContext(EcomContext)
+    const { firstSlideData, fetchFirstSlide, calcAvgRating } = useContext(EcomContext)
 
     useEffect(() => {
         if (firstSlideData.length >= 5) {
@@ -45,64 +45,65 @@ const FirstProductCard = (props) => {
 
     return (
         <>
-            <SlideHeader cardTitle="New Products" fetchFunc={fetchFirstSlide} fetchArg={"FirstTop"} />
+            <SlideHeader cardTitle="New Products" fetchFunc={ fetchFirstSlide } fetchArg={ "FirstTop" } />
             <div className="section pro-section">
                 <div className="container">
                     <div className="row">
 
-                        {/* <!-- Products tab & slick --> */}
+                        {/* <!-- Products tab & slick --> */ }
                         <div className="col-md-12">
                             <div className="row">
                                 <div className="products-tabs">
-                                    {/* <!-- tab --> */}
+                                    {/* <!-- tab --> */ }
                                     <div id="tab1 firstSlide" className="tab-pane active">
                                         <div className="products-slick slide-container" data-nav="#slick-nav-1">
-                                            <Slider {...settings}>
-                                                {/* <!-- product --> */}
-                                                {firstSlideData.map((element, i) => (
-                                                    <div key={i} className="pro-container">
-                                                        <div className="product" style={{ marginRight: "10px !important" }}>
+                                            <Slider { ...settings }>
+                                                {/* <!-- product --> */ }
+                                                { firstSlideData.map((element, i) => (
+                                                    <div key={ i } className="pro-container">
+                                                        <div className="product" style={ { marginRight: "10px !important" } }>
                                                             <div className="product-img">
-                                                                <img src={`/api/read-pro-img/${element.img[0]}`} alt="" />
+                                                                <img src={ `/api/read-pro-img/${element.img[0]}` } alt="" />
                                                                 <div className="product-label">
-                                                                    {element.disPercentage && <span className="sale">{`-${element.disPercentage}%`}</span>}
+                                                                    { element.disPercentage && <span className="sale">{ `-${element.disPercentage}%` }</span> }
                                                                     <span className="new">NEW</span>
                                                                 </div>
                                                             </div>
                                                             <div className="product-body">
-                                                                <h3 className="product-name"><Link onClick={() => { window.scrollTo(0, 140) }} to={`/product/${element._id}`}>{element.name}</Link></h3>
-                                                                <h4 className="product-price d-inline">₹{element.price}
-                                                                    <del className="product-old-price" style={{ marginLeft: "3px" }}>{element.oldPrice && `₹${element.oldPrice}`}</del>
+                                                                <h3 className="product-name"><Link onClick={ () => { window.scrollTo(0, 140) } } to={ `/product/${element._id}` }>{ element.name }</Link></h3>
+                                                                <h4 className="product-price d-inline">₹{ element.price }
+                                                                    <del className="product-old-price" style={ { marginLeft: "3px" } }>{ element.oldPrice && `₹${element.oldPrice}` }</del>
                                                                 </h4>
-                                                                {(element.ratings.length > 0) ?
-                                                                    <div className="product-rating d-inline">
+                                                                { (element.ratings.length > 0) ?
+                                                                    <div className="product-rating">
+                                                                        <p className="d-inline f-5 mr-1">{ calcAvgRating(element.ratings) }</p>
                                                                         <i className="fa fa-star"></i>
                                                                         <i className="fa fa-star"></i>
                                                                         <i className="fa fa-star"></i>
                                                                         <i className="fa fa-star"></i>
                                                                         <i className="fa fa-star"></i>
-                                                                    </div> : ""}
+                                                                    </div> : "" }
                                                                 <div className="product-desc d-inline">
-                                                                    {element.desc.length > 0 ? `${element.desc.slice(0, 45)}...` : ""}
+                                                                    { element.desc.length > 0 ? `${element.desc.slice(0, 45)}...` : "" }
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                ))}
-                                                {/* <!-- product --> */}
+                                                )) }
+                                                {/* <!-- product --> */ }
                                             </Slider>
                                         </div>
                                         <div id="slick-nav-1" className="products-slick-nav"></div>
                                     </div>
-                                    {/* <!-- /tab --> */}
+                                    {/* <!-- /tab --> */ }
                                 </div>
                             </div>
                         </div>
-                        {/* <!-- Products tab & slick --> */}
+                        {/* <!-- Products tab & slick --> */ }
                     </div>
-                    {/* <!-- /row --> */}
+                    {/* <!-- /row --> */ }
                 </div>
-                {/* <!-- /container --> */}
+                {/* <!-- /container --> */ }
             </div>
         </>
     );

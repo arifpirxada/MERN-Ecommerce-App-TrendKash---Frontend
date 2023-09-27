@@ -198,9 +198,23 @@ const EcomState = (props) => {
         fetchCartData()
     }, [uid])
 
+
+    // To show the Average rating of a product while listing ->
+
+    const calcAvgRating = (proRatingArr) => {
+        if (proRatingArr) {
+            var rateArr = 0
+            proRatingArr.map((element) => {
+                rateArr += parseInt(element.rating)
+            })
+            const avg = Math.round(rateArr / proRatingArr.length * 10)
+            return avg / 10
+        }
+    }
+
     return (
-        <EcomContext.Provider value={{ firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData, logged, uid, authorize, cartData, fetchCartData, updateCartQty, delCartProduct, totalPrice, totalItems, setCartData }}>
-            {props.children}
+        <EcomContext.Provider value={ { firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData, logged, uid, authorize, cartData, fetchCartData, updateCartQty, delCartProduct, totalPrice, totalItems, setCartData, calcAvgRating } }>
+            { props.children }
         </EcomContext.Provider>
     )
 }
