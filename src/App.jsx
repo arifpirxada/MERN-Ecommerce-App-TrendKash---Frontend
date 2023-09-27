@@ -45,8 +45,8 @@ function App() {
                 <FooterSlide />
                 <Footer />
               </>} />
-              <Route path="/cartrend" element={<><Navbar /><Cart /><Footer /></>} />
-              <Route path="/checkoutrend" element={<><Navbar /><Checkout /><Footer /></>} />
+              <Route path="/cart" element={<><Navbar /><Cart /><Footer /></>} />
+              <Route path="/checkout" element={<><Navbar /><Checkout /><Footer /></>} />
               <Route path="/product/:id" element={<><Navbar /><Product /><Footer /></>} />
               <Route path="/store/:category" element={<><Navbar /><Store /><Footer /></>} />
               <Route path="/searchrend" element={<><Navbar /><Search /><Footer /></>} />

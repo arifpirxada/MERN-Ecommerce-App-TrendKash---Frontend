@@ -212,8 +212,41 @@ const EcomState = (props) => {
         }
     }
 
+    // State for Checkout ->
+
+    const [checkData, setCheckData] = useState()
+
+    const updateCheckData = (payType, pinCode) => {
+        setCheckData([payType, pinCode])
+    }
+
     return (
-        <EcomContext.Provider value={ { firstSlideData, fetchFirstSlide, secondSlideData, fetchSecondSlide, storeData, fetchStoreData, catData, relatedProducts, fetchRelatedProducts, filterStoreData, sortPriceStoreData, logged, uid, authorize, cartData, fetchCartData, updateCartQty, delCartProduct, totalPrice, totalItems, setCartData, calcAvgRating } }>
+        <EcomContext.Provider value={ {
+            firstSlideData,
+            fetchFirstSlide,
+            secondSlideData,
+            fetchSecondSlide,
+            storeData,
+            fetchStoreData,
+            catData,
+            relatedProducts,
+            fetchRelatedProducts,
+            filterStoreData,
+            sortPriceStoreData,
+            logged,
+            uid,
+            authorize,
+            cartData,
+            fetchCartData,
+            updateCartQty,
+            delCartProduct,
+            totalPrice,
+            totalItems,
+            setCartData,
+            calcAvgRating,
+            updateCheckData,
+            checkData
+        } }>
             { props.children }
         </EcomContext.Provider>
     )

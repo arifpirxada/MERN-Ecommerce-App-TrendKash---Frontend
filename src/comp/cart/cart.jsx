@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import EcomContext from '../context/e-com-context';
 
@@ -6,7 +6,8 @@ function Cart() {
 
     // Get cart Data ->
 
-    const { cartData, updateCartQty, delCartProduct, totalPrice, totalItems } = useContext(EcomContext)
+    const { cartData, updateCartQty, delCartProduct, totalPrice, totalItems, updateCheckData } = useContext(EcomContext)
+
 
     return (
         <>
@@ -19,39 +20,39 @@ function Cart() {
                                     <div className="col">
                                         <h4><b>Shopping Cart</b></h4>
                                     </div>
-                                    <div className="col align-self-center text-right text-muted">{cartData && `${cartData.products.length} Product(s)`}</div>
+                                    <div className="col align-self-center text-right text-muted">{ cartData && `${cartData.products.length} Product(s)` }</div>
                                 </div>
                             </div>
 
                             <div className="d-flex f-wrap">
-                                {(cartData && cartData.products.length > 0) ? cartData.products.map((element, i) => (
-                                    <div key={i} className="row-cart border-top border-bottom m-1">
+                                { (cartData && cartData.products.length > 0) ? cartData.products.map((element, i) => (
+                                    <div key={ i } className="row-cart border-top border-bottom m-1">
                                         <div className="row-cart main align-items-center cart-item">
-                                            <div className="col-2"><img className="cartImg img-fluid" src={`/api/read-pro-img/${element.img}`} /></div>
+                                            <div className="col-2"><img className="cartImg img-fluid" src={ `/api/read-pro-img/${element.img}` } /></div>
                                             <div className="col">
-                                                <Link to={`/product/${element.pid}`}>
-                                                    <div className="row-cart text-muted m-2">{element.name}</div>
+                                                <Link to={ `/product/${element.pid}` }>
+                                                    <div className="row-cart text-muted m-2">{ element.name }</div>
                                                 </Link>
                                             </div>
                                             <div className="col">
 
-                                                <select defaultValue={element.qty} onChange={updateCartQty} data-pid={element.pid} className="input-select mb-1 h-2">
-                                                    {Array.from({ length: element.stock - 1 }).map((_, index) => (
-                                                        <option key={index + 1} value={index + 1}>
-                                                            {index + 1}
+                                                <select defaultValue={ element.qty } onChange={ updateCartQty } data-pid={ element.pid } className="input-select mb-1 h-2">
+                                                    { Array.from({ length: element.stock - 1 }).map((_, index) => (
+                                                        <option key={ index + 1 } value={ index + 1 }>
+                                                            { index + 1 }
                                                         </option>
-                                                    ))}
+                                                    )) }
                                                 </select>
 
                                             </div>
-                                            <div className="col">&#8377; {element.price} <span className="text-muted ml-2 c-pointer" onClick={delCartProduct} data-pid={element.pid}>&#10005;</span></div>
+                                            <div className="col">&#8377; { element.price } <span className="text-muted ml-2 c-pointer" onClick={ delCartProduct } data-pid={ element.pid }>&#10005;</span></div>
                                         </div>
                                     </div>
-                                )) : "No Products Added"}
+                                )) : "No Products Added" }
 
                             </div>
 
-                            <div className="back-to-shop"><Link className="cartLink" onClick={() => { window.scrollTo(0, 0) }} to="/"><i className='fa fa-arrow-left'></i>&nbsp;Back to shop</Link></div>
+                            <div className="back-to-shop"><Link className="cartLink" onClick={ () => { window.scrollTo(0, 0) } } to="/"><i className='fa fa-arrow-left'></i>&nbsp;Back to shop</Link></div>
                         </div>
                         <div className="col-md-4 summary">
                             <div>
@@ -59,21 +60,24 @@ function Cart() {
                             </div>
                             <hr id="cartHr" />
                             <div className="row-cart">
-                                <div className="col" style={{ paddingLeft: 0 }}>ITEMS {totalItems}</div>
+                                <div className="col" style={ { paddingLeft: 0 } }>ITEMS { totalItems }</div>
                             </div>
-                            <form className="cartForm">
-                                <p>SHIPPING</p>
-                                <select className="cartSelect">
-                                    <option className="text-muted">Standard-Delivery- &euro;5.00</option>
+                            <div className="cartForm">
+                                <p>Payment Type</p>
+                                <select id="cart-payment-type" className="cartSelect">
+                                    <option value={ "cod" } className="text-muted">Cash On Delivery</option>
+                                    <option value={ "pay-now" } className="text-muted">Pay Now</option>
                                 </select>
-                                <p>GIVE CODE</p>
-                                <input className="cartInput" id="code" placeholder="Enter your code" />
-                            </form>
-                            <div className="row-cart d-flex" style={{ borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0" }}>
-                                <div className="col">TOTAL PRICE</div>
-                                <div className="col text-right">&#x20B9;{totalPrice}</div>
+                                <p>GIVE PIN CODE</p>
+                                <input className="cartInput" id="cart-code" placeholder="Enter your code" />
                             </div>
-                            <button className="cartBtn primary-btn order-submit">CHECKOUT</button>
+                            <div className="row-cart d-flex" style={ { borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0" } }>
+                                <div className="col">TOTAL PRICE</div>
+                                <div className="col text-right">&#x20B9;{ totalPrice }</div>
+                            </div>
+                            <Link to="/checkout">
+                                <button onClick={ () => { updateCheckData(document.getElementById("cart-payment-type").value, document.getElementById("cart-code").value) } } className="cartBtn primary-btn order-submit">CHECKOUT</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

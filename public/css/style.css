@@ -2268,3 +2268,21 @@ textarea.input {
     min-height: 50px;
   }
 }
+
+@media only screen and (max-width: 430px) {
+  .cart-dropdown {
+    right: -105px;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  .cart-dropdown {
+    width: 245px;
+  }
+  .header-ctn {
+    text-align: end;
+  }
+  .menu-toggle {
+    margin-top: 5px;
+  }
+}

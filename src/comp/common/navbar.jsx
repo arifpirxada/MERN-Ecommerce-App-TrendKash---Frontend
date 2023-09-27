@@ -187,8 +187,8 @@ function Navbar(props) {
                                                     <h5>SUBTOTAL: &#x20B9;{totalPrice && totalPrice}</h5>
                                                 </div> : ""}
                                                 <div className="cart-btns">
-                                                    <Link to="/cartrend">View Cart</Link>
-                                                    <Link to="/checkoutrend">
+                                                    <Link to="/cart">View Cart</Link>
+                                                    <Link to="/checkout">
                                                         Checkout <i className="fa fa-arrow-circle-right" />
                                                     </Link>
                                                 </div>

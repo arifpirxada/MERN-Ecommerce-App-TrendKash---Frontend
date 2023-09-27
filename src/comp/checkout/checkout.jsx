@@ -1,83 +1,124 @@
-import { React } from "react";
-
+import { useContext, useEffect, useState } from "react"
+import EcomContext from "../context/e-com-context"
+import { Link } from "react-router-dom"
 
 function Checkout() {
+
+    const { checkData, cartData, totalPrice, uid } = useContext(EcomContext)
+    const [payType, setPayType] = useState()
+
+    useEffect(() => {
+        if (checkData) {
+            setPayType(checkData[0])
+        }
+    }, [checkData])
+
+    // Place Order ->
+
+    const placeOrder = async () => {
+        if (cartData && totalPrice && uid) {
+
+            const phone = document.getElementById("phone").value
+            const street = document.getElementById("street").value
+            const locality = document.getElementById("locality").value
+            const region = document.getElementById("region").value
+            const pinCode = document.getElementById("pin-code").value
+            const notes = document.getElementById("notes").value
+            const messBox = document.getElementById("order-message")
+
+            if (phone === "" || street === "" || locality === "" || region === "" || pinCode === "" || !payType) {
+                messBox.innerHTML = "Please fill all required fields"
+                setTimeout(() => {
+                    messBox.innerHTML = ""
+                }, 5000);
+                return
+            }
+
+            const orderData = {
+                products: cartData.products,
+                totalPrice: totalPrice,
+                user: uid,
+                phone: phone,
+                address: {
+                    street: street,
+                    locality: locality,
+                    region: region,
+                    PINCode: pinCode
+                },
+                paymentType: payType,
+                notes: notes
+            }
+
+            if (document.getElementById("shiping-address").checked === true) {
+                orderData.shipAddress = {
+                    street: document.getElementById("ship-street").value,
+                    locality: document.getElementById("ship-locality").value,
+                    region: document.getElementById("ship-region").value,
+                    PINCode: document.getElementById("ship-pin-code").value
+                }
+            }
+
+            const res = await fetch("/api/create-order", {
+                method: "POST",
+                body: JSON.stringify(orderData),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const data = await res.json()
+            console.log(data)
+            messBox.innerHTML = data.message
+        } else {
+            console.error("Error occured while placing order")
+        }
+    }
+
     return (
         <>
-            {/* <!-- BREADCRUMB --> */}
-            <div id="breadcrumb" className="section">
-                {/* <!-- container --> */}
-                <div className="container">
-                    {/* <!-- row --> */}
-                    <div className="row">
-                        <div className="col-md-12">
-                            <h3 className="breadcrumb-header">Checkout</h3>
-                            <ul className="breadcrumb-tree">
-                                <li><a href="#">Home</a></li>
-                                <li className="active">Checkout</li>
-                            </ul>
-                        </div>
-                    </div>
-                    {/* <!-- /row --> */}
-                </div>
-                {/* <!-- /container --> */}
-            </div>
-            {/* <!-- /BREADCRUMB --> */}
-
-            {/* <!-- SECTION --> */}
+            {/* <!-- SECTION --> */ }
             <div className="section">
-                {/* <!-- container --> */}
+                {/* <!-- container --> */ }
                 <div className="container">
-                    {/* <!-- row --> */}
+                    {/* <!-- row --> */ }
                     <div className="row">
 
                         <div className="col-md-7">
-                            {/* <!-- Billing Details --> */}
+                            {/* <!-- Billing Details --> */ }
                             <div className="billing-details">
                                 <div className="section-title">
                                     <h3 className="title">Billing address</h3>
                                 </div>
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <input className="input" type="text" name="first-name" placeholder="First Name" />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="last-name" placeholder="Last Name" />
-                                </div>
-                                <div className="form-group">
+                                </div> */}
+                                {/* <div className="form-group">
                                     <input className="input" type="email" name="email" placeholder="Email" />
+                                </div> */}
+                                <h5 className="mb-2">Address</h5>
+                                <div className="form-group">
+                                    <input className="input" type="text" id="street" placeholder="Street" />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="address" placeholder="Address" />
+                                    <input className="input" type="text" id="locality" placeholder="Locality" />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="city" placeholder="City" />
+                                    <input className="input" type="text" id="region" placeholder="Region" />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="country" placeholder="Country" />
+                                    <label htmlFor="pin-code" className="form-label">PIN Code:</label>
+                                    <input value={ checkData && checkData[1] } className="input" type="text" id="pin-code" placeholder="PIN Code" />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="zip-code" placeholder="ZIP Code" />
-                                </div>
-                                <div className="form-group">
-                                    <input className="input" type="tel" name="tel" placeholder="Telephone" />
-                                </div>
-                                <div className="form-group">
-                                    <div className="input-checkbox">
-                                        <input type="checkbox" id="create-account" />
-                                        <label htmlFor="create-account">
-                                            <span></span>
-                                            Create Account?
-                                        </label>
-                                        <div className="caption">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-                                            <input className="input" type="password" name="password" placeholder="Enter Your Password" />
-                                        </div>
-                                    </div>
+                                    <label htmlFor="phone" className="form-label">Moblie Number:</label>
+                                    <input className="input" type="number" id="phone" placeholder="Phone" />
                                 </div>
                             </div>
-                            {/* <!-- /Billing Details --> */}
+                            {/* <!-- /Billing Details --> */ }
 
-                            {/* <!-- Shiping Details --> */}
+                            {/* <!-- Shiping Details --> */ }
                             <div className="shiping-details">
                                 <div className="section-title">
                                     <h3 className="title">Shiping address</h3>
@@ -89,43 +130,33 @@ function Checkout() {
                                         Ship to a diffrent address?
                                     </label>
                                     <div className="caption">
+                                        <h5 className="mb-2">Address</h5>
                                         <div className="form-group">
-                                            <input className="input" type="text" name="first-name" placeholder="First Name" />
+                                            <input className="input" type="text" id="ship-street" placeholder="Street" />
                                         </div>
                                         <div className="form-group">
-                                            <input className="input" type="text" name="last-name" placeholder="Last Name" />
+                                            <input className="input" type="text" id="ship-locality" placeholder="Locality" />
                                         </div>
                                         <div className="form-group">
-                                            <input className="input" type="email" name="email" placeholder="Email" />
+                                            <input className="input" type="text" id="ship-region" placeholder="Region" />
                                         </div>
                                         <div className="form-group">
-                                            <input className="input" type="text" name="address" placeholder="Address" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="city" placeholder="City" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="country" placeholder="Country" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="zip-code" placeholder="ZIP Code" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="tel" name="tel" placeholder="Telephone" />
+                                            <h5 className="mb-2">PIN Code</h5>
+                                            <input className="input" type="text" id="ship-pin-code" placeholder="PIN Code" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {/* <!-- /Shiping Details --> */}
+                            {/* <!-- /Shiping Details --> */ }
 
-                            {/* <!-- Order notes --> */}
+                            {/* <!-- Order notes --> */ }
                             <div className="order-notes">
-                                <textarea className="input" placeholder="Order Notes"></textarea>
+                                <textarea id="notes" className="input" placeholder="Order Notes"></textarea>
                             </div>
-                            {/* <!-- /Order notes --> */}
+                            {/* <!-- /Order notes --> */ }
                         </div>
 
-                        {/* <!-- Order Details --> */}
+                        {/* <!-- Order Details --> */ }
                         <div className="col-md-5 order-details">
                             <div className="section-title text-center">
                                 <h3 className="title">Your Order</h3>
@@ -136,14 +167,12 @@ function Checkout() {
                                     <div><strong>TOTAL</strong></div>
                                 </div>
                                 <div className="order-products">
-                                    <div className="order-col">
-                                        <div>1x Product Name Goes Here</div>
-                                        <div>$980.00</div>
-                                    </div>
-                                    <div className="order-col">
-                                        <div>2x Product Name Goes Here</div>
-                                        <div>$980.00</div>
-                                    </div>
+                                    { cartData && cartData.products.map((element, i) => (
+                                        <div key={ i } className="order-col">
+                                            <div>{ element.qty }x { element.name }</div>
+                                            <div>&#x20B9;{ element.price * element.qty }</div>
+                                        </div>
+                                    )) }
                                 </div>
                                 <div className="order-col">
                                     <div>Shiping</div>
@@ -151,57 +180,41 @@ function Checkout() {
                                 </div>
                                 <div className="order-col">
                                     <div><strong>TOTAL</strong></div>
-                                    <div><strong className="order-total">$2940.00</strong></div>
+                                    <div><strong className="order-total">&#x20B9;{ totalPrice && totalPrice }</strong></div>
                                 </div>
                             </div>
                             <div className="payment-method">
                                 <div className="input-radio">
-                                    <input type="radio" name="payment" id="payment-1" />
-                                    <label htmlFor="payment-1">
+                                    <input type="radio" name="payment" onChange={ (e) => { setPayType(e.target.id) } } checked={ payType === "pay-now" } id="pay-now" />
+                                    <label htmlFor="pay-now">
                                         <span></span>
-                                        Direct Bank Transfer
+                                        Pay now
                                     </label>
                                     <div className="caption">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                     </div>
                                 </div>
                                 <div className="input-radio">
-                                    <input type="radio" name="payment" id="payment-2" />
-                                    <label htmlFor="payment-2">
+                                    <input type="radio" name="payment" onChange={ (e) => { setPayType(e.target.id) } } checked={ payType === "cod" } id="cod" />
+                                    <label htmlFor="cod">
                                         <span></span>
-                                        Cheque Payment
-                                    </label>
-                                    <div className="caption">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    </div>
-                                </div>
-                                <div className="input-radio">
-                                    <input type="radio" name="payment" id="payment-3" />
-                                    <label htmlFor="payment-3">
-                                        <span></span>
-                                        Paypal System
+                                        Cash on Delivery
                                     </label>
                                     <div className="caption">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="input-checkbox">
-                                <input type="checkbox" id="terms" />
-                                <label htmlFor="terms">
-                                    <span></span>
-                                    I've read and accept the <a href="#">terms & conditions</a>
-                                </label>
-                            </div>
-                            <a href="#" className="primary-btn order-submit">Place order</a>
+                            <p id="order-message" className="c-red f-16 text-center"></p>
+                            <Link to="#" onClick={ placeOrder } className="primary-btn order-submit">Place order</Link>
                         </div>
-                        {/* <!-- /Order Details --> */}
+                        {/* <!-- /Order Details --> */ }
                     </div>
-                    {/* <!-- /row --> */}
+                    {/* <!-- /row --> */ }
                 </div>
-                {/* <!-- /container --> */}
+                {/* <!-- /container --> */ }
             </div>
-            {/* <!-- /SECTION --> */}
+            {/* <!-- /SECTION --> */ }
         </>
     )
 }
