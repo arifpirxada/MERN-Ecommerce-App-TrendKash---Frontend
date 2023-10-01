@@ -286,12 +286,13 @@ body {
     display: none;
     height: fit-content;
     width: 100vw;
+    height: 100vh;
     background-color: #231e1e19;
-    position: absolute;
+    position: fixed;
     z-index: 5;
     padding-bottom: 100px;
     justify-content: center;
-    align-items: center;
+    top: 0px;
 }
 
 .modal-content {
@@ -406,4 +407,13 @@ body {
 
 .mr-2 {
     margin-right: 25px !important;
+}
+
+.order-product {
+    border: 1px solid #000;
+    border-radius: 2px;
+}
+
+.ordered-container {
+    border-radius: 2px;
 }

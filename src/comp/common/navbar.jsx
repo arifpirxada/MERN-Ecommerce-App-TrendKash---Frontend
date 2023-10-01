@@ -92,8 +92,8 @@ function Navbar(props) {
                             </ul>
                             <ul className="header-links pull-right">
                                 <li>
-                                    <Link to="#">
-                                        <i className="fa fa-dollar" /> USD
+                                    <Link to="/orders">
+                                        <i className="fa fa-dollar" /> My Orders
                                     </Link>
                                 </li>
                                 <li onClick={() => { fetchUser(); openUserProfileModal() }}>
