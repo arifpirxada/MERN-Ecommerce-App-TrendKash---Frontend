@@ -78,7 +78,7 @@ function Product() {
   }, [id]);
 
   // For related products ->
-  const { relatedProducts, fetchRelatedProducts, uid, logged, fetchCartDat, calcAvgRating } = useContext(EcomContext);
+  const { relatedProducts, fetchRelatedProducts, uid, logged, fetchCartData, calcAvgRating } = useContext(EcomContext);
 
   useEffect(() => {
     if (productData) {
@@ -415,11 +415,11 @@ function Product() {
                   <div>
                     { productData.ratings.length > 0 ? (
                       <div className="product-rating">
-                        <i className={ `fa fa-star${parseInt(avgRating) > 0 ? "" : "-o"}` }></i>
-                        <i className={ `fa fa-star${parseInt(avgRating) > 1 ? "" : "-o"}` }></i>
-                        <i className={ `fa fa-star${parseInt(avgRating) > 2 ? "" : "-o"}` }></i>
-                        <i className={ `fa fa-star${parseInt(avgRating) > 3 ? "" : "-o"}` }></i>
-                        <i className={ `fa fa-star${parseInt(avgRating) > 4 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) >= 1 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) >= 2 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) >= 3 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) >= 4 ? "" : "-o"}` }></i>
+                        <i className={ `fa fa-star${parseInt(avgRating) == 5 ? "" : "-o"}` }></i>
                       </div>
                     ) : (
                       ""
@@ -629,11 +629,11 @@ function Product() {
                               { avgRating && <div className="rating-avg">
                                 <span>{ avgRating }</span>
                                 <div className="rating-stars">
-                                  <i className={ `fa fa-star${parseInt(avgRating) > 0 ? "" : "-o"}` }></i>
-                                  <i className={ `fa fa-star${parseInt(avgRating) > 1 ? "" : "-o"}` }></i>
-                                  <i className={ `fa fa-star${parseInt(avgRating) > 2 ? "" : "-o"}` }></i>
-                                  <i className={ `fa fa-star${parseInt(avgRating) > 3 ? "" : "-o"}` }></i>
-                                  <i className={ `fa fa-star${parseInt(avgRating) > 4 ? "" : "-o"}` }></i>
+                                  <i className={ `fa fa-star${parseInt(avgRating) >= 1 ? "" : "-o"}` }></i>
+                                  <i className={ `fa fa-star${parseInt(avgRating) >= 2 ? "" : "-o"}` }></i>
+                                  <i className={ `fa fa-star${parseInt(avgRating) >= 3 ? "" : "-o"}` }></i>
+                                  <i className={ `fa fa-star${parseInt(avgRating) >= 4 ? "" : "-o"}` }></i>
+                                  <i className={ `fa fa-star${parseInt(avgRating) == 5 ? "" : "-o"}` }></i>
                                 </div>
                               </div> }
                               { numRating && <ul className="rating">

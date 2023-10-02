@@ -108,55 +108,55 @@ function HotDeal(props) {
     return (
         <>
 
-            {(dealData && countdown) ?
-                <Slider {...settings}>
-                    {dealData.map((element, i) => (
-                        <div key={i}>
-                 
-                            <div id="hot-deal" style={{
+            { (dealData && countdown) ?
+                <Slider { ...settings }>
+                    { dealData.map((element, i) => (
+                        <div key={ i }>
+
+                            <div id="hot-deal" style={ {
                                 backgroundImage: `URL(/api/read-deal-img/${encodeURIComponent(element.img)}`, backgroundSize: "cover", backgroundPosition: "center center",
                                 backgroundRepeat: "no-repeat"
-                            }} className="section">
+                            } } className="section">
                                 <div className="container">
-                                    <div style={{ marginRight: "0px" }} className="row">
+                                    <div style={ { marginRight: "0px" } } className="row">
                                         <div className="col-md-12">
                                             <div className="hot-deal">
-                                                <ul className="hot-deal-countdown">
+                                                { countdown[i] && <ul className="hot-deal-countdown">
                                                     <li>
                                                         <div>
-                                                            <h3 id={`days${i}`}>{countdown[i].days}</h3>
+                                                            <h3 id={ `days${i}` }>{ countdown[i].days }</h3>
                                                             <span>Days</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div>
-                                                            <h3 id={`hours${i}`}>{countdown[i].hours}</h3>
+                                                            <h3 id={ `hours${i}` }>{ countdown[i].hours }</h3>
                                                             <span>Hours</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div>
-                                                            <h3 id={`minutes${i}`}>{countdown[i].minutes}</h3>
+                                                            <h3 id={ `minutes${i}` }>{ countdown[i].minutes }</h3>
                                                             <span>Mins</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div>
-                                                            <h3 id={`seconds${i}`}>{countdown && countdown[i].seconds}</h3>
+                                                            <h3 id={ `seconds${i}` }>{ countdown && countdown[i].seconds }</h3>
                                                             <span>Secs</span>
                                                         </div>
                                                     </li>
-                                                </ul>
-                                                <h2 className="text-uppercase">{element.name}</h2>
-                                                <p>{element.offer}</p>
-                                                <Link className="primary-btn cta-btn" onClick={() => { document.getElementById("top-header").scrollIntoView({ behavior: "smooth" }) }} to={`/store/${element.cat}`}>Shop now</Link>
+                                                </ul> }
+                                                <h2 className="text-uppercase">{ element.name }</h2>
+                                                <p>{ element.offer }</p>
+                                                <Link className="primary-btn cta-btn" onClick={ () => { document.getElementById("top-header").scrollIntoView({ behavior: "smooth" }) } } to={ `/store/${element.cat}` }>Shop now</Link>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div >
-                    ))}
+                    )) }
                 </Slider > : "Loading..."
 
             }

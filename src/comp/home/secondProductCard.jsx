@@ -77,11 +77,11 @@ const SecondProductSlide = (props) => {
                                                                 { (element.ratings.length > 0) ?
                                                                     <div className="product-rating">
                                                                         <p className="d-inline f-5 mr-1">{ calcAvgRating(element.ratings) }</p>
-                                                                        <i className="fa fa-star"></i>
-                                                                        <i className="fa fa-star"></i>
-                                                                        <i className="fa fa-star"></i>
-                                                                        <i className="fa fa-star"></i>
-                                                                        <i className="fa fa-star"></i>
+                                                                        <i className={ `fa fa-star${calcAvgRating(element.ratings) >= 1 ? "" : "-o"}` }></i>
+                                                                        <i className={ `fa fa-star${calcAvgRating(element.ratings) >= 2 ? "" : "-o"}` }></i>
+                                                                        <i className={ `fa fa-star${calcAvgRating(element.ratings) >= 3 ? "" : "-o"}` }></i>
+                                                                        <i className={ `fa fa-star${calcAvgRating(element.ratings) >= 4 ? "" : "-o"}` }></i>
+                                                                        <i className={ `fa fa-star${calcAvgRating(element.ratings) == 5 ? "" : "-o"}` }></i>
                                                                     </div> : "" }
                                                                 <div className="product-desc d-inline">
                                                                     { element.desc.length > 0 ? `${element.desc.slice(0, 45)}...` : "" }

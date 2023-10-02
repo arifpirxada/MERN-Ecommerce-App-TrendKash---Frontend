@@ -63,7 +63,7 @@ function Navbar(props) {
     return (
         <>
             <SignUp />
-            <UserProfile openSignModal={openSignModal} userData={userData} />
+            <UserProfile openSignModal={ openSignModal } userData={ userData } />
             <div>
                 <meta charSet="utf-8" />
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -91,12 +91,12 @@ function Navbar(props) {
                                 </li>
                             </ul>
                             <ul className="header-links pull-right">
-                                <li>
+                                { logged && <li>
                                     <Link to="/orders">
                                         <i className="fa fa-dollar" /> My Orders
                                     </Link>
-                                </li>
-                                <li onClick={() => { fetchUser(); openUserProfileModal() }}>
+                                </li> }
+                                <li onClick={ () => { fetchUser(); openUserProfileModal() } }>
                                     <Link to="#">
                                         <i className="fa fa-user-o" /> My Account
                                     </Link>
@@ -125,12 +125,12 @@ function Navbar(props) {
                                 <div className="col-md-3 clearfix">
                                     <div className="header-ctn">
 
-                                        {!logged && <div>
-                                            <Link onClick={openSignModal} to="#">
+                                        { !logged && <div>
+                                            <Link onClick={ openSignModal } to="#">
                                                 <i className="fa fa-user-o"></i>
                                                 <span>Login / signup</span>
                                             </Link>
-                                        </div>}
+                                        </div> }
 
                                         <div className="dropdown">
                                             <Link
@@ -140,30 +140,30 @@ function Navbar(props) {
                                             >
                                                 <i className="fa fa-shopping-cart" />
                                                 <span>Your Cart</span>
-                                                <div className="qty">{(cartData && cartData.products.length > 0) ? cartData.products.length : 0}</div>
+                                                <div className="qty">{ (cartData && cartData.products.length > 0) ? cartData.products.length : 0 }</div>
                                             </Link>
                                             <div className="cart-dropdown">
                                                 <div className="cart-list">
-                                                    {(cartData && cartData.products.length > 0) ? cartData.products.map((element, i) => (
-                                                        <div key={i} className="product-widget">
+                                                    { (cartData && cartData.products.length > 0) ? cartData.products.map((element, i) => (
+                                                        <div key={ i } className="product-widget">
                                                             <div className="product-img">
-                                                                <img src={`/api/read-pro-img/${element.img}`} alt="" />
+                                                                <img src={ `/api/read-pro-img/${element.img}` } alt="" />
                                                             </div>
                                                             <div className="product-body">
                                                                 <h3 className="product-name">
-                                                                    <Link to={`/product/${element.pid}`}>{element.name}</Link>
+                                                                    <Link to={ `/product/${element.pid}` }>{ element.name }</Link>
                                                                 </h3>
                                                                 <h4 className="product-price">
-                                                                    <span className="qty">{element.qty}x</span>&#x20B9;{element.price}
+                                                                    <span className="qty">{ element.qty }x</span>&#x20B9;{ element.price }
                                                                 </h4>
                                                             </div>
-                                                            <button onClick={delCartProduct} data-pid={element.pid} className="delete">
+                                                            <button onClick={ delCartProduct } data-pid={ element.pid } className="delete">
                                                                 <i className="fa fa-close" />
                                                             </button>
                                                         </div>
                                                     )) : <h4 className="product-price">
                                                         No Products Added
-                                                    </h4>}
+                                                    </h4> }
 
                                                     {/* <div className="product-widget">
                                                         <div className="product-img">
@@ -182,19 +182,19 @@ function Navbar(props) {
                                                         </button>
                                                     </div> */}
                                                 </div>
-                                                {(cartData && cartData.products.length > 0) ? <div className="cart-summary">
-                                                    <small>{cartData.products.length} Product(s) selected</small>
-                                                    <h5>SUBTOTAL: &#x20B9;{totalPrice && totalPrice}</h5>
-                                                </div> : ""}
+                                                { (cartData && cartData.products.length > 0) ? <div className="cart-summary">
+                                                    <small>{ cartData.products.length } Product(s) selected</small>
+                                                    <h5>SUBTOTAL: &#x20B9;{ totalPrice && totalPrice }</h5>
+                                                </div> : "" }
                                                 <div className="cart-btns">
                                                     <Link to="/cart">View Cart</Link>
-                                                    <Link to="/checkout">
+                                                    { (cartData && cartData.products.length > 0) ? <Link to="/checkout">
                                                         Checkout <i className="fa fa-arrow-circle-right" />
-                                                    </Link>
+                                                    </Link> : "" }
                                                 </div>
                                             </div>
                                         </div>
-                                        <div onClick={openNav} className="menu-toggle">
+                                        <div onClick={ openNav } className="menu-toggle">
                                             <Link to="#">
                                                 <i className="fa fa-bars" />
                                                 <span>Menu</span>
@@ -207,24 +207,24 @@ function Navbar(props) {
                     </div>
                 </header>
             </div>
-            {/* Navigation */}
+            {/* Navigation */ }
             <nav id="navigation">
-                {/* container */}
+                {/* container */ }
                 <div className="container">
-                    {/* responsive-nav */}
-                    <div id="responsive-nav" className={isActive ? 'active' : ''}>
-                        {/* NAV */}
+                    {/* responsive-nav */ }
+                    <div id="responsive-nav" className={ isActive ? 'active' : '' }>
+                        {/* NAV */ }
                         <ul className="main-nav nav navbar-nav">
                             <li className="active"><Link to="/">Home</Link></li>
-                            {catData.map((element, i) => (
-                                <li key={i}><Link to={`/store/${element.catName}`}>{element.catName}</Link></li>
-                            ))}
+                            { catData.map((element, i) => (
+                                <li key={ i }><Link to={ `/store/${element.catName}` }>{ element.catName }</Link></li>
+                            )) }
                         </ul>
-                        {/* /NAV */}
+                        {/* /NAV */ }
                     </div>
-                    {/* /responsive-nav */}
+                    {/* /responsive-nav */ }
                 </div>
-                {/* /container */}
+                {/* /container */ }
             </nav>
         </>
     );

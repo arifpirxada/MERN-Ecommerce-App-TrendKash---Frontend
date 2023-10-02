@@ -1,17 +1,25 @@
 import { useContext, useEffect, useState } from "react"
 import EcomContext from "../context/e-com-context"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function Checkout() {
 
-    const { checkData, cartData, totalPrice, uid } = useContext(EcomContext)
+    const { checkData, cartData, totalPrice, uid, fetchCartData } = useContext(EcomContext)
     const [payType, setPayType] = useState()
+    const [PINCode, setPINCode] = useState("")
 
+    const navigate = useNavigate()
     useEffect(() => {
         if (checkData) {
             setPayType(checkData[0])
+            setPINCode(checkData[1])
         }
     }, [checkData])
+    useEffect(() => {
+        if (!cartData || cartData.products.length === 0) {
+            navigate("/cart")
+        }
+    }, [cartData])
 
     // Place Order ->
 
@@ -22,11 +30,11 @@ function Checkout() {
             const street = document.getElementById("street").value
             const locality = document.getElementById("locality").value
             const region = document.getElementById("region").value
-            const pinCode = document.getElementById("pin-code").value
+            // const pinCode = document.getElementById("pin-code").value
             const notes = document.getElementById("notes").value
             const messBox = document.getElementById("order-message")
 
-            if (phone === "" || street === "" || locality === "" || region === "" || pinCode === "" || !payType) {
+            if (phone === "" || street === "" || locality === "" || region === "" || PINCode === "" || !payType) {
                 messBox.innerHTML = "Please fill all required fields"
                 setTimeout(() => {
                     messBox.innerHTML = ""
@@ -43,7 +51,7 @@ function Checkout() {
                     street: street,
                     locality: locality,
                     region: region,
-                    PINCode: pinCode
+                    PINCode: PINCode
                 },
                 paymentType: payType,
                 notes: notes
@@ -66,7 +74,11 @@ function Checkout() {
                 }
             })
             const data = await res.json()
-            console.log(data)
+            if (data.message === "order placed") {
+                fetchCartData()
+                navigate("/orders")
+                document.getElementById("top-header").scrollIntoView({ behavior: 'smooth' });
+            }
             messBox.innerHTML = data.message
         } else {
             console.error("Error occured while placing order")
@@ -88,15 +100,6 @@ function Checkout() {
                                 <div className="section-title">
                                     <h3 className="title">Billing address</h3>
                                 </div>
-                                {/* <div className="form-group">
-                                    <input className="input" type="text" name="first-name" placeholder="First Name" />
-                                </div>
-                                <div className="form-group">
-                                    <input className="input" type="text" name="last-name" placeholder="Last Name" />
-                                </div> */}
-                                {/* <div className="form-group">
-                                    <input className="input" type="email" name="email" placeholder="Email" />
-                                </div> */}
                                 <h5 className="mb-2">Address</h5>
                                 <div className="form-group">
                                     <input className="input" type="text" id="street" placeholder="Street" />
@@ -109,7 +112,7 @@ function Checkout() {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="pin-code" className="form-label">PIN Code:</label>
-                                    <input value={ checkData && checkData[1] } className="input" type="text" id="pin-code" placeholder="PIN Code" />
+                                    <input value={ PINCode } onChange={ (e) => { setPINCode(e.target.value) } } className="input" type="text" id="pin-code" placeholder="PIN Code" />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="phone" className="form-label">Moblie Number:</label>
