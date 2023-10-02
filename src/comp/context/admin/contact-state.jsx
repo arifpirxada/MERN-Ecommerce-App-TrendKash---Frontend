@@ -15,12 +15,25 @@ function ContactState(props) {
         }
     }
 
+    const [pendingOrders, setPendingOrders] = useState()
+
+    const fetchPendingOrders = async () => {
+        try {
+            const res = await fetch(`/api/read-order-count`)
+            const data = await res.json()
+            setPendingOrders(data.count)
+        } catch {
+            console.log("Error fetching unseen")
+        }
+    }
+
     useEffect(() => {
+        fetchPendingOrders()
         fetchUnseen()
     }, [])
 
     return (
-        <ContactContext.Provider value={{unseen, fetchUnseen}} >
+        <ContactContext.Provider value={{unseen, fetchUnseen, pendingOrders, fetchPendingOrders}} >
             {props.children}
         </ContactContext.Provider>
     )

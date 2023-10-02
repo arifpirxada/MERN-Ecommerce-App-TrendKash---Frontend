@@ -27,6 +27,7 @@ import Search from "./comp/search/search"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"
 import Orders from "./comp/orders/orders"
+import AdminOrders from "./comp/admin/ad-orders/ad-orders"
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
               <Route path="/admin-products" element={<><Nav firstNav="Add Product" firstNavClass="btn btn-primary" modalClass=".addProductModal" /><AdminProduct /></>} />
               <Route path="/admin-deal" element={<><Nav firstNav="Add Deal" firstNavClass="btn btn-primary" modalClass=".addDealModal" /><AdminDeal /></>} />
               <Route path="/admin-contacts" element={<><Nav /><AdminContact /></>} />
+              <Route path="/admin-orders" element={<><Nav /><AdminOrders /></>} />
               <Route path="/orders" element={<><Navbar /><Orders /><Footer /></>} />
               <Route path="*" element={<><Navbar /><NotFound /><Footer /></>} />
             </Routes>

@@ -270,8 +270,18 @@
     font-size: 14px;
 }
 
+.adminMainCat {
+    width: calc(85% - 380px) !important;
+    display: block; 
+}
+
 @media Only screen and (max-width: 900px) {
     .unread-qty {
         display: none;
+    }
+}
+@media Only screen and (max-width: 1075px) {
+    .adminMainCat {
+        width:  85% !important;
     }
 }

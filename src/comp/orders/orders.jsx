@@ -16,7 +16,6 @@ function Orders() {
             const res = await fetch(`/api/read-order-half/${uid}`)
             const data = await res.json();
             setOrderData(data)
-            console.log(data)
             if (data.message === "Internal server error") {
                 alert(data.message);
             }
@@ -39,11 +38,18 @@ function Orders() {
                             <div className="mainCatType mtl-1">Date: <p className="dim d-inline">{ element.date }</p></div>
                             <div className="mainCatType mtl-1">Payment Type: <p className="dim d-inline">{ element.paymentType }</p></div>
                             <div className="mainCatCartDesc mtl-1 d-flex f-wrap" style={ { marginBottom: "10px", justifyContent: "start" } }>
-                                <p className="mainCatType mtl-1 d-inline">Street:&nbsp;{ element.address[0].street }</p>
-                                <p className="mainCatType mtl-1 d-inline">Locality:&nbsp;{ element.address[0].locality }</p>
-                                <p className="mainCatType mtl-1 d-inline">Region:&nbsp;{ element.address[0].region }</p>
-                                <p className="mainCatType mtl-1 d-inline">PINCode:&nbsp;{ element.address[0].PINCode }</p>
+                                <p className="mainCatType mtl-1 d-inline">Street:&nbsp;{ element.address.street }</p>
+                                <p className="mainCatType mtl-1 d-inline">Locality:&nbsp;{ element.address.locality }</p>
+                                <p className="mainCatType mtl-1 d-inline">Region:&nbsp;{ element.address.region }</p>
+                                <p className="mainCatType mtl-1 d-inline">PINCode:&nbsp;{ element.address.PINCode }</p>
                             </div>
+                            { element.shipAddress && element.shipAddress.length > 0 ? <div className="mainCatType mtl-1">Shiping Address:</div> : "" }
+                            { element.shipAddress && element.shipAddress.length > 0 ? <div className="mainCatCartDesc mtl-1 d-flex f-wrap" style={ { marginBottom: "10px", justifyContent: "start" } }>
+                                <p className="mainCatType mtl-1">Street:&nbsp;{ element.shipAddress.street }</p>
+                                <p className="mainCatType mtl-1">Locality:&nbsp;{ element.shipAddress.locality }</p>
+                                <p className="mainCatType mtl-1">Region:&nbsp;{ element.shipAddress.region }</p>
+                                <p className="mainCatType mtl-1">PINCode:&nbsp;{ element.shipAddress.PINCode }</p>
+                            </div> : "" }
                             <p className="mainCatPrice mtl-1 d-inline" >Total Products: { element.products.length }</p>
                             <p className="mainCatPrice mtl-1 d-inline" >Total Price: ₹{ element.totalPrice }</p>
                             <div className="input-radio d-inline">
@@ -55,7 +61,7 @@ function Orders() {
                                     </label>
                                 </div>
                                 <div className="caption">
-                                    {/* This is it */ }
+                                    {/* Caption */ }
                                     <div className="row d-flex" style={ { flexWrap: "wrap" } }>
 
                                         {/* Product */ }
@@ -67,6 +73,7 @@ function Orders() {
                                                 <div className="product-body">
                                                     <h3 className="product-name"><Link onClick={ () => { window.scrollTo(0, 140) } } to={ `/product/${element.pid}` }>{ element.name }</Link></h3>
                                                     <h4 className="product-price d-inline">₹{ element.price }</h4>
+                                                    <h4 className="d-inline">Qty: { element.qty }</h4>
                                                 </div>
                                             </div>
                                         )) }

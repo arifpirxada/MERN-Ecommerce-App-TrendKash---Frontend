@@ -94,7 +94,7 @@ function Nav(props) {
 
     // Using context for showing unread messages
 
-    const { unseen } = useContext(ContactContext)
+    const { unseen, pendingOrders } = useContext(ContactContext)
 
     return (
         <>
@@ -105,7 +105,7 @@ function Nav(props) {
                 <Link to="/admin-header-cats"><img src="img\adminImg\headcat-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Head Categories</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-products"><img src="img\adminImg\product-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Products</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-deal"><img src="img\adminImg\hotdeal-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Hot Deals</p></Link><hr className="sidenav-hr" />
-                <Link to="/admin-orders"><img src="img\adminImg\order-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Orders</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-orders"><img src="img\adminImg\order-icon.png" alt="" height="40px" />{(pendingOrders === 0)? "" : <div className="unread-qty">{pendingOrders}</div>}&nbsp;&nbsp;<p className="left-nav-item">Orders</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-contacts"><img src="img\adminImg\contact-icon.png" alt="" height="40px" />{(unseen.unseen === 0)? "" : <div className="unread-qty">{unseen.unseen}</div>}&nbsp;&nbsp;<p className="left-nav-item">Contacts</p></Link><hr className="sidenav-hr" />
             </div>
 
@@ -134,13 +134,6 @@ function Nav(props) {
                     </div>
                 </div>
             </nav>
-
-
-            {/* <div className="content keep-aside" id="main">
-                <!-- Your admin panel content goes here -->
-                <h1>Welcome to the Admin Panel</h1>
-                <p>This is the main content area where you can display your admin panel content.</p>
-            </div> */}
         </>
     )
 }
