@@ -142,9 +142,9 @@ function AdminOrders() {
                                         <p className="mainCatType mtl-1">PINCode:&nbsp;{ element.shipAddress.PINCode }</p>
                                     </div> : "" }
                                     <div className="mainCatType mtl-1">History:</div>
-                                    <div className="mainCatCartDesc mtl-1 d-flex f-wrap" style={ { marginBottom: "10px", justifyContent: "start" } }>
+                                    <div className="mainCatCartDesc mtl-1" style={ { marginBottom: "10px", justifyContent: "start" } }>
                                         { element.history.map((item, i) => (
-                                            <div key={ i } className="d-flex">
+                                            <div key={ i } className="d-flex f-wrap" style={{justifyContent: "start"}}>
                                                 <p className="mainCatType mtl-1">Status:&nbsp;{ item.status }</p>
                                                 <p className="mainCatType mtl-1">Date:&nbsp;{ item.date }</p>
                                             </div>
