@@ -147,6 +147,105 @@ function AdminDashboard() {
         }
     }
 
+    // Fetch about data here ->
+
+    const [aboutData, setAboutData] = useState([])
+    const [aboutUs, setAboutUs] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [address, setAddress] = useState("")
+    const [id, setId] = useState("")
+
+    const handleAboutUS = (e) => {
+        setAboutUs(e.target.value.slice(0, 100))
+    }
+
+    const fetchAbout = async () => {
+        try {
+            const res = await fetch(`/api/read-about`)
+            const data = await res.json()
+            setAboutData(data)
+            if (data.length > 0) {
+                setAboutUs(data[0].aboutUs)
+                setEmail(data[0].email)
+                setPhone(data[0].phone)
+                setAddress(data[0].address)
+                setId(data[0]._id)
+            }
+        } catch {
+            console.error("Error while fetching about data")
+        }
+    }
+
+    useEffect(() => {
+        fetchAbout()
+    }, [])
+
+    // update about us here ->
+
+    const updateAboutUs = async () => {
+        const messBox = document.getElementById("admin-about-message")
+
+        if (aboutData && aboutData.length === 0) {
+            // If there is no about document, then create
+
+            const abData = {
+                email: email,
+                phone: phone,
+                address: address,
+                aboutUs: aboutUs
+            }
+            try {
+                const req = await fetch(`/api/create-about`, {
+                    method: "POST",
+                    body: JSON.stringify(abData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                const res = await req.json()
+                messBox.innerHTML = res.message
+                setTimeout(() => {
+                    messBox.innerHTML = ""
+                }, 4000);
+                if (res.message === "Insertion successful") {
+                    fetchAbout()
+                }
+            } catch (e) {
+                alert("Error while updating about us data")
+            }
+        } else {
+            // If there is an about document, then update it
+
+            const abData = {
+                id: id,
+                email: email,
+                phone: phone,
+                address: address,
+                aboutUs: aboutUs
+            }
+            try {
+                const req = await fetch(`/api/update-about`, {
+                    method: "PATCH",
+                    body: JSON.stringify(abData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                const res = await req.json()
+                messBox.innerHTML = res.message
+                setTimeout(() => {
+                    messBox.innerHTML = ""
+                }, 4000);
+                if (res.message === "Updation successful") {
+                    fetchAbout()
+                }
+            } catch (e) {
+                alert("An error occured while updating about us data")
+            }
+        }
+    }
+
     return (
         <>
             <div className="container text-start keep-aside" style={ { marginTop: "40px" } }>
@@ -229,10 +328,47 @@ function AdminDashboard() {
 
             {/* About us information  */ }
 
+            <hr className="sidenav-hr mt-2" style={ { borderTop: "1px solid #f3eaea" } } />
             <div className="container text-start keep-aside" style={ { marginTop: "40px" } }>
                 <p className="heading ml-2">About Us</p>
             </div>
-            <hr className="sidenav-hr" style={ { borderTop: "1px solid #f3eaea" } } />
+
+            <div className="keep-aside">
+                {/* Form Here -> */ }
+                <section className="w-100 modal-content" style={ { boxShadow: "none" } }>
+                    {/* <!-- <img src="images/signup-bg.jpg" alt=""> --> */ }
+                    <div className="sign-container">
+                        <div className="signup-content" style={ { paddingTop: "20px" } }>
+                            {/* <!-- /product tab nav --> */ }
+
+                            {/* <!-- product tab content --> */ }
+                            <div className="tab-content">
+
+                                {/* tab2 Login form */ }
+                                <div className="signup-form">
+                                    <div className="sign-form-group">
+                                        <input type="email" className="sign-form-input sign-input" id="about-email" value={ email && email } onChange={ (e) => { setEmail(e.target.value) } } placeholder="Email" />
+                                    </div>
+                                    <div className="sign-form-group">
+                                        <input type="number" className="sign-form-input sign-input" id="about-phone" value={ phone && phone } onChange={ (e) => { setPhone(e.target.value) } } placeholder="Phone" />
+                                    </div>
+                                    <div className="sign-form-group">
+                                        <input type="text" className="sign-form-input sign-input" id="about-address" value={ address && address } onChange={ (e) => { setAddress(e.target.value) } } placeholder="Address" />
+                                    </div>
+                                    <div className="sign-form-group">
+                                        <textarea rows={ 3 } type="text" className="sign-form-input sign-input" id="about-us" value={ aboutUs && aboutUs } onChange={ handleAboutUS } placeholder="About Us" />
+                                        <p className="label-agree-term ml-1 d-inline">About Us should be less than 100 characters ({ aboutUs && aboutUs.length }/100)</p>
+                                    </div>
+                                    <p id="admin-about-message" className="label-agree-term text-center c-red"></p>
+                                    <div className="sign-form-group" style={ { marginTop: "30px" } }>
+                                        <input type="submit" onClick={ updateAboutUs } className="sign-form-submit sign-input" value="Update About Us" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </>
     )
 }

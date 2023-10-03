@@ -377,6 +377,9 @@ list-type-ulli {
   .admin-user-modal-content {
     width: 100vw;
   }
+  .w-100 {
+    width: 100vw;
+  }
 }
 
 @media screen and (max-width: 480px) {
