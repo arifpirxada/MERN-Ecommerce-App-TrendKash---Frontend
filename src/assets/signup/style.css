@@ -56,7 +56,7 @@ list-type-ulli {
   -ms-box-shadow: none !important;
 }
 
-.sign-input[type=checkbox] {
+.sign-input[type="checkbox"] {
   appearance: checkbox !important;
   -moz-appearance: checkbox !important;
   -webkit-appearance: checkbox !important;
@@ -64,7 +64,7 @@ list-type-ulli {
   -ms-appearance: checkbox !important;
 }
 
-.sign-input[type=radio] {
+.sign-input[type="radio"] {
   appearance: radio !important;
   -moz-appearance: radio !important;
   -webkit-appearance: radio !important;
@@ -84,7 +84,7 @@ list-type-ulli {
   padding: 0;
   font-weight: 900;
   color: #222;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-size: 24px;
   text-transform: uppercase;
   text-align: center;
@@ -100,7 +100,7 @@ list-type-ulli {
   line-height: 1.8;
   color: #222;
   font-weight: 400;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   background-image: url("../images/signup-bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -218,7 +218,11 @@ list-type-ulli {
 
 .sign-form-input:focus {
   border: 1px solid transparent;
-  -webkit-border-image-source: -webkit-linear-gradient(to right, #9face6, #74ebd5);
+  -webkit-border-image-source: -webkit-linear-gradient(
+    to right,
+    #9face6,
+    #74ebd5
+  );
   -moz-border-image-source: -moz-linear-gradient(to right, #9face6, #74ebd5);
   -o-border-image-source: -o-linear-gradient(to right, #9face6, #74ebd5);
   border-image-source: linear-gradient(to right, #9face6, #74ebd5);
@@ -270,7 +274,7 @@ list-type-ulli {
   background-image: linear-gradient(to left, #74ebd5, #9face6);
 }
 
-.sign-input[type=checkbox]:not(old) {
+.sign-input[type="checkbox"]:not(old) {
   width: 2em;
   margin: 0;
   padding: 0;
@@ -278,13 +282,13 @@ list-type-ulli {
   display: none;
 }
 
-.sign-input[type=checkbox]:not(old)+label {
+.sign-input[type="checkbox"]:not(old) + label {
   display: inline-block;
   margin-top: 7px;
   margin-bottom: 25px;
 }
 
-.sign-input[type=checkbox]:not(old)+label>span {
+.sign-input[type="checkbox"]:not(old) + label > span {
   display: inline-block;
   width: 13px;
   height: 13px;
@@ -305,7 +309,7 @@ list-type-ulli {
   vertical-align: bottom;
 }
 
-.sign-input[type=checkbox]:not(old):checked+label>span {
+.sign-input[type="checkbox"]:not(old):checked + label > span {
   background-image: -moz-linear-gradient(white, white);
   background-image: -ms-linear-gradient(white, white);
   background-image: -o-linear-gradient(white, white);
@@ -313,14 +317,14 @@ list-type-ulli {
   background-image: linear-gradient(white, white);
 }
 
-.sign-input[type=checkbox]:not(old):checked+label>span:before {
-  content: '\f26b';
+.sign-input[type="checkbox"]:not(old):checked + label > span:before {
+  content: "\f26b";
   display: block;
   color: #222;
   font-size: 11px;
   line-height: 1.2;
   text-align: center;
-  font-family: 'Material-Design-Iconic-Font';
+  font-family: "Material-Design-Iconic-Font";
   font-weight: bold;
 }
 
@@ -367,7 +371,10 @@ list-type-ulli {
   .signup-modal-content {
     width: 100vw;
   }
-  .profile-modal-content{
+  .profile-modal-content {
+    width: 100vw;
+  }
+  .admin-user-modal-content {
     width: 100vw;
   }
 }
@@ -377,3 +384,36 @@ list-type-ulli {
     padding: 25px 10px;
   }
 }
+
+.ad-log-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #183d3d;
+  padding: 0px;
+}
+
+.add-admin-user {
+  display: none;
+}
+
+.m-4 {
+  margin-top: 40px !important;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.add-user-container {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0px;
+  background: #67737e38;
+  transition: 0.3s ease;
+}
+
+.m-0 {
+  margin: 0px !important;
+} 

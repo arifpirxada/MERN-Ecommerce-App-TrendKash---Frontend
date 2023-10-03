@@ -1,5 +1,5 @@
 import { React, useEffect, useContext } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import '../../../assets/admin.css'
 import '../../../js/admin'
 import ContactContext from "../../context/admin/contact-context"
@@ -96,38 +96,58 @@ function Nav(props) {
 
     const { unseen, pendingOrders } = useContext(ContactContext)
 
+    // Admin user authentication ->
+
+    const navigate = useNavigate()
+
+    const adminAuthorize = async () => {
+        try {
+            const res = await fetch("/api/admin-authorization")
+            const data = await res.json()
+            if (data.message !== "logged") {
+                navigate("/")
+            }
+        } catch {
+            alert("An error occured while authorizing admin user")
+        }
+    }
+
+    useEffect(() => {
+        adminAuthorize()
+    }, [])
+
     return (
         <>
-            {/* <!-- Side Navigation Bar --> */}
+            {/* <!-- Side Navigation Bar --> */ }
             <div className="sidenav" id="mySidenav">
                 <Link to="/admin-dashboard"><img src="img\adminImg\home-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Dashboard</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-cats"><img src="img\adminImg\cat-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Categories</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-header-cats"><img src="img\adminImg\headcat-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Head Categories</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-products"><img src="img\adminImg\product-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Products</p></Link><hr className="sidenav-hr" />
                 <Link to="/admin-deal"><img src="img\adminImg\hotdeal-icon.png" alt="" height="40px" />&nbsp;&nbsp;<p className="left-nav-item">Hot Deals</p></Link><hr className="sidenav-hr" />
-                <Link to="/admin-orders"><img src="img\adminImg\order-icon.png" alt="" height="40px" />{(pendingOrders === 0)? "" : <div className="unread-qty">{pendingOrders}</div>}&nbsp;&nbsp;<p className="left-nav-item">Orders</p></Link><hr className="sidenav-hr" />
-                <Link to="/admin-contacts"><img src="img\adminImg\contact-icon.png" alt="" height="40px" />{(unseen.unseen === 0)? "" : <div className="unread-qty">{unseen.unseen}</div>}&nbsp;&nbsp;<p className="left-nav-item">Contacts</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-orders"><img src="img\adminImg\order-icon.png" alt="" height="40px" />{ (pendingOrders === 0) ? "" : <div className="unread-qty">{ pendingOrders }</div> }&nbsp;&nbsp;<p className="left-nav-item">Orders</p></Link><hr className="sidenav-hr" />
+                <Link to="/admin-contacts"><img src="img\adminImg\contact-icon.png" alt="" height="40px" />{ (unseen.unseen === 0) ? "" : <div className="unread-qty">{ unseen.unseen }</div> }&nbsp;&nbsp;<p className="left-nav-item">Contacts</p></Link><hr className="sidenav-hr" />
             </div>
 
 
-            {/* <!-- Content Area --> */}
+            {/* <!-- Content Area --> */ }
 
-            {/* my navbar  */}
+            {/* my navbar  */ }
             <nav className="navbar keep-aside">
-                <div className="ham-container left-ham" onClick={toggleNav}>
+                <div className="ham-container left-ham" onClick={ toggleNav }>
                     <div className="ham-line"></div>
                     <div className="ham-line"></div>
                     <div className="ham-line"></div>
                 </div>
                 <div className="right-nav-items">
                     <ul className="nav-links right-nav-links right-none">
-                        <li><button className={`${props.fifthNavClass} riNav right-none fifthNav`} >{props.fifthNav}</button></li>
-                        <li><button className={`${props.fourthNavClass} riNav right-none fourthNav`} >{props.fourthNav}</button></li>
-                        <li><button className={`${props.thirdNavClass} riNav right-none thirdNav`} >{props.thirdNav}</button></li>
-                        <li><button className={`${props.secondNavClass} riNav right-none secondNav`} >{props.secondNav}</button></li>
-                        <li><button onClick={openModal} className={`${props.firstNavClass} riNav right-none firstNav`} >{props.firstNav}</button></li>
+                        <li><button className={ `${props.fifthNavClass} riNav right-none fifthNav` } >{ props.fifthNav }</button></li>
+                        <li><button className={ `${props.fourthNavClass} riNav right-none fourthNav` } >{ props.fourthNav }</button></li>
+                        <li><button className={ `${props.thirdNavClass} riNav right-none thirdNav` } >{ props.thirdNav }</button></li>
+                        <li><button className={ `${props.secondNavClass} riNav right-none secondNav` } >{ props.secondNav }</button></li>
+                        <li><button onClick={ openModal } className={ `${props.firstNavClass} riNav right-none firstNav` } >{ props.firstNav }</button></li>
                     </ul>
-                    <div className="ham-container right-ham" onClick={toggleRightNav}>
+                    <div className="ham-container right-ham" onClick={ toggleRightNav }>
                         <div className="ham-line"></div>
                         <div className="ham-line"></div>
                         <div className="ham-line"></div>
