@@ -1,9 +1,13 @@
-import React from "react";
+import { useContext } from "react";
+import EcomContext from "../context/e-com-context";
 
-function Footer(props) {
+function Footer() {
+
+    const { aboutData } = useContext(EcomContext)
+
     return (
         <>
-            {/* News Letter */}
+            {/* News Letter */ }
             <div id="newsletter" className="section">
                 <div className="container">
                     <div className="row">
@@ -33,39 +37,38 @@ function Footer(props) {
                     </div>
                 </div>
             </div>
-            {/* News Letter End */}
+            {/* News Letter End */ }
             <footer id="footer">
-                {/* top footer */}
+                {/* top footer */ }
                 <div className="section">
-                    {/* container */}
+                    {/* container */ }
                     <div className="container">
-                        {/* row */}
+                        {/* row */ }
                         <div className="row">
                             <div className="col-md-3 col-xs-6">
-                                <div className="footer">
+                                { aboutData && <div className="footer">
                                     <h3 className="footer-title">About Us</h3>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                                        do eiusmod tempor incididunt ut.
+                                        { aboutData[0].aboutUs }
                                     </p>
                                     <ul className="footer-links">
                                         <li>
                                             <a href="#">
-                                                <i className="fa fa-map-marker"></i>1734 Stonecoal Road
+                                                <i className="fa fa-map-marker"></i>{ aboutData[0].address }
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#">
-                                                <i className="fa fa-phone"></i>+021-95-51-84
+                                                <i className="fa fa-phone"></i>{ aboutData[0].phone }
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#">
-                                                <i className="fa fa-envelope-o"></i>email@email.com
+                                                <i className="fa fa-envelope-o"></i>{ aboutData[0].email }
                                             </a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> }
                             </div>
 
                             <div className="col-md-3 col-xs-6">
@@ -109,16 +112,16 @@ function Footer(props) {
                                 </div>
                             </div>
                         </div>
-                        {/* /row */}
+                        {/* /row */ }
                     </div>
-                    {/* /container */}
+                    {/* /container */ }
                 </div>
-                {/* /top footer */}
+                {/* /top footer */ }
 
-                {/* bottom footer */}
+                {/* bottom footer */ }
                 <div id="bottom-footer" className="section">
                     <div className="container">
-                        {/* row */}
+                        {/* row */ }
                         <div className="row">
                             <div className="col-md-12 text-center">
                                 <ul className="footer-payments">
@@ -130,21 +133,21 @@ function Footer(props) {
                                     <li><a href="#"><i className="fa fa-cc-amex"></i></a></li>
                                 </ul>
                                 <span className="copyright">
-                                    {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                                    Copyright &copy;{new Date().getFullYear()} All rights reserved |&nbsp;
-                                    <i className="fa fa-heart-o" aria-hidden="true"></i> &nbsp;{" "}
+                                    {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */ }
+                                    Copyright &copy;{ new Date().getFullYear() } All rights reserved |&nbsp;
+                                    <i className="fa fa-heart-o" aria-hidden="true"></i> &nbsp;{ " " }
                                     <a href="https://colorlib.com" target="_blank">
                                         TrendKash
                                     </a>
-                                    {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
+                                    {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */ }
                                 </span>
                             </div>
                         </div>
-                        {/* /row */}
+                        {/* /row */ }
                     </div>
-                    {/* /container */}
+                    {/* /container */ }
                 </div>
-                {/* /bottom footer */}
+                {/* /bottom footer */ }
             </footer>
 
         </>

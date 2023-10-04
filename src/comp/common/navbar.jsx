@@ -46,7 +46,7 @@ function Navbar(props) {
     }
 
     // Authorization ->
-    const { logged, uid, cartData, delCartProduct, totalPrice } = useContext(EcomContext)
+    const { logged, uid, cartData, delCartProduct, totalPrice, aboutData } = useContext(EcomContext)
 
     // Fetch user Here ->
 
@@ -73,23 +73,23 @@ function Navbar(props) {
                 <header>
                     <div id="top-header">
                         <div className="container">
-                            <ul className="header-links pull-left">
+                            {aboutData && <ul className="header-links pull-left">
                                 <li>
                                     <Link to="#">
-                                        <i className="fa fa-phone" /> +021-95-51-84
+                                        <i className="fa fa-phone" /> {aboutData[0].phone}
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="#">
-                                        <i className="fa fa-envelope-o" /> email@email.com
+                                        <i className="fa fa-envelope-o" /> {aboutData[0].email}
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="#">
-                                        <i className="fa fa-map-marker" /> 1734 Stonecoal Road
+                                        <i className="fa fa-map-marker" /> {aboutData[0].address}
                                     </Link>
                                 </li>
-                            </ul>
+                            </ul>}
                             <ul className="header-links pull-right">
                                 { logged && <li>
                                     <Link to="/orders">

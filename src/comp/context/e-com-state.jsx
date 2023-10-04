@@ -220,6 +220,24 @@ const EcomState = (props) => {
         setCheckData([payType, pinCode])
     }
 
+    // Fetch about data here ->
+
+    const [aboutData, setAboutData] = useState()
+
+    const fetchAbout = async () => {
+        try {
+            const res = await fetch("/api/read-about")
+            const data = await res.json()
+            setAboutData(data)
+        } catch (e) {
+            console.error("Error while fetching about data")
+        }
+    }
+
+    useEffect(() => {
+        fetchAbout()
+    }, [])
+
     return (
         <EcomContext.Provider value={ {
             firstSlideData,
@@ -245,7 +263,8 @@ const EcomState = (props) => {
             setCartData,
             calcAvgRating,
             updateCheckData,
-            checkData
+            checkData,
+            aboutData
         } }>
             { props.children }
         </EcomContext.Provider>
