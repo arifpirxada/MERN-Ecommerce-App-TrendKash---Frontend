@@ -397,6 +397,7 @@ list-type-ulli {
 
 .add-admin-user {
   display: none;
+  z-index: 2;
 }
 
 .m-4 {
@@ -419,4 +420,18 @@ list-type-ulli {
 
 .m-0 {
   margin: 0px !important;
-} 
+}
+
+.refresh-helper {
+  display: none;
+  background: #121212;
+  color: #fff;
+  padding: 10px;
+  position: absolute;
+  text-align: start;
+  bottom: 32px;
+}
+
+.p-relative {
+  position: relative;
+}

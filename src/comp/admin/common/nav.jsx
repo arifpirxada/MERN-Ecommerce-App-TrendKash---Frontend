@@ -133,7 +133,7 @@ function Nav(props) {
             {/* <!-- Content Area --> */ }
 
             {/* my navbar  */ }
-            <nav className="navbar keep-aside">
+            <nav id="admin-nav" className="navbar keep-aside">
                 <div className="ham-container left-ham" onClick={ toggleNav }>
                     <div className="ham-line"></div>
                     <div className="ham-line"></div>

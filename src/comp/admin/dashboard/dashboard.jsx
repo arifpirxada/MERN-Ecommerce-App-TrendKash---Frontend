@@ -53,6 +53,7 @@ function AdminDashboard() {
     // open add user modal ->
 
     const openAddUser = () => {
+        document.getElementById("admin-nav").scrollIntoView({ behavior: "smooth" })
         document.querySelector(".add-admin-user").style.display = "flex"
         document.querySelector(".admin-user-modal-content").style.marginTop = "-250px"
         setTimeout(() => {
@@ -246,18 +247,34 @@ function AdminDashboard() {
         }
     }
 
+    const openHelper = () => {
+        document.getElementById("confirm-refresh").style.display = "inline"
+    }
+
+    const closeHelper = () => {
+        document.getElementById("confirm-refresh").style.display = "none"
+    }
+
+    const refreshCartData = async () => {
+        try {
+            const res = await fetch("/api/refresh-cart-data", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const data = await res.json()
+            document.getElementById("confirm-refresh").style.display = "none"
+            if (data.message !== "Refresh successful") {
+                alert(data.message)
+            }
+        } catch (e) {
+            alert("An error occured while refreshing cart data")
+        }
+    }
+
     return (
         <>
-            <div className="container text-start keep-aside" style={ { marginTop: "40px" } }>
-                <p className="heading ml-2">Admin Users</p>
-            </div>
-            <hr className="sidenav-hr" style={ { borderTop: "1px solid #f3eaea" } } />
-            <div className="container text-end keep-aside">
-                <Link onClick={ logoutAdmin } className="m-2" to="#">
-                    <i className="fa fa-user-o mt-2" /> Logout
-                </Link>
-                <button onClick={ openAddUser } className="btn btn-success r-2 ml-2 m-2">New User</button>
-            </div>
             <div className="container add-admin-user add-user-container">
                 <div className="modal-dialog">
                     {/* Form Here -> */ }
@@ -307,24 +324,7 @@ function AdminDashboard() {
             </div>
 
 
-            {/* List Users -> */ }
 
-            <div className="container keep-aside cat-contain">
-                <div className="admin-cats-container">
-                    { adminUsers && adminUsers.map((element, i) => (
-                        <div key={ i } className="card cat-admin-card">
-                            <div className="card-body">
-                                <input type="hidden" value={ element._id } />
-                                <div className="text-end">
-                                    <i onClick={ deleteUser } className="fa fa-trash-o c-pointer c-red"></i>
-                                </div>
-                                <h5 className="card-title">Email: { element.email }</h5>
-                            </div>
-                        </div>
-                    )) }
-
-                </div>
-            </div>
 
             {/* About us information  */ }
 
@@ -368,6 +368,43 @@ function AdminDashboard() {
                         </div>
                     </div>
                 </section>
+            </div>
+
+            {/* Second Heading -> */ }
+
+            <hr className="sidenav-hr" style={ { borderTop: "1px solid #f3eaea" } } />
+            <div className="container text-start keep-aside" style={ { marginTop: "40px" } }>
+                <p className="heading ml-2">Admin Users</p>
+            </div>
+            <div className="container text-end keep-aside p-relative">
+                <p id="confirm-refresh" className="refresh-helper r-2">This will delete all products added to cart <br /> for more than 7 days <button onClick={ closeHelper } className="btn c-red m-2">Cancel</button><button onClick={ refreshCartData } className="btn btn-danger m-2">Proceed</button></p>
+                <div onClick={ openHelper } className="m-2 d-inline c-pointer">
+                    <i className="fa fa-trash-o m-2"></i>
+                    Refresh cart data
+                </div>
+                <Link onClick={ logoutAdmin } className="m-2" to="#">
+                    <i className="fa fa-user-o mt-2" /> Logout
+                </Link>
+                <button onClick={ openAddUser } className="btn btn-success r-2 ml-2 m-2">New User</button>
+            </div>
+
+            {/* List Users -> */ }
+
+            <div className="container keep-aside cat-contain">
+                <div className="admin-cats-container">
+                    { adminUsers && adminUsers.map((element, i) => (
+                        <div key={ i } className="card cat-admin-card">
+                            <div className="card-body">
+                                <input type="hidden" value={ element._id } />
+                                <div className="text-end">
+                                    <i onClick={ deleteUser } className="fa fa-trash-o c-pointer c-red"></i>
+                                </div>
+                                <h5 className="card-title">Email: { element.email }</h5>
+                            </div>
+                        </div>
+                    )) }
+
+                </div>
             </div>
         </>
     )
