@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import SignUp from '../auth/signup'
 import EcomContext from '../context/e-com-context';
 import UserProfile from '../profile/user-profile';
+import LoadingBar from "react-top-loading-bar"
 
 function Navbar(props) {
 
@@ -46,7 +47,7 @@ function Navbar(props) {
     }
 
     // Authorization ->
-    const { logged, uid, cartData, delCartProduct, totalPrice, aboutData } = useContext(EcomContext)
+    const { logged, uid, cartData, delCartProduct, totalPrice, aboutData, progress } = useContext(EcomContext)
 
     // Fetch user Here ->
 
@@ -59,11 +60,17 @@ function Navbar(props) {
             setUserData(data)
         }
     }
-
+    // color='linear-gradient(45deg, #f44336, #FF5722)'
     return (
         <>
+            <LoadingBar
+                height={ 3 }
+                color='linear-gradient(45deg, rgb(54 116 244), rgb(255, 87, 34))'
+                progress={ progress }
+                shadow={ true }
+            />
             <SignUp />
-            <UserProfile openSignModal={ openSignModal } userData={ userData } />
+            <UserProfile openSignModal={ openSignModal } userData={ userData } setUserData={setUserData} />
             <div>
                 <meta charSet="utf-8" />
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -73,23 +80,23 @@ function Navbar(props) {
                 <header>
                     <div id="top-header">
                         <div className="container">
-                            {aboutData && <ul className="header-links pull-left">
+                            { aboutData && <ul className="header-links pull-left">
                                 <li>
                                     <Link to="#">
-                                        <i className="fa fa-phone" /> {aboutData[0].phone}
+                                        <i className="fa fa-phone" /> { aboutData[0].phone }
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="#">
-                                        <i className="fa fa-envelope-o" /> {aboutData[0].email}
+                                        <i className="fa fa-envelope-o" /> { aboutData[0].email }
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="#">
-                                        <i className="fa fa-map-marker" /> {aboutData[0].address}
+                                        <i className="fa fa-map-marker" /> { aboutData[0].address }
                                     </Link>
                                 </li>
-                            </ul>}
+                            </ul> }
                             <ul className="header-links pull-right">
                                 { logged && <li>
                                     <Link to="/orders">
@@ -109,8 +116,9 @@ function Navbar(props) {
                             <div className="row">
                                 <div className="col-md-3">
                                     <div className="header-logo">
-                                        <Link to="#" className="logo">
-                                            <img src="./img/logo.png" alt="" />
+                                        <Link to="/" className="logo d-flex f-wrap">
+                                            <img className="w-7" src="\img\nobg-mylogo.png" alt="" />
+                                            <img className="w-17" src="\img\banner.png" alt="" />
                                         </Link>
                                     </div>
                                 </div>

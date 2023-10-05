@@ -3,7 +3,7 @@ import '../../assets/signup/style.css'
 import { Link } from 'react-router-dom'
 import EcomContext from '../context/e-com-context'
 
-function UserProfile({ openSignModal, userData }) {
+function UserProfile({ openSignModal, userData, setUserData }) {
 
     const closeModal = () => {
         document.querySelector(".userProfileModal").style.display = "none"
@@ -12,8 +12,9 @@ function UserProfile({ openSignModal, userData }) {
     const { logged, authorize, setCartData } = useContext(EcomContext)
 
     // Logout User ->
-
+    
     const logoutUser = async () => {
+        setUserData()
         const res = await fetch("/api/logout")
         const data = await res.json()
         if (data.message === "Logout successful") {
@@ -29,39 +30,42 @@ function UserProfile({ openSignModal, userData }) {
         <>
             <div className="container app-modal userProfileModal" >
                 <div className="modal-dialog">
-                    {/* Form Here -> */}
+                    {/* Form Here -> */ }
                     <section className="profile-modal-content modal-content">
-                        {/* <!-- <img src="images/signup-bg.jpg" alt=""> --> */}
+                        {/* <!-- <img src="images/signup-bg.jpg" alt=""> --> */ }
                         <div className="sign-container">
                             <div className="signup-content profile-signup-content">
-                                <p className="text-end" onClick={closeModal}><i className="fa fa-close c-pointer f-36"></i></p>
-
-                                <div id="product-tab" style={{ margin: "0" }}>
-                                    <ul className="tab-nav" style={{ marginBottom: "5px" }}>
+                                <p className="text-end" onClick={ closeModal }><i className="fa fa-close c-pointer f-36"></i></p>
+                                <div id="product-tab" style={ { margin: "0" } }>
+                                    <ul className="tab-nav" style={ { marginBottom: "5px" } }>
                                         <li className="active"><Link data-toggle="tab" to="#profile-tab">Profile</Link></li>
                                     </ul>
-                                    {/* <!-- /product tab nav --> */}
+                                    {/* <!-- /product tab nav --> */ }
 
-                                    {/* <!-- product tab content --> */}
+                                    {/* <!-- product tab content --> */ }
                                     <div className="tab-content text-center">
 
-                                        {/* <!-- tab1 signup form --> */}
-                                        {logged ? <div id="profile-tab" className="tab-pane fade in active">
-                                            {userData && <div className="profile-container">
-                                                <h2 className="form-title">{userData.name}</h2>
+                                        {/* <!-- tab1 signup form --> */ }
+                                        { logged ? <div id="profile-tab" className="tab-pane fade in active">
+                                            { userData ? <div className="profile-container">
+                                                <h2 className="form-title">{ userData.name }</h2>
                                                 <p className="profile-label d-inline">Email: </p>
-                                                <p className="profile-item d-inline">{userData.email}</p>
+                                                <p className="profile-item d-inline">{ userData.email }</p>
                                                 <div>
                                                     <p className="profile-label d-inline">phone: </p>
-                                                    <p className="profile-item d-inline">{userData.phone ? userData.phone : "Not Provided"}</p>
+                                                    <p className="profile-item d-inline">{ userData.phone ? userData.phone : "Not Provided" }</p>
                                                 </div>
-                                                <Link onClick={logoutUser} to="#">
+                                                <Link onClick={ logoutUser } to="#">
                                                     <i className="fa fa-user-o mt-2" /> Logout
                                                 </Link>
                                                 <p id="profile-message" className="profile-label c-red"></p>
-                                            </div>}
+                                            </div> : 
+                                            <div className="d-flex">
+                                                <div className="container text-center mtb-2 w-200">
+                                                <img src="../img/Spinner.gif" width={ 50 } alt="Loading..." />
+                                            </div></div> }
                                         </div> :
-                                            <Link onClick={() => { openSignModal(); closeModal() }} to="#">
+                                            <Link onClick={ () => { openSignModal(); closeModal() } } to="#">
                                                 <i className="fa fa-user-o" /> Login / Sign up
                                             </Link>
                                         }

@@ -8,7 +8,7 @@ function Footer() {
     return (
         <>
             {/* News Letter */ }
-            <div id="newsletter" className="section">
+            {/* <div id="newsletter" className="section">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
@@ -36,7 +36,7 @@ function Footer() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             {/* News Letter End */ }
             <footer id="footer">
                 {/* top footer */ }
@@ -137,7 +137,7 @@ function Footer() {
                                     Copyright &copy;{ new Date().getFullYear() } All rights reserved |&nbsp;
                                     <i className="fa fa-heart-o" aria-hidden="true"></i> &nbsp;{ " " }
                                     <a href="https://colorlib.com" target="_blank">
-                                        TrendKash
+                                        Colorlib
                                     </a>
                                     {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */ }
                                 </span>

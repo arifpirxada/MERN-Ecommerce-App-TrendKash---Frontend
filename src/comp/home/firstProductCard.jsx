@@ -4,7 +4,7 @@ import EcomContext from '../context/e-com-context';
 import SlideHeader from './slideHeader';
 import { Link } from 'react-router-dom';
 
-const FirstProductCard = (props) => {
+const FirstProductCard = () => {
 
     const [infinite, setInfinite] = useState(false)
 
@@ -36,7 +36,7 @@ const FirstProductCard = (props) => {
     const { firstSlideData, fetchFirstSlide, calcAvgRating } = useContext(EcomContext)
 
     useEffect(() => {
-        if (firstSlideData.length >= 5) {
+        if (firstSlideData && firstSlideData.length >= 5) {
             setInfinite(true)
         } else {
             setInfinite(false)
@@ -56,10 +56,10 @@ const FirstProductCard = (props) => {
                                 <div className="products-tabs">
                                     {/* <!-- tab --> */ }
                                     <div id="tab1 firstSlide" className="tab-pane active">
-                                        <div className="products-slick slide-container" data-nav="#slick-nav-1">
+                                        <div className="products-slick slide-container min-400" data-nav="#slick-nav-1">
                                             <Slider { ...settings }>
                                                 {/* <!-- product --> */ }
-                                                { firstSlideData.map((element, i) => (
+                                                { firstSlideData ? firstSlideData.map((element, i) => (
                                                     <div key={ i } className="pro-container">
                                                         <div className="product" style={ { marginRight: "10px !important" } }>
                                                             <div className="product-img">
@@ -89,7 +89,9 @@ const FirstProductCard = (props) => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                )) }
+                                                )) : <div className="container text-center mtb-2">
+                                                    <img src="../img/Spinner.gif" width={ 50 } alt="Loading..." />
+                                                </div> }
                                                 {/* <!-- product --> */ }
                                             </Slider>
                                         </div>

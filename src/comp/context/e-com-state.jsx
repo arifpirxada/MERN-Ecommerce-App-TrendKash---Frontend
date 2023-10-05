@@ -3,11 +3,17 @@ import EcomContext from "./e-com-context";
 
 const EcomState = (props) => {
 
+    // For top loading bar ->
+    const [progress, setProgress] = useState(0)
+
+    const topProgress = (percentage) => setProgress(percentage)
+
     // Context for first product slide of home page
 
-    const [firstSlideData, setFirstSlideData] = useState([])
+    const [firstSlideData, setFirstSlideData] = useState()
 
     const fetchFirstSlide = async (cat) => {
+        setFirstSlideData()
         const res = await fetch(`/api/read-pro-cat/${cat}`)
         const data = await res.json()
         setFirstSlideData(data)
@@ -15,9 +21,10 @@ const EcomState = (props) => {
 
     // Context for second product slide of home page
 
-    const [secondSlideData, setSecondSlideData] = useState([])
+    const [secondSlideData, setSecondSlideData] = useState()
 
     const fetchSecondSlide = async (cat) => {
+        setSecondSlideData()
         const res = await fetch(`/api/read-pro-cat/${cat}`)
         const data = await res.json()
         setSecondSlideData(data)
@@ -28,33 +35,54 @@ const EcomState = (props) => {
     const [storeData, setStoreData] = useState([])
 
     const fetchStoreData = async (cat) => {
-        const res = await fetch(`/api/read-pro-cat/${cat}`)
-        const data = await res.json()
-        setStoreData(data)
+        try {
+            topProgress(70)
+            const res = await fetch(`/api/read-pro-cat/${cat}`)
+            topProgress(90)
+            const data = await res.json()
+            topProgress(100)
+            setStoreData(data)
+        } catch {
+            console.error("Error while fetching store data")
+        }
     }
 
     const filterStoreData = async (cat) => {
-        const res = await fetch(`/api/read-pro-filter-cat`, {
-            method: "POST",
-            body: JSON.stringify({ categories: cat }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        const data = await res.json()
-        setStoreData(data)
+        try {
+            topProgress(70)
+            const res = await fetch(`/api/read-pro-filter-cat`, {
+                method: "POST",
+                body: JSON.stringify({ categories: cat }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            topProgress(90)
+            const data = await res.json()
+            topProgress(100)
+            setStoreData(data)
+        } catch {
+            console.error("Error while filtering data")
+        }
     }
 
     const sortPriceStoreData = async (cat, priceSort, defaultCategory) => {
-        const res = await fetch(`/api/read-pro-sort-price`, {
-            method: "POST",
-            body: JSON.stringify({ categories: cat, priceSort: priceSort, defaultCat: defaultCategory }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        const data = await res.json()
-        setStoreData(data)
+        try {
+            topProgress(70)
+            const res = await fetch(`/api/read-pro-sort-price`, {
+                method: "POST",
+                body: JSON.stringify({ categories: cat, priceSort: priceSort, defaultCat: defaultCategory }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            topProgress(90)
+            const data = await res.json()
+            topProgress(100)
+            setStoreData(data)
+        } catch {
+            console.error("Error while sorting price")
+        }
     }
 
     // Context for fetching categories
@@ -233,7 +261,7 @@ const EcomState = (props) => {
             console.error("Error while fetching about data")
         }
     }
-
+ 
     useEffect(() => {
         fetchAbout()
     }, [])
@@ -264,7 +292,9 @@ const EcomState = (props) => {
             calcAvgRating,
             updateCheckData,
             checkData,
-            aboutData
+            aboutData,
+            progress,
+            topProgress
         } }>
             { props.children }
         </EcomContext.Provider>

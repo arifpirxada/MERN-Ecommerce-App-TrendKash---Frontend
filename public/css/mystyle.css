@@ -240,9 +240,9 @@ body {
     display: none;
     height: fit-content;
     width: 100vw;
-    height: 100vh;
+    height: 150vh;
     background-color: #231e1e19;
-    position: fixed;
+    position: absolute;
     z-index: 5;
     padding-bottom: 100px;
     justify-content: center;
@@ -343,12 +343,8 @@ body {
     border-radius: 2%;
     z-index: 1;
     bottom: 46%;
-    right: 18px;
+    right: 20px;
     cursor: pointer;
-}
-
-.tooltip-content:hover {
-    background-color: #4f4b4b;
 }
 
 .d-none {
@@ -360,7 +356,7 @@ body {
 }
 
 .mr-2 {
-    margin-right: 25px !important;
+    margin-right: 30px !important;
 }
 
 .order-product {
@@ -374,4 +370,28 @@ body {
 
 .c-black {
     color: #000 !important;
+}
+
+.w-17 {
+    width: 17rem !important;
+}
+
+.mtb-2 {
+    margin: 20px 0px !important;
+}
+
+.min-400 {
+    min-height: 400px !important;
+}
+
+.w-200 {
+    width: 200px !important;
+}
+
+.w-7 {
+    width: 7rem !important;
+}
+
+.v-hidden {
+    visibility: hidden;
 }

@@ -157,7 +157,9 @@ function HotDeal(props) {
                             </div>
                         </div >
                     )) }
-                </Slider > : "Loading..."
+                </Slider > : <div className="container text-center mtb-2">
+                    <img src="../img/Spinner.gif" width={ 50 } alt="Loading..." />
+                </div>
 
             }
 

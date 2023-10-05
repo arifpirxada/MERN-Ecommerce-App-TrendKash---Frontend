@@ -4,14 +4,18 @@ import { Link } from "react-router-dom";
 
 const Topcats = () => {
 
-    const [catData, setCatData] = useState([])
+    const [catData, setCatData] = useState()
     const [infinite, setInfinite] = useState(false)
 
     // Fetching Header Cats
     const fetchCats = async () => {
-        const res = await fetch(`/api/read-head-cat`)
-        const data = await res.json()
-        setCatData(data)
+        try {
+            const res = await fetch(`/api/read-head-cat`)
+            const data = await res.json()
+            setCatData(data)
+        } catch {
+            console.error("Error while fetching Top cats")
+        }
     }
 
     useEffect(() => {
@@ -19,7 +23,7 @@ const Topcats = () => {
     }, [])
 
     useEffect(() => {
-        if (catData.length >= 4) {
+        if (catData && catData.length >= 4) {
             setInfinite(true)
         } else {
             setInfinite(false)
@@ -55,32 +59,35 @@ const Topcats = () => {
     return (
         <>
             <div className="section">
-                {/* container */}
+                {/* container */ }
                 <div className="container">
-                    {/* row */}
+                    {/* row */ }
                     <div className="row">
-                        <Slider {...settings}>
-                            {catData.map((element, i) => (
-                                <div key={i} className="col-md-3 col-xs-6">
+                        { !catData && <div className="container text-center mtb-2">
+                            <img src="./img/Spinner.gif" width={ 50 } alt="Loading..." />
+                        </div> }
+                        <Slider { ...settings }>
+                            { catData && catData.map((element, i) => (
+                                <div key={ i } className="col-md-3 col-xs-6">
                                     <div className="shop">
                                         <div className="shop-img">
-                                            <img src={`/api/read-head-img/${element.catImg}`} alt="" />
+                                            <img src={ `/api/read-head-img/${element.catImg}` } alt="" />
                                         </div>
                                         <div className="shop-body">
-                                            <h3>{element.catName}<br />Collection</h3>
-                                            <Link to={`/store/${element.catName}`} className="cta-btn">Shop now <i className="fa fa-arrow-circle-right"></i></Link>
+                                            <h3>{ element.catName }<br />Collection</h3>
+                                            <Link to={ `/store/${element.catName}` } className="cta-btn">Shop now <i className="fa fa-arrow-circle-right"></i></Link>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            )) }
                         </Slider>
 
                     </div>
-                    {/* /row */}
+                    {/* /row */ }
                 </div>
-                {/* /container */}
+                {/* /container */ }
             </div>
-            {/* Section */}
+            {/* Section */ }
         </>
     );
 }

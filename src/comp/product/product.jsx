@@ -59,17 +59,27 @@ function Product() {
     ],
   };
 
+  // For related products ->
+  const { relatedProducts, fetchRelatedProducts, uid, logged, fetchCartData, calcAvgRating, topProgress } = useContext(EcomContext);
+
   // Fetch Product Data Here
 
   const [productData, setProductData] = useState();
   const { id } = useParams();
 
   const fetchProductData = async () => {
-    const res = await fetch(`/api/read-pro/${id}`);
-    const data = await res.json();
-    setProductData(data);
-    if (data.message === "Internal server error") {
-      alert("Error! Product Not found");
+    try {
+      topProgress(70)
+      const res = await fetch(`/api/read-pro/${id}`);
+      topProgress(90)
+      const data = await res.json();
+      topProgress(100)
+      setProductData(data);
+      if (data.message === "Internal server error") {
+        alert("Error! Product Not found");
+      }
+    } catch {
+      console.log("Error while fetching product data")
     }
   };
 
@@ -77,8 +87,6 @@ function Product() {
     fetchProductData();
   }, [id]);
 
-  // For related products ->
-  const { relatedProducts, fetchRelatedProducts, uid, logged, fetchCartData, calcAvgRating } = useContext(EcomContext);
 
   useEffect(() => {
     if (productData) {
@@ -97,6 +105,10 @@ function Product() {
     reviewBtnRef.current.click();
   };
 
+  // spiner for add to cart ->
+
+  const [spinCart, setSpinCart] = useState(false)
+
   // Add Product to cart ->
 
   const qtyRef = useRef(null);
@@ -108,6 +120,7 @@ function Product() {
     }
     try {
       if (uid && logged) {
+        setSpinCart(true)
         const cartData = {
           uid: uid,
           product: {
@@ -128,6 +141,7 @@ function Product() {
           },
         });
         const data = await res.json();
+        setSpinCart(false)
         if (data.message === "Insertion successful") {
           fetchCartData();
           document.getElementById("cart-message").innerHTML =
@@ -154,6 +168,7 @@ function Product() {
         }, 0);
       }
     } catch (e) {
+      setSpinCart(false)
       document.getElementById("cart-message").innerHTML =
         "Some error occured! please try later";
     }
@@ -193,6 +208,7 @@ function Product() {
           }, 4000);
           return;
         }
+        document.getElementById("review-spin").classList.toggle("v-hidden")
         const userName = await fetchUser()
         const reviewData = {
           id: productData._id,
@@ -211,6 +227,7 @@ function Product() {
           },
         });
         const data = await res.json();
+        document.getElementById("review-spin").classList.toggle("v-hidden")
         messBox.innerHTML = data.message;
         setTimeout(() => {
           messBox.innerHTML = "";
@@ -268,8 +285,9 @@ function Product() {
 
   // Delete Review here ->
 
-  const delReview = async (review) => {
+  const delReview = async (review, e) => {
     try {
+      e.target.parentNode.parentNode.children[3].children[1].classList.toggle("v-hidden")
       const delData = {
         id: productData._id,
         uid: uid,
@@ -283,6 +301,7 @@ function Product() {
         },
       });
       const data = await res.json();
+      e.target.parentNode.parentNode.children[3].children[1].classList.toggle("v-hidden")
       if (data.message === "Review deleted") {
         fetchProductData()
       } else {
@@ -506,6 +525,10 @@ function Product() {
                       <i className="fa fa-heart-o"></i> Buy Now
                     </button>
                   </div>
+                  { spinCart && <div className="d-flex">
+                    <div className="container text-center w-200">
+                      <img src="../img/Spinner.gif" width={ 50 } alt="Loading..." />
+                    </div></div> }
                   <p
                     id="cart-message"
                     className="f-5 c-red text-center f-16"
@@ -716,9 +739,15 @@ function Product() {
                           { productData.ratings.length > 0 ? (
                             <div id="reviews">
                               <ul className="reviews">
-                                { productData.ratings.map((element, i) => (//&#10005;
+                                { productData.ratings.map((element, i) => (
                                   <li key={ i }>
-                                    { uid && uid === element.uid ? <><span onClick={ (e) => { e.target.parentNode.querySelector(".tooltip-content").classList.toggle("d-none") } } className="text-muted del-review c-pointer tooltip-trigger" >&#8942;</span><div onClick={ () => { delReview(element.review) } } className="tooltip-content d-none">Delete Review</div></> : "" }
+                                    { uid && uid === element.uid ? <>
+                                      <i onClick={ (e) => { e.target.parentNode.querySelector(".tooltip-content").classList.toggle("d-none") } } className="fa fa-trash-o c-red del-review c-pointer tooltip-trigger" ></i>
+                                      <div className="tooltip-content d-none">
+                                        <div className="m-2">Are you sure?</div>
+                                        <button onClick={ (e) => { e.target.parentNode.classList.toggle("d-none") } } className="btn btn-success m-2">cancel</button>
+                                        <button onClick={ (e) => { delReview(element.review, e); e.target.parentNode.classList.toggle("d-none") } } className="btn btn-danger m-2">Yes</button>
+                                      </div></> : "" }
                                     <div className="review-heading">
                                       <h5 className="name">{ element.name }</h5>
                                       <p className="date">
@@ -734,6 +763,10 @@ function Product() {
                                     </div>
                                     <div className="review-body mr-2">
                                       <p>{ element.review }</p>
+                                      <div className="d-flex v-hidden">
+                                        <div className="container text-center w-200">
+                                          <img src="../img/Spinner.gif" width={ 50 } alt="Loading..." />
+                                        </div></div>
                                     </div>
                                   </li>
                                 )) }
@@ -828,14 +861,20 @@ function Product() {
                               </div>
                               <p
                                 id="review-message"
-                                className="c-red f-5 ml-1"
+                                className="c-red f-5 ml-1 text-center"
                               ></p>
-                              <button
-                                onClick={ reviewProduct }
-                                className="primary-btn"
-                              >
-                                Submit
-                              </button>
+                              <div id="review-spin" className="d-flex v-hidden">
+                                <div className="container text-center w-200">
+                                  <img src="../img/Spinner.gif" width={ 50 } alt="Loading..." />
+                                </div></div>
+                              <div className="text-center">
+                                <button
+                                  onClick={ reviewProduct }
+                                  className="primary-btn"
+                                >
+                                  Submit
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
