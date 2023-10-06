@@ -14,7 +14,6 @@
 .mainCat {
     width: 16vw;
     padding: 10px 0px;
-    color: #fff;
     margin: 2px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -56,7 +55,6 @@
 .mainCatType {
     margin-top: 5%;
     font-size: 1vw;
-    color: #000000;
 }
 
 .mtl-1 {
@@ -64,14 +62,9 @@
     font-size: 15px;
 }
 
-.mainCatCartDesc {
-    color: #000000b0;
-}
-
 .mainCatPrice {
     margin-top: 2%;
     font-size: 14px;
-    color: #000000;
 }
 
 .my-mainCategories {

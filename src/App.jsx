@@ -52,7 +52,7 @@ function App() {
               <Route path="/checkout" element={ <><Navbar /><Checkout /><Footer /></> } />
               <Route path="/product/:id" element={ <><Navbar /><Product /><Footer /></> } />
               <Route path="/store/:category" element={ <><Navbar /><Store /><Footer /></> } />
-              <Route path="/searchrend" element={ <><Navbar /><Search /><Footer /></> } />
+              <Route path="/search/:query" element={ <><Navbar /><Search /><Footer /></> } />
               <Route path="/admin-dashboard" element={ <><Nav /><AdminDashboard /></> } />
               <Route path="/admin-cats" element={ <><Nav firstNav="Add Cat" firstNavClass="btn btn-primary" modalClass=".addCatModal" /><Cats /></> } />
               <Route path="/admin-header-cats" element={ <><Nav firstNav="Add Head Cat" firstNavClass="btn btn-primary" modalClass=".addHeaderCatModal" /><HeaderCat /></> } />

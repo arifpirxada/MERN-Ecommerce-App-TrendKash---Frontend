@@ -1,12 +1,32 @@
 import { useContext } from "react";
 import EcomContext from "../context/e-com-context";
+import Contact from "../contact/contact";
 
 function Footer() {
 
-    const { aboutData } = useContext(EcomContext)
+    const { aboutData, logged, uid } = useContext(EcomContext)
+
+    const openContactModal = () => {
+        if (logged && uid) {
+            document.getElementById("top-header").scrollIntoView({ behavior: 'smooth' });
+            document.querySelector(".contactModal").style.display = "flex"
+            document.querySelector(".contact-modal-content").style.marginTop = "-250px"
+            setTimeout(() => {
+                document.querySelector(".contact-modal-content").style.marginTop = "0px"
+            }, 0);
+        } else {
+            document.getElementById("top-header").scrollIntoView({ behavior: 'smooth' });
+            document.querySelector(".signupModal").style.display = "flex"
+            document.querySelector(".signup-modal-content").style.marginTop = "-250px"
+            setTimeout(() => {
+                document.querySelector(".signup-modal-content").style.marginTop = "0px"
+            }, 0);
+        }
+    }
 
     return (
         <>
+            <Contact />
             {/* News Letter */ }
             {/* <div id="newsletter" className="section">
                 <div className="container">
@@ -91,7 +111,7 @@ function Footer() {
                                     <h3 className="footer-title">Information</h3>
                                     <ul className="footer-links">
                                         <li><a href="#">About Us</a></li>
-                                        <li><a href="#">Contact Us</a></li>
+                                        <li><a onClick={ openContactModal } href="#">Contact Us</a></li>
                                         <li><a href="#">Privacy Policy</a></li>
                                         <li><a href="#">Orders and Returns</a></li>
                                         <li><a href="#">Terms & Conditions</a></li>

@@ -60,7 +60,28 @@ function Navbar(props) {
             setUserData(data)
         }
     }
-    // color='linear-gradient(45deg, #f44336, #FF5722)'
+
+    // For searching ->
+
+    const [query, setQuery] = useState("")
+    const [suggest, setSuggest] = useState()
+
+    const fetchSuggestions = async (e) => {
+        setQuery(e.target.value.trim())
+        if (e.target.value.trim() !== "") {
+            try {
+                const res = await fetch(`/api/search-suggest/${e.target.value}`)
+                const data = await res.json()
+                setSuggest(data)
+            } catch (e) {
+                setSuggest()
+                console.error("An error occured while searching the product")
+            }
+        } else {
+            setSuggest()
+        }
+    }
+
     return (
         <>
             <LoadingBar
@@ -70,7 +91,7 @@ function Navbar(props) {
                 shadow={ true }
             />
             <SignUp />
-            <UserProfile openSignModal={ openSignModal } userData={ userData } setUserData={setUserData} />
+            <UserProfile openSignModal={ openSignModal } userData={ userData } setUserData={ setUserData } />
             <div>
                 <meta charSet="utf-8" />
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -125,10 +146,17 @@ function Navbar(props) {
                                 <div className="col-md-6">
                                     <div className="header-search">
                                         <form className='search-form'>
-                                            <input className="input my-search-input" placeholder="Search here" />
-                                            <Link to="/searchrend" className="search-btn my-search-btn">Search</Link>
+                                            <input className="input my-search-input" value={ query } onChange={ fetchSuggestions } placeholder="Search here" />
+                                            <Link to={ `/search/${query}` } className="search-btn my-search-btn">Search</Link>
                                         </form>
                                     </div>
+                                    { suggest && suggest.length > 0 ? <div className="search-form">
+                                        <div className="col-md-6 search-dropdown">
+                                            { suggest.map((element, i) => (
+                                                <Link key={ i } to={ `/search/${element.name}` } className="result-item">{ element.name }</Link>
+                                            )) }
+                                        </div>
+                                    </div> : "" }
                                 </div>
                                 <div className="col-md-3 clearfix">
                                     <div className="header-ctn">

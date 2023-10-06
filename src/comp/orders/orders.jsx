@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import '../../assets/search.css'
+// import '../../assets/search.css'
 import EcomContext from '../context/e-com-context';
 
 function Orders() {
