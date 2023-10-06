@@ -33,7 +33,7 @@ function Search() {
             <div className="row d-flex f-wrap">
 
                 {/* Product */ }
-                { searchData && searchData.map((element, i) => (
+                { searchData && searchData.length > 0 ? searchData.map((element, i) => (
                     < div key={ i } className="product store-product" >
                         <div className="product-img">
                             <img src={ `/api/read-pro-img/${element.img[0]}` } alt="" />
@@ -61,21 +61,29 @@ function Search() {
                             </div>
                         </div>
                     </div>
-                )) }
+                )) : <div id="noProduct">
+                    <div className="notfound">
+                        <div className="notfound-404">
+                            <h1>Oops!</h1>
+                            <h2>We couldn't find the Product</h2>
+                        </div>
+                        <Link to="/">Go TO Homepage</Link>
+                    </div>
+                </div> }
                 {/* Product */ }
             </div>
 
-                {/* Pagination */ }
-                <div className="container store-filter clearfix mt-2">
-                    <span className="store-qty">Showing 20-100 products</span>
-                    <ul className="store-pagination">
-                        <li className="active">1</li>
-                        <li><Link href="#">2</Link></li>
-                        <li><Link href="#">3</Link></li>
-                        <li><Link href="#">4</Link></li>
-                        <li><Link href="#"><i className="fa fa-angle-right"></i></Link></li>
-                    </ul>
-                </div>
+            {/* Pagination */ }
+            <div className="container store-filter clearfix mt-2">
+                <span className="store-qty">Showing 20-100 products</span>
+                <ul className="store-pagination">
+                    <li className="active">1</li>
+                    <li><Link href="#">2</Link></li>
+                    <li><Link href="#">3</Link></li>
+                    <li><Link href="#">4</Link></li>
+                    <li><Link href="#"><i className="fa fa-angle-right"></i></Link></li>
+                </ul>
+            </div>
         </>
     )
 }

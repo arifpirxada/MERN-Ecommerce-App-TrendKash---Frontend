@@ -407,6 +407,12 @@ body {
   margin-right: 100px;
 }
 
+.close-contain {
+  position: relative;
+  bottom: 40px;
+  display: none;
+}
+
 @media only screen and (max-width: 1199.2px) {
   .search-dropdown {
     width: 64.8%;
@@ -415,6 +421,9 @@ body {
 @media only screen and (max-width: 991.2px) {
   .search-dropdown {
     width: 66.7%;
+  }
+  .close-contain {
+    display: block;
   }
 }
 @media only screen and (max-width: 710px) {
@@ -442,4 +451,15 @@ body {
 
 .p-relative {
   position: relative !important;
+}
+
+#noProduct {
+  width: 520px;
+  margin: 40px;
+}
+
+.nav-close {
+  color: #fff;
+  font-size: 36px;
+  margin-right: 20px;
 }

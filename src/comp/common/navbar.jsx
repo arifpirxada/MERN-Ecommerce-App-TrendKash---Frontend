@@ -67,7 +67,7 @@ function Navbar(props) {
     const [suggest, setSuggest] = useState()
 
     const fetchSuggestions = async (e) => {
-        setQuery(e.target.value.trim())
+        setQuery(e.target.value)
         if (e.target.value.trim() !== "") {
             try {
                 const res = await fetch(`/api/search-suggest/${e.target.value}`)
@@ -147,13 +147,13 @@ function Navbar(props) {
                                     <div className="header-search">
                                         <form className='search-form'>
                                             <input className="input my-search-input" value={ query } onChange={ fetchSuggestions } placeholder="Search here" />
-                                            <Link to={ `/search/${query}` } className="search-btn my-search-btn">Search</Link>
+                                            <Link to={ query.trim() === "" ? "#" : `/search/${query}` } className="search-btn my-search-btn">Search</Link>
                                         </form>
                                     </div>
                                     { suggest && suggest.length > 0 ? <div className="search-form">
                                         <div className="col-md-6 search-dropdown">
                                             { suggest.map((element, i) => (
-                                                <Link key={ i } to={ `/search/${element.name}` } className="result-item">{ element.name }</Link>
+                                                <Link key={ i } to={ `/search/${element.name}` } onClick={ () => { setSuggest(); setQuery(element.name) } } className="result-item">{ element.name }</Link>
                                             )) }
                                         </div>
                                     </div> : "" }
@@ -251,9 +251,12 @@ function Navbar(props) {
                     <div id="responsive-nav" className={ isActive ? 'active' : '' }>
                         {/* NAV */ }
                         <ul className="main-nav nav navbar-nav">
-                            <li className="active"><Link to="/">Home</Link></li>
+                            { isActive && <div className="text-end close-contain">
+                                <i onClick={ openNav } className="fa fa-close nav-close"></i>
+                            </div> }
+                            <li className="active" onClick={ openNav } ><Link to="/">Home</Link></li>
                             { catData.map((element, i) => (
-                                <li key={ i }><Link to={ `/store/${element.catName}` }>{ element.catName }</Link></li>
+                                <li key={ i }><Link onClick={ openNav } to={ `/store/${element.catName}` }>{ element.catName }</Link></li>
                             )) }
                         </ul>
                         {/* /NAV */ }
