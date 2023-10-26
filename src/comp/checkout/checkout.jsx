@@ -78,6 +78,8 @@ function Checkout() {
                 fetchCartData()
                 navigate("/orders")
                 document.getElementById("top-header").scrollIntoView({ behavior: 'smooth' });
+            } else if (data.message === "Redirecting to payment processing...") {
+                window.location.href = data.url
             }
             messBox.innerHTML = data.message
         } else {

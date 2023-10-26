@@ -29,6 +29,7 @@ import Orders from "./comp/orders/orders"
 import AdminOrders from "./comp/admin/ad-orders/ad-orders"
 import AdminLogin from "./comp/auth/admin-login"
 import AdminDashboard from "./comp/admin/dashboard/dashboard"
+import VerifyPayment from "./comp/checkout/verifyPayment"
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
               <Route path="/admin-orders" element={ <><Nav /><AdminOrders /></> } />
               <Route path="/admin-login-kash" element={ <AdminLogin /> } />
               <Route path="/orders" element={ <><Navbar /><Orders /><Footer /></> } />
+              <Route path="/payment-verification" element={ <VerifyPayment /> } />
               <Route path="*" element={ <><Navbar /><NotFound /><Footer /></> } />
             </Routes>
           </ContactState>

@@ -463,3 +463,52 @@ body {
   font-size: 36px;
   margin-right: 20px;
 }
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 70%;
+  border-top: 5px solid #dd1115;
+  width: 30px;
+  height: 30px;
+  margin: 15px;
+  animation: rotate 1.5s ease infinite forwards;
+}
+
+@keyframes rotate {
+  0% {
+    rotate: 0deg;
+  }
+  50% {
+    border-top: 5px solid #fcaa40;
+  }
+  100% {
+    border-top: 5px solid #dd1115;
+    rotate: 360deg;
+  }
+}
+
+.c-green {
+  color: #008000 !important;
+}
+
+#order-btn {
+  cursor: pointer;
+  padding: 8px 15px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.transaction-style {
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(147, 5, 5);
+  margin: 10px;
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.text-center {
+    margin-top: 50px;
+    text-align: -webkit-center !important;
+}
