@@ -1,7 +1,6 @@
 import { React, useEffect, useContext } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import '../../../assets/admin.css'
-import '../../../js/admin'
 import ContactContext from "../../context/admin/contact-context"
 
 function Nav(props) {
